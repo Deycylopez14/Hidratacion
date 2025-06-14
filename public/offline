@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Offline</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body { font-family: sans-serif; text-align: center; margin-top: 20vh; }
+    </style>
+  </head>
+  <body>
+    <h1>Estás sin conexión</h1>
+    <p>Por favor, revisa tu conexión a internet.</p>
+  </body>
+</html>

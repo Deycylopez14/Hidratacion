@@ -3,24 +3,131 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  /* Paleta azul clásica */
+  --color-aqua: #50C7EC;
+  --color-lightblue: #A0E7FF;
+  --color-turquoise: #00D4D8;
+  --color-white: #FFFFFF;
+  --color-darkblue: #0077B6;
 }
 
-@theme inline {
+:root {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/*
+  Paleta personalizada para hidratación (puedes usar estos colores en Tailwind config o como CSS variables)
+  Azul claro: #3b82f6
+  Azul medio: #2563eb
+  Azul oscuro: #1e40af
+  Cian: #06b6d4
+  Verde: #22c55e
+  Naranja: #f59e42
+  Blanco: #ffffff
+  Gris claro: #f3f4f6
+  Gris oscuro: #6b7280
+*/
+:root {
+  --color-primary: #3b82f6;
+  --color-primary-dark: #2563eb;
+  --color-primary-darker: #1e40af;
+  --color-accent: #06b6d4;
+  --color-success: #22c55e;
+  --color-warning: #f59e42;
+  --color-bg: #f3f4f6;
+  --color-text: #1e293b;
+  --color-muted: #6b7280;
+  --color-white: #fff;
+}
+.dark {
+  --color-primary: #60a5fa;
+  --color-primary-dark: #06b6d4;
+  --color-primary-darker: #0e7490;
+  --color-accent: #22d3ee;
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-bg: #0f172a;
+  --color-text: #f1f5f9;
+  --color-muted: #94a3b8;
+  --color-white: #1e293b;
+}
+body, html {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+@keyframes wave-slow {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes wave-fast {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+@keyframes bubble {
+  0% { transform: translateY(0) scale(1); opacity: 0.7; }
+  80% { opacity: 0.8; }
+  100% { transform: translateY(-320px) scale(1.2); opacity: 0; }
+}
+.animate-wave-slow {
+  animation: wave-slow 8s linear infinite;
+}
+.animate-wave-fast {
+  animation: wave-fast 4s linear infinite;
+}
+.animate-bubble {
+  animation: bubble 4s linear infinite;
+}
+.animate-bubble.delay-1000 {
+  animation-delay: 1s;
+}
+
+/* Ejemplo de uso en componentes */
+.bg-primary { background-color: var(--color-primary); }
+.text-primary { color: var(--color-primary); }
+.text-primary-dark { color: var(--color-primary-dark); }
+.text-accent { color: var(--color-accent); }
+.text-success { color: var(--color-success); }
+.text-warning { color: var(--color-warning); }
+.bg-muted { background-color: var(--color-bg); }
+.text-muted { color: var(--color-muted); }
+
+/* Responsive helpers */
+.container-responsive {
+  width: 100%;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (max-width: 640px) {
+  .container-responsive {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .rounded, .rounded-lg, .rounded-xl {
+    border-radius: 0.75rem !important;
+  }
+  .shadow, .shadow-md, .shadow-lg {
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08) !important;
+  }
+  h1, h2, h3 {
+    font-size: 1.2rem !important;
+  }
+  .p-4, .p-6, .py-4, .py-6 {
+    padding: 1rem !important;
+  }
+  .mb-4, .mb-6, .mb-8 {
+    margin-bottom: 1rem !important;
+  }
+  .mt-4, .mt-6, .mt-8 {
+    margin-top: 1rem !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+/* Puedes usar estas clases en tus componentes o personalizar Tailwind para usar estos colores */
