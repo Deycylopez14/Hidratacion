@@ -2,12 +2,12 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/services/supabaseClient";
-import ProgressCircle from "../components/ProgressCircle";
+import ProgressCircleWave from "../components/ProgressCircleWave";
 import Timeline from "../components/Timeline";
 import MotivationalMessage from "../components/MotivationalMessage";
 import AppHeader from "../components/AppHeader";
-import Wave from 'react-wavify';
 import WaterMascot from '../components/WaterMascot';
+import OnboardingFlow from "../components/OnboardingFlow";
 
 // Tipos explícitos para usuario y datos de hidratación
 interface User {
@@ -71,6 +71,7 @@ export default function Dashboard() {
   const [simDate, setSimDate] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const router = useRouter();
 
   const quickOptions = [150, 250, 500, 750];
@@ -80,6 +81,10 @@ export default function Dashboard() {
     supabase.auth.getSession().then(({ data }) => {
       if (!data.session) router.push("/login");
       else setUser(data.session.user);
+      // Mostrar onboarding solo la primera vez
+      if (typeof window !== "undefined" && !localStorage.getItem("hydration_onboarded")) {
+        setShowOnboarding(true);
+      }
     });
   }, [router]);
   const fetchGoal = useCallback(async () => {
@@ -212,6 +217,9 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen w-full bg-white text-darkblue transition-colors relative overflow-hidden">
+      {showOnboarding && user && (
+        <OnboardingFlow user={user} onFinish={() => setShowOnboarding(false)} />
+      )}
       <AppHeader />
       {/* Mascota animada tipo gota de agua */}
       <div className="flex flex-col items-center justify-center mt-2 mb-2 gap-1">
@@ -219,35 +227,7 @@ export default function Dashboard() {
         <h2 className="font-bold text-lg sm:text-2xl text-darkblue drop-shadow mt-1 mb-0">¡Bienvenido a tu Dashboard!</h2>
         <p className="text-xs sm:text-base text-aqua font-semibold mb-2">Revisa tu progreso y registra tu consumo de agua.</p>
       </div>
-      {/* Ola animada tipo water-wave en el fondo inferior */}
-      <div style={{ position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: 0 }}>
-        <Wave
-          fill="#50C7EC" // aqua
-          paused={false}
-          options={{ height: 20, amplitude: 30, speed: 0.2, points: 3 }}
-          style={{ minHeight: 60 }}
-        />
-      </div>
       <div className="container-responsive w-full bg-white rounded shadow p-4 sm:p-6 mt-4 sm:mt-8 relative z-10 overflow-hidden">
-        {/* Animación de burbujas SOLO en cliente para evitar hydration mismatch */}
-        {typeof window !== "undefined" && (
-          <div className="absolute inset-0 pointer-events-none select-none z-0">
-            {[...Array(10)].map((_, i) => (
-              <span
-                key={i}
-                className={`absolute rounded-full bg-primary/30 animate-bubble${i % 2 === 0 ? ' delay-1000' : ''}`}
-                style={{
-                  left: `${10 + Math.random() * 80}%`,
-                  width: `${12 + Math.random() * 16}px`,
-                  height: `${12 + Math.random() * 16}px`,
-                  bottom: `-${Math.random() * 40}px`,
-                  animationDuration: `${3 + Math.random() * 3}s`,
-                  animationDelay: `${Math.random() * 2}s`,
-                }}
-              />
-            ))}
-          </div>
-        )}
         {/* Progreso */}
         <section className="max-w-2xl mx-auto mt-4 sm:mt-6 bg- rounded shadow p-4 sm:p-6 mb-4">
           <h2 className="font-bold text-lg sm:text-xl mb-2 text-darkblue drop-shadow">Progreso de Hoy</h2>
@@ -279,7 +259,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="flex justify-center my-4">
-            <ProgressCircle percent={percent} />
+            <ProgressCircleWave percent={percent} />
           </div>
         </section>
         {/* Registrar Consumo */}
@@ -288,14 +268,16 @@ export default function Dashboard() {
           <div className="flex gap-2 mb-4 items-center flex-wrap">
             <input
               type="number"
-              min={1}
+              min={500}
+              max={5000}
+              step={100}
               value={input}
               onChange={e => setInput(Number(e.target.value))}
               className="border border-aqua focus:border-darkblue rounded px-3 py-2 w-32 text-center text-darkblue font-bold bg-white"
               placeholder="Cantidad (ml)"
             />
             <div className="flex gap-2">
-              {quickOptions.map(opt => (
+              {[500,600,700,800,900].map(opt => (
                 <button
                   key={opt}
                   className={`w-20 h-12 rounded-lg font-semibold focus:outline-none focus:ring-2 focus:ring-aqua transition-all duration-200

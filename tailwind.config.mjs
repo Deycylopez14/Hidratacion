@@ -21,7 +21,7 @@ export default {
         aqua: '#50C7EC',        // Azul Agua
         lightblue: '#A0E7FF',   // Azul Claro
         turquoise: '#00D4D8',   // Turquesa
-        white: '#FFFFFF',       // Blanco
+        white: '#c7d1e2',       // Blanco
         darkblue: '#0077B6',    // Azul Oscuro
       },
     },
