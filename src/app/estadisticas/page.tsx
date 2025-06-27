@@ -91,28 +91,66 @@ export default function Estadisticas() {
   // Para mostrar solo los últimos 7 días
   const last7 = stats.slice(-7);
   const DAILY_GOAL = userGoal ?? 2000;
+  // Mostrar siempre la semana de lunes a domingo
+  const diasSemana = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+  const hoy = new Date();
+  // Calcular el lunes más reciente (o hoy si es lunes)
+  const diaSemanaHoy = hoy.getDay(); // 0=Dom, 1=Lun, ..., 6=Sab
+  // Ajustar para que 0 (domingo) sea 7
+  const offsetLunes = diaSemanaHoy === 0 ? 6 : diaSemanaHoy - 1;
+  const lunes = new Date(hoy);
+  lunes.setDate(hoy.getDate() - offsetLunes);
+  // Generar los 7 días de la semana (lunes a domingo)
+  const semanaActual = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(lunes);
+    d.setDate(lunes.getDate() + i);
+    return d;
+  });
+  // Mapear los días a nombres y buscar el total correspondiente
+  const xCategories = semanaActual.map((date, i) => {
+    return diasSemana[i] + ' ' + date.getDate();
+  });
+  const dataPorDia = semanaActual.map((date) => {
+    const key = date.toISOString().slice(0, 10);
+    const encontrado = stats.find((s) => s.day === key);
+    return encontrado ? encontrado.total : 0;
+  });
   const chartOptions = {
     chart: { id: "line" },
     xaxis: {
-      categories: last7.map((s) => {
-        const date = new Date(s.day);
-        return date.getDate();
-      }),
+      categories: xCategories,
+      title: { text: 'Día de la semana', style: { color: darkMode ? "var(--color-accent)" : "var(--color-primary)" } },
+      labels: {
+        style: { colors: darkMode ? "var(--color-accent)" : "var(--color-primary)" },
+        rotate: -30,
+        fontSize: '14px',
+      },
     },
     yaxis: {
       min: 0,
       max: DAILY_GOAL,
       tickAmount: 5,
+      title: { text: 'ml', style: { color: darkMode ? "var(--color-accent)" : "var(--color-primary)" } },
+      labels: {
+        style: { colors: darkMode ? "var(--color-accent)" : "var(--color-primary)" },
+        fontSize: '14px',
+      },
     },
-    stroke: { curve: "smooth" as const },
+    stroke: { curve: "smooth" as const, width: 4 },
     colors: [darkMode ? "var(--color-accent)" : "var(--color-primary)"],
-    dataLabels: { enabled: true },
+    dataLabels: { enabled: true, style: { fontSize: '14px' } },
     grid: { borderColor: darkMode ? "var(--color-bg-card-dark)" : "var(--color-bg-card)" },
+    markers: { size: 6, colors: [darkMode ? "var(--color-accent)" : "var(--color-primary)"], strokeColors: '#fff', strokeWidth: 2 },
+    tooltip: {
+      y: {
+        formatter: (val: number) => `${val} ml`,
+      },
+    },
   };
   const chartSeries = [
     {
       name: "Consumo (ml)",
-      data: last7.map((s) => s.total),
+      data: dataPorDia,
     },
   ];
 
@@ -148,35 +186,6 @@ export default function Estadisticas() {
           </h2>
           <div className="mb-4 sm:mb-6">
             <div className="relative h-[200px] sm:h-[320px] flex items-center justify-center">
-              <div className="absolute inset-0 flex items-end justify-center pointer-events-none select-none">
-                {/* Fondo animado de olas */}
-                <svg
-                  width="100%"
-                  height="100%"
-                  viewBox="0 0 500 120"
-                  preserveAspectRatio="none"
-                  className="w-full h-24 sm:h-40 animate-wave-slow opacity-60"
-                >
-                  <path
-                    d="M0,40 Q125,80 250,40 T500,40 V120 H0 Z"
-                    fill="var(--color-primary)"
-                    className="dark:fill-[var(--color-accent)]"
-                  />
-                </svg>
-                <svg
-                  width="100%"
-                  height="100%"
-                  viewBox="0 0 500 120"
-                  preserveAspectRatio="none"
-                  className="w-full h-16 sm:h-32 animate-wave-fast opacity-40 -mt-4 sm:-mt-8"
-                >
-                  <path
-                    d="M0,30 Q125,70 250,30 T500,30 V120 H0 Z"
-                    fill="var(--color-primary)"
-                    className="dark:fill-[var(--color-accent)]"
-                  />
-                </svg>
-              </div>
               {typeof window !== "undefined" && last7.length > 0 ? (
                 <div className="z-10 w-full">
                   <Chart

@@ -8,6 +8,8 @@ import MotivationalMessage from "../components/MotivationalMessage";
 import AppHeader from "../components/AppHeader";
 import WaterMascot from '../components/WaterMascot';
 import OnboardingFlow from "../components/OnboardingFlow";
+import NumberScroller from "../components/NumberScroller";
+import HorizontalScroller from "../components/HorizontalScroller";
 
 // Tipos explícitos para usuario y datos de hidratación
 interface User {
@@ -265,30 +267,15 @@ export default function Dashboard() {
         {/* Registrar Consumo */}
         <section className="container-responsive w-full bg-white rounded shadow p-4 sm:p-6 mb-4">
           <h2 className="font-bold text-lg sm:text-xl mb-4 text-darkblue drop-shadow">Registrar Consumo</h2>
-          <div className="flex gap-2 mb-4 items-center flex-wrap">
-            <input
-              type="number"
+          {/* ...existing code... */}
+          <div className="mb-4">
+            <HorizontalScroller
               min={500}
               max={5000}
               step={100}
               value={input}
-              onChange={e => setInput(Number(e.target.value))}
-              className="border border-aqua focus:border-darkblue rounded px-3 py-2 w-32 text-center text-darkblue font-bold bg-white"
-              placeholder="Cantidad (ml)"
+              onChange={val => { setInput(val); setSelected(val); }}
             />
-            <div className="flex gap-2">
-              {[500,600,700,800,900].map(opt => (
-                <button
-                  key={opt}
-                  className={`w-20 h-12 rounded-lg font-semibold focus:outline-none focus:ring-2 focus:ring-aqua transition-all duration-200
-                    ${selected === opt ? "bg-blue-500 text-white" : "bg-gray-100 text-darkblue hover:bg-blue-100"}`}
-                  onClick={() => { setInput(opt); setSelected(opt); }}
-                  type="button"
-                >
-                  {opt}ml
-                </button>
-              ))}
-            </div>
           </div>
           <div className="mt-4 flex justify-center">
             <button
@@ -299,30 +286,42 @@ export default function Dashboard() {
               disabled={loading}
               type="button"
             >
-              Agregar {input}ml
+              Agregar
             </button>
           </div>
-          <div className="mt-6 pt-4 border-t border-lightblue bg-white rounded-b-lg shadow-inner flex flex-col items-center transition-colors duration-300">
+          <div className="mt-6 pt-4 bg-white rounded-b-lg shadow-inner flex flex-col items-center transition-colors duration-300">
             {error && <div className="text-red-600 text-xs mt-2">{error}</div>}
           </div>
         </section>
         {/* Estadísticas rápidas */}
         <section className="container-responsive w-full grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-4 mb-8 mt-4">
-          <div className="bg-lightblue rounded shadow p-4 text-center transition-colors">
-            <div className="text-aqua text-xl font-bold">{timeline.length}</div>
-            <div className="text-xs text-darkblue">Registros hoy</div>
+          <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl shadow-lg p-3 text-center flex flex-col items-center gap-1 border border-blue-200 hover:scale-[1.03] transition-all duration-200">
+            <span className="bg-white text-aqua rounded-full p-1 shadow-md mb-1">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3v12m0 0l3-3m-3 3l-3-3" /></svg>
+            </span>
+            <div className="text-aqua text-lg font-extrabold drop-shadow">{timeline.length}</div>
+            <div className="text-xs text-darkblue font-semibold tracking-wide uppercase">Registros hoy</div>
           </div>
-          <div className="bg-lightblue rounded shadow p-4 text-center transition-colors">
-            <div className="text-turquoise text-xl font-bold">{avg}ml</div>
-            <div className="text-xs text-darkblue">Promedio 7 días</div>
+          <div className="bg-gradient-to-br from-cyan-100 to-cyan-200 rounded-xl shadow-lg p-3 text-center flex flex-col items-center gap-1 border border-cyan-200 hover:scale-[1.03] transition-all duration-200">
+            <span className="bg-white text-turquoise rounded-full p-1 shadow-md mb-1">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2h5" /></svg>
+            </span>
+            <div className="text-turquoise text-lg font-extrabold drop-shadow">{avg}ml</div>
+            <div className="text-xs text-darkblue font-semibold tracking-wide uppercase">Promedio 7 días</div>
           </div>
-          <div className="bg-lightblue rounded shadow p-4 text-center transition-colors">
-            <div className="text-darkblue text-xl font-bold">{best}ml</div>
-            <div className="text-xs text-darkblue">Mejor día</div>
+          <div className="bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl shadow-lg p-3 text-center flex flex-col items-center gap-1 border border-purple-200 hover:scale-[1.03] transition-all duration-200">
+            <span className="bg-white text-purple-500 rounded-full p-1 shadow-md mb-1">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zm0 0V4m0 10v4" /></svg>
+            </span>
+            <div className="text-purple-600 text-lg font-extrabold drop-shadow">{best}ml</div>
+            <div className="text-xs text-darkblue font-semibold tracking-wide uppercase">Mejor día</div>
           </div>
-          <div className="bg-lightblue rounded shadow p-4 text-center transition-colors">
-            <div className="text-darkblue text-xl font-bold">{DAILY_GOAL}ml</div>
-            <div className="text-xs text-darkblue">Meta diaria</div>
+          <div className="bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-xl shadow-lg p-3 text-center flex flex-col items-center gap-1 border border-yellow-200 hover:scale-[1.03] transition-all duration-200">
+            <span className="bg-white text-yellow-500 rounded-full p-1 shadow-md mb-1">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3" /></svg>
+            </span>
+            <div className="text-yellow-600 text-lg font-extrabold drop-shadow">{DAILY_GOAL}ml</div>
+            <div className="text-xs text-darkblue font-semibold tracking-wide uppercase">Meta diaria</div>
           </div>
         </section>
         {/* Timeline del día */}
@@ -335,38 +334,54 @@ export default function Dashboard() {
         </section>
         {/* Configuración de recordatorios */}
         <section className="max-w-2xl mx-auto bg-white rounded shadow p-4 sm:p-6 mb-4">
-          <h2 className="font-bold text-lg sm:text-xl mb-4 text-darkblue drop-shadow">Recordatorios</h2>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-2">
-            <label className="flex items-center gap-2 text-darkblue font-semibold">
-              <input
-                type="checkbox"
-                checked={reminderEnabled}
-                onChange={e => setReminderEnabled(e.target.checked)}
-              />
-              Activar recordatorios
-            </label>
-            <label className="flex items-center gap-2 text-darkblue font-semibold">
-              Frecuencia:
-              <input
-                type="number"
-                min={10}
-                max={180}
-                value={reminderFreq}
-                onChange={e => setReminderFreq(Number(e.target.value))}
-                className="border border-aqua focus:border-darkblue rounded px-2 py-1 w-16 text-center text-darkblue font-bold bg-white"
-              />
-              min
-            </label>
-            <label className="flex items-center gap-2 text-darkblue font-semibold">
-              <input
-                type="checkbox"
-                checked={reminderSound}
-                onChange={e => setReminderSound(e.target.checked)}
-              />
-              Sonido
-            </label>
+          <h2 className="font-bold text-lg sm:text-xl mb-4 text-darkblue drop-shadow flex items-center gap-2">
+            <svg className="w-6 h-6 text-aqua" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V4a2 2 0 10-4 0v1.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+            Recordatorios inteligentes
+          </h2>
+          <div className="flex flex-col sm:flex-row items-center gap-4 mb-2 w-full">
+            <div className="flex-1 flex flex-col items-center bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-3 shadow border border-blue-100">
+              <label className="flex items-center gap-2 text-darkblue font-semibold cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={reminderEnabled}
+                  onChange={e => setReminderEnabled(e.target.checked)}
+                  className="accent-aqua w-5 h-5 rounded focus:ring-2 focus:ring-aqua"
+                />
+                <span className="text-base">Activar recordatorios</span>
+              </label>
+              <span className="text-xs text-aqua mt-1">Notificaciones push</span>
+            </div>
+            <div className="flex-1 flex flex-col items-center bg-gradient-to-br from-cyan-50 to-cyan-100 rounded-xl p-3 shadow border border-cyan-100">
+              <label className="flex items-center gap-2 text-darkblue font-semibold cursor-pointer">
+                <svg className="w-5 h-5 text-turquoise" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3" /></svg>
+                <span className="text-base">Frecuencia</span>
+                <input
+                  type="number"
+                  min={10}
+                  max={180}
+                  value={reminderFreq}
+                  onChange={e => setReminderFreq(Number(e.target.value))}
+                  className="border border-aqua focus:border-darkblue rounded px-2 py-1 w-16 text-center text-darkblue font-bold bg-white ml-2"
+                />
+                <span className="text-xs text-darkblue">min</span>
+              </label>
+              <span className="text-xs text-turquoise mt-1">Cada {reminderFreq} minutos</span>
+            </div>
+            <div className="flex-1 flex flex-col items-center bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-3 shadow border border-yellow-100">
+              <label className="flex items-center gap-2 text-darkblue font-semibold cursor-pointer">
+                <svg className="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V4a2 2 0 10-4 0v1.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                <span className="text-base">Sonido</span>
+                <input
+                  type="checkbox"
+                  checked={reminderSound}
+                  onChange={e => setReminderSound(e.target.checked)}
+                  className="accent-yellow-400 w-5 h-5 rounded focus:ring-2 focus:ring-yellow-300"
+                />
+              </label>
+              <span className="text-xs text-yellow-500 mt-1">Vibración/Sonido</span>
+            </div>
           </div>
-          <div className="text-xs text-aqua font-semibold">Recibirás una notificación cada {reminderFreq} minutos si activas los recordatorios. Puedes activar sonido si lo deseas.</div>
+          <div className="text-xs text-aqua font-semibold text-center mt-2">Recibirás una notificación cada {reminderFreq} minutos si activas los recordatorios. Puedes activar sonido si lo deseas.</div>
         </section>
         {/* Solo para desarrollo: fecha simulada */}
         {process.env.NODE_ENV !== "production" && (
