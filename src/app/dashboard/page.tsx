@@ -71,13 +71,15 @@ export default function Dashboard() {
   const [reminderFreq, setReminderFreq] = useState(60); // minutos
   const [reminderSound, setReminderSound] = useState(false);
   const [userGoal, setUserGoal] = useState<number | null>(null);
+  const [unit, setUnit] = useState<string>("ml");
   const [simDate, setSimDate] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const router = useRouter();
 
-  const quickOptions = [150, 250, 500, 750];
+  // Opciones rápidas adaptadas a la unidad
+  const quickOptions = unit === "oz" ? [8, 12, 16, 20] : [150, 250, 500, 750];
 
   // Cambiar let por const donde corresponda
   useEffect(() => {
@@ -93,11 +95,16 @@ export default function Dashboard() {
   const fetchGoal = useCallback(async () => {
     const { data } = await supabase
       .from("user_goals")
-      .select("daily_goal")
+      .select("daily_goal, unit")
       .eq("user_id", user?.id)
       .single();
-    if (data) setUserGoal(data.daily_goal);
-    else setUserGoal(null);
+    if (data) {
+      setUserGoal(data.daily_goal);
+      setUnit(data.unit || "ml");
+    } else {
+      setUserGoal(null);
+      setUnit("ml");
+    }
   }, [user]);
 
   const fetchToday = useCallback(async () => {
@@ -179,9 +186,12 @@ export default function Dashboard() {
     setLoading(false);
   };
 
-  const DAILY_GOAL = userGoal ?? 2000; // ml por defecto si no hay personalizado
-  const percent = Math.min(100, Math.round((total / DAILY_GOAL) * 100));
-  const restante = Math.max(0, DAILY_GOAL - total);
+  const DAILY_GOAL = userGoal ?? 2000;
+  // Si la unidad es oz, convertir a ml para el cálculo de porcentaje
+  const goalInMl = unit === "oz" ? DAILY_GOAL * 29.5735 : DAILY_GOAL;
+  const totalInMl = unit === "oz" ? total * 29.5735 : total;
+  const percent = Math.min(100, Math.round((totalInMl / goalInMl) * 100));
+  const restante = Math.max(0, Math.round(goalInMl - totalInMl));
 
   useWaterReminder(reminderFreq, reminderEnabled);
   useAdvancedWaterReminder(reminderFreq, reminderEnabled, reminderSound);
@@ -245,11 +255,11 @@ export default function Dashboard() {
                 }}
               ></div>
             </div>
-            <span className="text-xs sm:text-sm font-bold text-darkblue">{DAILY_GOAL} ml</span>
+            <span className="text-xs sm:text-sm font-bold text-darkblue">{DAILY_GOAL} {unit}</span>
           </div>
           <div className="flex justify-between text-center mb-2">
             <div>
-              <div className="text-darkblue text-xl font-bold drop-shadow">{total}</div>
+              <div className="text-darkblue text-xl font-bold drop-shadow">{total} {unit}</div>
               <div className="text-xs text-aqua font-semibold">Consumido</div>
             </div>
             <div>
@@ -257,12 +267,13 @@ export default function Dashboard() {
               <div className="text-xs text-turquoise font-semibold">Completado</div>
             </div>
             <div>
-              <div className="text-aqua text-xl font-bold drop-shadow">{restante}</div>
+              <div className="text-aqua text-xl font-bold drop-shadow">{restante} {unit}</div>
               <div className="text-xs text-aqua font-semibold">Restante</div>
             </div>
           </div>
           <div className="flex justify-center my-4">
             <ProgressCircleWave percent={percent} />
+            <div className="text-xs text-aqua mt-2">Unidad: <b>{unit}</b></div>
           </div>
         </section>
         {/* Registrar Consumo */}
@@ -271,11 +282,12 @@ export default function Dashboard() {
           {/* ...existing code... */}
           <div className="mb-4">
             <HorizontalScroller
-              min={500}
-              max={5000}
-              step={100}
+              min={unit === "oz" ? 4 : 100}
+              max={unit === "oz" ? 64 : 2000}
+              step={unit === "oz" ? 2 : 100}
               value={input}
               onChange={val => { setInput(val); setSelected(val); }}
+              unit={unit}
             />
           </div>
           <div className="mt-4 flex justify-center">
@@ -319,9 +331,9 @@ export default function Dashboard() {
           </div>
           <div className="bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-xl shadow-lg p-3 text-center flex flex-col items-center gap-1 border border-yellow-200 hover:scale-[1.03] transition-all duration-200">
             <span className="bg-white text-yellow-500 rounded-full p-1 shadow-md mb-1">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3" /></svg>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V4a2 2 0 10-4 0v1.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
             </span>
-            <div className="text-yellow-600 text-lg font-extrabold drop-shadow">{DAILY_GOAL}ml</div>
+            <div className="text-yellow-600 text-lg font-extrabold drop-shadow">{DAILY_GOAL} {unit}</div>
             <div className="text-xs text-darkblue font-semibold tracking-wide uppercase">Meta diaria</div>
           </div>
         </section>

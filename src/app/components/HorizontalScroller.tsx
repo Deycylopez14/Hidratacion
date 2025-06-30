@@ -6,9 +6,10 @@ interface HorizontalScrollerProps {
   step?: number;
   value: number;
   onChange: (value: number) => void;
+  unit?: string;
 }
 
-export default function HorizontalScroller({ min = 500, max = 5000, step = 100, value, onChange }: HorizontalScrollerProps) {
+export default function HorizontalScroller({ min = 500, max = 5000, step = 100, value, onChange, unit = "ml" }: HorizontalScrollerProps) {
   const options: number[] = [];
   for (let i = min; i <= max; i += step) {
     options.push(i);
@@ -62,7 +63,7 @@ export default function HorizontalScroller({ min = 500, max = 5000, step = 100, 
 
   return (
     <div className="w-full flex flex-col items-center justify-center">
-      <span className="mb-1 text-aqua font-semibold text-sm select-none">ml</span>
+      <span className="mb-1 text-aqua font-semibold text-sm select-none">{unit}</span>
       <div
         ref={scrollRef}
         className="flex gap-3 overflow-x-auto py-2 px-1 w-full max-w-xl cursor-grab active:cursor-grabbing scrollbar-hide"

@@ -5,8 +5,14 @@ BEGIN
     user_id UNIQUEIDENTIFIER PRIMARY KEY,
     daily_goal INT NOT NULL DEFAULT 2000,
     weight INT,
+    age INT,
+    gender NVARCHAR(20),
     activity NVARCHAR(MAX),
     climate NVARCHAR(MAX),
+    sleep_time NVARCHAR(10),
+    wake_time NVARCHAR(10),
+    unit NVARCHAR(10),
+    reminder_type NVARCHAR(20),
     updated_at DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET()
   );
 END

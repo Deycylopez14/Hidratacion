@@ -16,8 +16,14 @@ export default function Configuracion() {
   const [user, setUser] = useState<User | null>(null);
   const [goal, setGoal] = useState(defaultGoal);
   const [weight, setWeight] = useState<number | undefined>();
+  const [age, setAge] = useState<number | undefined>();
+  const [gender, setGender] = useState<string>("");
   const [activity, setActivity] = useState("");
   const [climate, setClimate] = useState("");
+  const [sleepTime, setSleepTime] = useState("");
+  const [wakeTime, setWakeTime] = useState("");
+  const [unit, setUnit] = useState("");
+  const [reminderType, setReminderType] = useState("");
   const [loading, setLoading] = useState(false);
   const [userName, setUserName] = useState("");
   const [savingName, setSavingName] = useState(false);
@@ -30,20 +36,31 @@ export default function Configuracion() {
     });
   }, []);
 
-  const fetchGoal = useCallback(async () => {
+  // Cargar todos los datos del usuario
+  const fetchUserData = useCallback(async () => {
     if (!user) return;
     const { data } = await supabase
       .from("user_goals")
-      .select("daily_goal")
+      .select("daily_goal, weight, age, gender, activity, climate, sleep_time, wake_time, unit, reminder_type")
       .eq("user_id", user.id)
       .single();
-    if (data) setGoal(data.daily_goal);
-    else setGoal(defaultGoal);
+    if (data) {
+      setGoal(data.daily_goal ?? defaultGoal);
+      setWeight(data.weight ?? undefined);
+      setAge(data.age ?? undefined);
+      setGender(data.gender ?? "");
+      setActivity(data.activity ?? "");
+      setClimate(data.climate ?? "");
+      setSleepTime(data.sleep_time ?? "");
+      setWakeTime(data.wake_time ?? "");
+      setUnit(data.unit ?? "ml");
+      setReminderType(data.reminder_type ?? "notificacion");
+    }
   }, [user]);
 
   useEffect(() => {
-    if (user) fetchGoal();
-  }, [user, fetchGoal]);
+    if (user) fetchUserData();
+  }, [user, fetchUserData]);
 
   useEffect(() => {
     async function fetchUser() {
@@ -71,10 +88,30 @@ export default function Configuracion() {
       user_id: user?.id,
       daily_goal: goal,
       weight,
+      age,
+      gender,
       activity,
       climate,
+      sleep_time: sleepTime,
+      wake_time: wakeTime,
+      unit,
+      reminder_type: reminderType,
       updated_at: new Date().toISOString(),
     });
+    // Guardar en localStorage también
+    if (typeof window !== "undefined") {
+      localStorage.setItem("hydration_nickname", userName);
+      localStorage.setItem("hydration_weight", String(weight ?? ""));
+      localStorage.setItem("hydration_age", String(age ?? ""));
+      localStorage.setItem("hydration_gender", gender);
+      localStorage.setItem("hydration_goal", String(goal));
+      localStorage.setItem("hydration_activity", activity);
+      localStorage.setItem("hydration_climate", climate);
+      localStorage.setItem("hydration_sleep_time", sleepTime);
+      localStorage.setItem("hydration_wake_time", wakeTime);
+      localStorage.setItem("hydration_unit", unit);
+      localStorage.setItem("hydration_reminder_type", reminderType);
+    }
     setLoading(false);
   };
 
@@ -173,6 +210,34 @@ export default function Configuracion() {
                   className="border rounded px-3 py-2 w-28 text-center text-[var(--color-primary-dark)] dark:text-[var(--color-accent)] font-bold bg-[var(--color-bg)] dark:bg-[#0f172a]"
                 />
               </div>
+              <div className="flex flex-col min-w-[120px]">
+                <label className="block mb-1 font-semibold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)]">
+                  Edad
+                </label>
+                <input
+                  type="number"
+                  min={10}
+                  max={100}
+                  value={age ?? ""}
+                  onChange={e => setAge(Number(e.target.value))}
+                  className="border rounded px-3 py-2 w-28 text-center text-[var(--color-primary-dark)] dark:text-[var(--color-accent)] font-bold bg-[var(--color-bg)] dark:bg-[#0f172a]"
+                />
+              </div>
+              <div className="flex flex-col min-w-[120px]">
+                <label className="block mb-1 font-semibold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)]">
+                  Género
+                </label>
+                <select
+                  value={gender}
+                  onChange={e => setGender(e.target.value)}
+                  className="border rounded px-3 py-2 w-32 text-[var(--color-primary-dark)] dark:text-[var(--color-accent)] font-semibold bg-[var(--color-bg)] dark:bg-[#0f172a]"
+                >
+                  <option value="">Selecciona</option>
+                  <option value="masculino">Masculino</option>
+                  <option value="femenino">Femenino</option>
+                  <option value="otro">Otro</option>
+                </select>
+              </div>
               <div className="flex flex-col min-w-[140px]">
                 <label className="block mb-1 font-semibold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)]">
                   Nivel de actividad
@@ -183,9 +248,9 @@ export default function Configuracion() {
                   className="border rounded px-3 py-2 w-32 text-[var(--color-primary-dark)] dark:text-[var(--color-accent)] font-semibold bg-[var(--color-bg)] dark:bg-[#0f172a]"
                 >
                   <option value="">Selecciona</option>
-                  <option value="baja">Baja</option>
-                  <option value="media">Media</option>
-                  <option value="alta">Alta</option>
+                  <option value="bajo">Bajo</option>
+                  <option value="medio">Medio</option>
+                  <option value="alto">Alto</option>
                 </select>
               </div>
               <div className="flex flex-col min-w-[120px]">
@@ -199,9 +264,49 @@ export default function Configuracion() {
                 >
                   <option value="">Selecciona</option>
                   <option value="templado">Templado</option>
-                  <option value="calido">Cálido</option>
+                  <option value="caluroso">Caluroso</option>
                   <option value="frio">Frío</option>
                 </select>
+              </div>
+              <div className="flex flex-col min-w-[120px]">
+                <label className="block mb-1 font-semibold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)]">
+                  Hora de dormir
+                </label>
+                <input
+                  type="time"
+                  value={sleepTime}
+                  onChange={e => setSleepTime(e.target.value)}
+                  className="border rounded px-3 py-2 w-28 text-center text-[var(--color-primary-dark)] dark:text-[var(--color-accent)] font-bold bg-[var(--color-bg)] dark:bg-[#0f172a]"
+                />
+              </div>
+              <div className="flex flex-col min-w-[120px]">
+                <label className="block mb-1 font-semibold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)]">
+                  Hora de despertar
+                </label>
+                <input
+                  type="time"
+                  value={wakeTime}
+                  onChange={e => setWakeTime(e.target.value)}
+                  className="border rounded px-3 py-2 w-28 text-center text-[var(--color-primary-dark)] dark:text-[var(--color-accent)] font-bold bg-[var(--color-bg)] dark:bg-[#0f172a]"
+                />
+              </div>
+              <div className="flex flex-col min-w-[120px]">
+                <label className="block mb-1 font-semibold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)]">
+                  Unidad de medida
+                </label>
+                <div className="flex gap-2">
+                  <button type="button" onClick={() => setUnit('ml')} className={`flex-1 px-2 py-1 rounded border-2 ${unit==='ml' ? 'border-blue-500 bg-blue-100' : 'border-blue-200 bg-white'} font-bold`}>ml</button>
+                  <button type="button" onClick={() => setUnit('oz')} className={`flex-1 px-2 py-1 rounded border-2 ${unit==='oz' ? 'border-blue-500 bg-blue-100' : 'border-blue-200 bg-white'} font-bold`}>oz</button>
+                </div>
+              </div>
+              <div className="flex flex-col min-w-[120px]">
+                <label className="block mb-1 font-semibold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)]">
+                  Tipo de recordatorio
+                </label>
+                <div className="flex gap-2">
+                  <button type="button" onClick={() => setReminderType('notificacion')} className={`flex-1 px-2 py-1 rounded border-2 ${reminderType==='notificacion' ? 'border-blue-500 bg-blue-100' : 'border-blue-200 bg-white'} font-bold`}>Notificación</button>
+                  <button type="button" onClick={() => setReminderType('sonido')} className={`flex-1 px-2 py-1 rounded border-2 ${reminderType==='sonido' ? 'border-blue-500 bg-blue-100' : 'border-blue-200 bg-white'} font-bold`}>Sonido</button>
+                </div>
               </div>
               <div className="flex flex-col min-w-[140px]">
                 <label className="block mb-1 font-semibold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)]">

@@ -166,7 +166,17 @@ import { AnimatePresence } from "framer-motion";
 import WaterMascot from "./WaterMascot";
 import FriendlyMascot from "./FriendlyMascot";
 
-const steps = ["bienvenida", "beneficios", "apodo", "amistad", "preferencias"];
+const steps = [
+  "bienvenida",
+  "beneficios",
+  "apodo",
+  "amistad",
+  "genero",
+  "pesoedad",
+  "meta",
+  "rutina",
+  "preferencias"
+];
 
 const benefits = [
   {
@@ -262,10 +272,16 @@ const climates = [
 export default function OnboardingFlow({ user, onFinish }: { user: any, onFinish: () => void }) {
   const [step, setStep] = useState(0);
   const [nickname, setNickname] = useState("");
+  const [gender, setGender] = useState<string>("");
+  const [weight, setWeight] = useState<number>(70);
+  const [age, setAge] = useState<number>(25);
   const [goal, setGoal] = useState(defaultPrefs.daily_goal);
-  const [weight, setWeight] = useState(70);
   const [activity, setActivity] = useState("medio");
   const [climate, setClimate] = useState("templado");
+  const [sleepTime, setSleepTime] = useState("23:00");
+  const [wakeTime, setWakeTime] = useState("07:00");
+  const [unit, setUnit] = useState("ml");
+  const [reminderType, setReminderType] = useState("notificacion");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -274,13 +290,37 @@ export default function OnboardingFlow({ user, onFinish }: { user: any, onFinish
 
   const handleFinish = async () => {
     setLoading(true);
-    // Guardar apodo y preferencias en Supabase y localStorage
+    // Guardar apodo y todas las preferencias en Supabase y localStorage
     if (user) {
       await supabase.auth.updateUser({ data: { full_name: nickname } });
-      await supabase.from("user_goals").upsert({ user_id: user.id, daily_goal: goal });
+      await supabase.from("user_goals").upsert({
+        user_id: user.id,
+        daily_goal: goal,
+        weight,
+        age,
+        gender,
+        activity,
+        climate,
+        sleep_time: sleepTime,
+        wake_time: wakeTime,
+        unit,
+        reminder_type: reminderType,
+        updated_at: new Date().toISOString(),
+      });
     }
+    // Guardar en localStorage para acceso rápido en la app
     localStorage.setItem("hydration_onboarded", "1");
     localStorage.setItem("hydration_nickname", nickname);
+    localStorage.setItem("hydration_weight", String(weight));
+    localStorage.setItem("hydration_age", String(age));
+    localStorage.setItem("hydration_gender", gender);
+    localStorage.setItem("hydration_goal", String(goal));
+    localStorage.setItem("hydration_activity", activity);
+    localStorage.setItem("hydration_climate", climate);
+    localStorage.setItem("hydration_sleep_time", sleepTime);
+    localStorage.setItem("hydration_wake_time", wakeTime);
+    localStorage.setItem("hydration_unit", unit);
+    localStorage.setItem("hydration_reminder_type", reminderType);
     setLoading(false);
     onFinish();
   };
@@ -292,6 +332,9 @@ export default function OnboardingFlow({ user, onFinish }: { user: any, onFinish
     else if (activity === "medio") base += 250;
     if (climate === "caluroso") base += 400;
     else if (climate === "frio") base -= 200;
+    // Ajuste por edad y género (opcional, simple)
+    if (gender === "femenino") base -= 200;
+    if (age > 50) base -= 100;
     return Math.max(1200, Math.min(5000, Math.round(base / 100) * 100));
   })();
 
@@ -423,66 +466,220 @@ export default function OnboardingFlow({ user, onFinish }: { user: any, onFinish
 
           {step === 4 && (
             <motion.div
-              key="preferencias"
+              key="genero"
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -40 }}
               transition={{ duration: 0.5 }}
-              className="flex flex-col items-center gap-6 w-full"
+              className="flex flex-col items-center gap-8 w-full"
             >
-              <h2 className="text-xl font-bold text-blue-600">Personaliza tu hidratación, <span className='text-aqua'>{nickname || (typeof window !== 'undefined' && localStorage.getItem('hydration_nickname')) || ''}</span></h2>
-              <div className="w-full flex flex-col gap-3">
-                <label className="text-darkblue font-semibold">Peso (kg):
+              <div className="mb-2 scale-125 animate-fadein"><FriendlyMascot /></div>
+              <h2 className="text-2xl font-extrabold text-blue-600 text-center">¿Con qué género te identificas?</h2>
+              <div className="flex gap-6 mt-4">
+                <button onClick={() => { setGender('masculino'); setStep(5); }} className={`flex flex-col items-center px-6 py-4 rounded-2xl shadow-lg border-2 ${gender==='masculino' ? 'border-blue-500 bg-blue-100' : 'border-blue-200 bg-white'} hover:bg-blue-50 transition-all`}>
+                  <span className="text-5xl mb-2">👨</span>
+                  <span className="font-bold text-blue-600">Masculino</span>
+                </button>
+                <button onClick={() => { setGender('femenino'); setStep(5); }} className={`flex flex-col items-center px-6 py-4 rounded-2xl shadow-lg border-2 ${gender==='femenino' ? 'border-pink-400 bg-pink-50' : 'border-blue-200 bg-white'} hover:bg-pink-50 transition-all`}>
+                  <span className="text-5xl mb-2">👩</span>
+                  <span className="font-bold text-pink-500">Femenino</span>
+                </button>
+                <button onClick={() => { setGender('otro'); setStep(5); }} className={`flex flex-col items-center px-6 py-4 rounded-2xl shadow-lg border-2 ${gender==='otro' ? 'border-purple-400 bg-purple-50' : 'border-blue-200 bg-white'} hover:bg-purple-50 transition-all`}>
+                  <span className="text-5xl mb-2">🧑‍🦱</span>
+                  <span className="font-bold text-purple-500">Otro</span>
+                </button>
+              </div>
+            </motion.div>
+          )}
+
+          {step === 5 && (
+            <motion.div
+              key="pesoedad"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -40 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-col items-center gap-8 w-full"
+            >
+              <div className="mb-2 scale-110 animate-fadein"><FriendlyMascot /></div>
+              <h2 className="text-2xl font-extrabold text-blue-600 text-center">¡Vamos a personalizar tu meta!</h2>
+              <div className="w-full flex flex-col gap-6 max-w-xs">
+                <label className="text-darkblue font-semibold flex flex-col items-center w-full">
+                  Peso (kg):
+                  <div className="flex items-center gap-3 w-full mt-2">
+                    <span className="text-blue-400 font-bold">30</span>
+                    <input
+                      type="range"
+                      min={30}
+                      max={200}
+                      value={weight}
+                      onChange={e => setWeight(Number(e.target.value))}
+                      className="flex-1 accent-blue-500 h-2 rounded-lg appearance-none cursor-pointer bg-blue-200"
+                    />
+                    <span className="text-blue-400 font-bold">200</span>
+                  </div>
+                  <div className="mt-1 text-2xl font-extrabold text-blue-600">{weight} kg</div>
+                </label>
+                <label className="text-darkblue font-semibold flex flex-col items-center w-full">
+                  Edad:
+                  <div className="flex items-center gap-3 w-full mt-2">
+                    <span className="text-blue-400 font-bold">10</span>
+                    <input
+                      type="range"
+                      min={10}
+                      max={100}
+                      value={age}
+                      onChange={e => setAge(Number(e.target.value))}
+                      className="flex-1 accent-blue-500 h-2 rounded-lg appearance-none cursor-pointer bg-blue-200"
+                    />
+                    <span className="text-blue-400 font-bold">100</span>
+                  </div>
+                  <div className="mt-1 text-2xl font-extrabold text-blue-600">{age} años</div>
+                </label>
+              </div>
+              <div className="flex gap-2 w-full max-w-xs">
+                <button onClick={() => setStep(4)} className="flex-1 bg-gray-100 text-blue-500 px-4 py-2 rounded-lg font-semibold hover:bg-gray-200">Atrás</button>
+                <button onClick={() => setStep(6)} className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold shadow-lg hover:bg-blue-600">Siguiente</button>
+              </div>
+            </motion.div>
+          )}
+
+          {step === 6 && (
+            <motion.div
+              key="meta"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -40 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-col items-center gap-8 w-full"
+            >
+              <div className="mb-2 scale-110 animate-fadein"><FriendlyMascot /></div>
+              <h2 className="text-2xl font-extrabold text-blue-600 text-center">¡Esta es tu meta diaria sugerida!</h2>
+              <div className="flex flex-col items-center gap-2 w-full max-w-xs">
+                <div className="w-32 h-32 rounded-full bg-gradient-to-tr from-blue-200 via-aqua to-blue-400 flex items-center justify-center shadow-xl mb-2 border-4 border-blue-300 animate-fadein">
+                  <span className="text-4xl font-black text-blue-700">{suggestedGoal} ml</span>
+                </div>
+                <label className="text-darkblue font-semibold w-full flex flex-col items-center">¿Quieres ajustarla?
+                  <div className="flex items-center gap-3 w-full mt-2">
+                    <span className="text-blue-400 font-bold">500</span>
+                    <input
+                      type="range"
+                      min={500}
+                      max={5000}
+                      step={100}
+                      value={goal}
+                      onChange={e => setGoal(Number(e.target.value))}
+                      className="flex-1 accent-blue-500 h-2 rounded-lg appearance-none cursor-pointer bg-blue-200"
+                    />
+                    <span className="text-blue-400 font-bold">5000</span>
+                  </div>
+                  <div className="mt-1 text-2xl font-extrabold text-blue-600">{goal} ml</div>
+                </label>
+              </div>
+              <div className="flex gap-2 w-full max-w-xs">
+                <button onClick={() => setStep(5)} className="flex-1 bg-gray-100 text-blue-500 px-4 py-2 rounded-lg font-semibold hover:bg-gray-200">Atrás</button>
+                <button onClick={() => setStep(7)} className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold shadow-lg hover:bg-blue-600">Siguiente</button>
+              </div>
+            </motion.div>
+          )}
+
+          {step === 7 && (
+            <motion.div
+              key="rutina"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -40 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-col items-center gap-8 w-full"
+            >
+              <div className="mb-2 scale-110 animate-fadein"><FriendlyMascot /></div>
+              <h2 className="text-2xl font-extrabold text-blue-600 text-center">¡Cuéntame sobre tu rutina!</h2>
+              <div className="w-full flex flex-col gap-4 max-w-xs">
+                <label className="text-darkblue font-semibold">¿A qué hora sueles dormir?
                   <input
-                    type="number"
-                    min={30}
-                    max={200}
-                    value={weight}
-                    onChange={e => setWeight(Number(e.target.value))}
-                    className="border border-aqua rounded-lg px-4 py-2 text-lg w-full text-center focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1"
+                    type="time"
+                    value={sleepTime}
+                    onChange={e => setSleepTime(e.target.value)}
+                    className="border-2 border-aqua rounded-xl px-4 py-3 text-lg w-full text-center focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1 bg-blue-50 shadow-sm"
                   />
                 </label>
-                <label className="text-darkblue font-semibold">Nivel de actividad:
+                <label className="text-darkblue font-semibold">¿A qué hora te despiertas?
+                  <input
+                    type="time"
+                    value={wakeTime}
+                    onChange={e => setWakeTime(e.target.value)}
+                    className="border-2 border-aqua rounded-xl px-4 py-3 text-lg w-full text-center focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1 bg-blue-50 shadow-sm"
+                  />
+                </label>
+                <label className="text-darkblue font-semibold">Nivel de actividad física:
                   <select
                     value={activity}
                     onChange={e => setActivity(e.target.value)}
-                    className="border border-aqua rounded-lg px-4 py-2 text-lg w-full text-center focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1"
+                    className="border-2 border-aqua rounded-xl px-4 py-3 text-lg w-full text-center focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1 bg-blue-50 shadow-sm"
                   >
                     {activityLevels.map(opt => (
                       <option key={opt.value} value={opt.value}>{opt.label}</option>
                     ))}
                   </select>
                 </label>
-                <label className="text-darkblue font-semibold">Clima:
-                  <select
-                    value={climate}
-                    onChange={e => setClimate(e.target.value)}
-                    className="border border-aqua rounded-lg px-4 py-2 text-lg w-full text-center focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1"
-                  >
-                    {climates.map(opt => (
-                      <option key={opt.value} value={opt.value}>{opt.label}</option>
-                    ))}
-                  </select>
+              </div>
+              <div className="flex gap-2 w-full max-w-xs">
+                <button onClick={() => setStep(6)} className="flex-1 bg-gray-100 text-blue-500 px-4 py-2 rounded-lg font-semibold hover:bg-gray-200">Atrás</button>
+                <button onClick={() => setStep(8)} className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold shadow-lg hover:bg-blue-600">Siguiente</button>
+              </div>
+            </motion.div>
+          )}
+
+          {step === 8 && (
+            <motion.div
+              key="preferencias"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -40 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-col items-center gap-8 w-full"
+            >
+              <div className="mb-2 scale-110 animate-fadein"><FriendlyMascot /></div>
+              <h2 className="text-2xl font-extrabold text-blue-600 text-center">¡Últimos detalles!</h2>
+              <div className="w-full flex flex-col gap-4 max-w-xs">
+                <label className="text-darkblue font-semibold">Unidad de medida:
+                  <div className="flex gap-4 mt-2">
+                    <button onClick={() => setUnit('ml')} className={`flex-1 px-4 py-2 rounded-xl font-bold border-2 ${unit==='ml' ? 'border-blue-500 bg-blue-100' : 'border-blue-200 bg-white'} hover:bg-blue-50 transition-all`}>ml</button>
+                    <button onClick={() => setUnit('oz')} className={`flex-1 px-4 py-2 rounded-xl font-bold border-2 ${unit==='oz' ? 'border-blue-500 bg-blue-100' : 'border-blue-200 bg-white'} hover:bg-blue-50 transition-all`}>oz</button>
+                  </div>
+                </label>
+                <label className="text-darkblue font-semibold">Tipo de recordatorio:
+                  <div className="flex gap-4 mt-2">
+                    <button onClick={() => setReminderType('notificacion')} className={`flex-1 px-4 py-2 rounded-xl font-bold border-2 ${reminderType==='notificacion' ? 'border-blue-500 bg-blue-100' : 'border-blue-200 bg-white'} hover:bg-blue-50 transition-all`}>Notificación</button>
+                    <button onClick={() => setReminderType('sonido')} className={`flex-1 px-4 py-2 rounded-xl font-bold border-2 ${reminderType==='sonido' ? 'border-blue-500 bg-blue-100' : 'border-blue-200 bg-white'} hover:bg-blue-50 transition-all`}>Sonido</button>
+                  </div>
                 </label>
               </div>
-              <div className="w-full flex flex-col gap-2 mt-2">
-                <div className="text-darkblue text-sm">Sugerencia de meta diaria: <span className="font-bold text-blue-600">{suggestedGoal} ml</span></div>
-                <label className="text-darkblue font-semibold">¿Quieres ajustar tu meta diaria?
-                  <input
-                    type="number"
-                    min={500}
-                    max={5000}
-                    step={100}
-                    className="border border-aqua rounded-lg px-4 py-2 text-lg w-full text-center focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1"
-                    value={goal}
-                    onChange={e => setGoal(Number(e.target.value))}
-                  />
-                </label>
+              <div className="flex gap-2 w-full max-w-xs">
+                <button onClick={() => setStep(7)} className="flex-1 bg-gray-100 text-blue-500 px-4 py-2 rounded-lg font-semibold hover:bg-gray-200">Atrás</button>
+                <button onClick={() => setStep(9)} className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold shadow-lg hover:bg-blue-600">Continuar</button>
               </div>
-              <div className="flex gap-2 w-full">
-                <button onClick={handleBack} className="flex-1 bg-gray-100 text-blue-500 px-4 py-2 rounded-lg font-semibold hover:bg-gray-200">Atrás</button>
-                <button onClick={handleFinish} disabled={loading || !goal} className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold shadow-lg hover:bg-blue-600 disabled:opacity-50">Finalizar</button>
-              </div>
+            </motion.div>
+          )}
+
+          {step === 9 && (
+            <motion.div
+              key="final"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -40 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-col items-center gap-10 w-full"
+            >
+              <div className="mb-2 scale-125 animate-fadein"><FriendlyMascot /></div>
+              <h2 className="text-3xl font-extrabold text-blue-600 text-center">¡Listo! Tu salud te lo agradecerá 💧</h2>
+              <button
+                onClick={handleFinish}
+                disabled={loading}
+                className="bg-gradient-to-r from-blue-400 to-blue-600 text-white px-10 py-4 rounded-2xl font-bold shadow-lg hover:from-blue-500 hover:to-blue-700 transition-all text-xl mt-2 disabled:opacity-50"
+              >
+                Empezar a trackear
+              </button>
             </motion.div>
           )}
         </AnimatePresence>
