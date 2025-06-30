@@ -23,6 +23,33 @@ export default function Historial() {
   const [records, setRecords] = useState<HydrationRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [exportFormat, setExportFormat] = useState<'csv' | 'json' | 'xlsx' | 'pdf'>('csv');
+  // Estado para evitar hydration mismatch con burbujas
+  const [mounted, setMounted] = useState(false);
+  const [bubbles, setBubbles] = useState<{
+    left: string;
+    width: string;
+    height: string;
+    bottom: string;
+    animationDuration: string;
+    animationDelay: string;
+    delayClass: string;
+  }[]>([]);
+  useEffect(() => {
+    setMounted(true);
+    // Generar burbujas solo en cliente
+    const arr = Array.from({ length: 10 }, (_, i) => {
+      return {
+        left: `${10 + Math.random() * 80}%`,
+        width: `${12 + Math.random() * 16}px`,
+        height: `${12 + Math.random() * 16}px`,
+        bottom: `-${Math.random() * 40}px`,
+        animationDuration: `${3 + Math.random() * 3}s`,
+        animationDelay: `${Math.random() * 2}s`,
+        delayClass: i % 2 === 0 ? ' delay-1000' : '',
+      };
+    });
+    setBubbles(arr);
+  }, []);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -127,19 +154,19 @@ export default function Historial() {
         <h1 className="text-2xl font-bold mb-6 text-darkblue">Historial</h1>
         <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
           {/* Animación de burbujas SOLO en cliente para evitar hydration mismatch */}
-          {typeof window !== "undefined" && (
+          {mounted && (
             <div className="absolute inset-0 pointer-events-none select-none z-0">
-              {[...Array(10)].map((_, i) => (
+              {bubbles.map((b, i) => (
                 <span
                   key={i}
-                  className={`absolute rounded-full bg-primary/30 animate-bubble${i % 2 === 0 ? ' delay-1000' : ''}`}
+                  className={`absolute rounded-full bg-primary/30 animate-bubble${b.delayClass}`}
                   style={{
-                    left: `${10 + Math.random() * 80}%`,
-                    width: `${12 + Math.random() * 16}px`,
-                    height: `${12 + Math.random() * 16}px`,
-                    bottom: `-${Math.random() * 40}px`,
-                    animationDuration: `${3 + Math.random() * 3}s`,
-                    animationDelay: `${Math.random() * 2}s`,
+                    left: b.left,
+                    width: b.width,
+                    height: b.height,
+                    bottom: b.bottom,
+                    animationDuration: b.animationDuration,
+                    animationDelay: b.animationDelay,
                   }}
                 />
               ))}
@@ -181,43 +208,46 @@ export default function Historial() {
             </div>
           ) : (
             <div>
-              <div className="overflow-x-auto">
-                <table className="min-w-full text-center border-separate border-spacing-y-2">
+              <div
+                className="w-full max-h-[340px] overflow-x-auto overflow-y-auto rounded-2xl shadow-xl bg-gradient-to-br from-blue-50 via-white to-aqua/10 scrollbar-hide"
+                style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
+                <table className="min-w-full text-center border-separate border-spacing-y-2 text-sm">
                   <thead className="sticky top-0 z-10">
                     <tr>
-                      <th className="px-4 py-2 text-primary-dark font-bold bg-primary/20 rounded-tl-xl rounded-bl-xl shadow-sm">Fecha y Hora</th>
-                      <th className="px-4 py-2 text-primary-dark font-bold bg-primary/20 shadow-sm">Cantidad (ml)</th>
-                      <th className="px-4 py-2 text-primary-dark font-bold bg-primary/20 rounded-tr-xl rounded-br-xl shadow-sm">Acciones</th>
+                      <th className="px-6 py-3 text-base text-aqua font-extrabold bg-gradient-to-r from-blue-100 via-white to-aqua/20 rounded-tl-2xl shadow-md tracking-wide">Fecha y Hora</th>
+                      <th className="px-6 py-3 text-base text-blue-500 font-extrabold bg-gradient-to-r from-blue-100 via-white to-aqua/20 shadow-md tracking-wide">Cantidad</th>
+                      <th className="px-6 py-3 text-base text-pink-500 font-extrabold bg-gradient-to-r from-blue-100 via-white to-aqua/20 rounded-tr-2xl shadow-md tracking-wide">Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
                     {records.map((r, i) => {
-                      // Formatear fecha y hora sin segundos y año corto
                       const fecha = new Date(r.created_at);
                       const fechaStr = fecha.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit' });
                       const horaStr = fecha.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                       return (
-                        <tr key={i} className="group even:bg-lightblue/40 odd:bg-white border-b border-lightblue hover:scale-[1.01] hover:shadow-lg transition-all duration-150 rounded-xl">
-                          <td className="border-x px-4 py-2 text-primary-dark font-semibold whitespace-nowrap rounded-l-xl">
+                        <tr key={i} className="group even:bg-blue-50/60 odd:bg-white border-b border-aqua/30 hover:scale-[1.01] hover:shadow-2xl transition-all duration-200 rounded-2xl">
+                          <td className="border-x px-6 py-3 text-blue-900 font-semibold whitespace-nowrap rounded-l-2xl text-sm flex items-center gap-2">
                             <span className="inline-flex items-center gap-1">
-                              <svg className="w-4 h-4 text-aqua inline" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                              {fechaStr} {horaStr}
+                              <svg className="w-5 h-5 text-aqua inline" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                              <span className="font-bold text-aqua">{fechaStr}</span>
+                              <span className="text-xs text-blue-400">{horaStr}</span>
                             </span>
                           </td>
-                          <td className="border-x px-4 py-2">
-                            <span className="inline-block bg-blue-100 text-blue-700 font-bold rounded-full px-3 py-1 text-sm shadow-sm">
+                          <td className="border-x px-6 py-3">
+                            <span className="inline-block bg-gradient-to-r from-blue-200 via-blue-100 to-aqua/30 text-blue-700 font-extrabold rounded-full px-4 py-2 text-base shadow-md border border-aqua/30">
                               {r.amount}
                             </span>
                           </td>
-                          <td className="border-x px-4 py-2 rounded-r-xl">
+                          <td className="border-x px-6 py-3 rounded-r-2xl">
                             <button
                               onClick={() => deleteRecord(r.created_at)}
-                              className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-full shadow flex items-center gap-1 text-sm transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-red-400"
+                              className="bg-gradient-to-r from-orange-300 via-orange-400 to-pink-400 hover:from-orange-400 hover:to-pink-500 text-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2 text-base transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-orange-200"
                               disabled={loading}
                               title="Eliminar registro"
                             >
-                              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                              <span className="hidden sm:inline">Eliminar</span>
+                              <svg className="w-5 h-5 text-orange-600 group-hover:text-pink-500 transition-colors duration-150" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                              <span className="hidden sm:inline font-bold">Eliminar</span>
                             </button>
                           </td>
                         </tr>

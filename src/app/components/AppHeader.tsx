@@ -71,11 +71,13 @@ export default function AppHeader() {
           </button>
           <button
             aria-label="Cerrar sesión"
-            className="ml-2 rounded-full p-2 bg-red-100 dark:bg-red-900 hover:bg-red-200 dark:hover:bg-red-800 transition-colors shadow"
+            className="ml-2 rounded-full p-2 bg-orange-100 dark:bg-orange-900 hover:bg-orange-200 dark:hover:bg-orange-800 transition-colors shadow"
             onClick={handleLogout}
             title="Cerrar sesión"
           >
-            <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M16 17l5-5m0 0l-5-5m5 5H9m4 5v1a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2h4a2 2 0 012 2v1" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
+              <path d="M16 17l5-5m0 0l-5-5m5 5H9m4 5v1a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2h4a2 2 0 012 2v1" stroke="#fb923c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </button>
         </div>
       </header>

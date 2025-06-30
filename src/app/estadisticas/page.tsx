@@ -24,20 +24,42 @@ export default function Estadisticas() {
   const [avg, setAvg] = useState(0);
   const [userGoal, setUserGoal] = useState<number | null>(null);
 
-  // Detectar modo oscuro
+  // Detectar modo oscuro y montaje en cliente
   const [darkMode, setDarkMode] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [bubbles, setBubbles] = useState<{
+    left: string;
+    width: string;
+    height: string;
+    bottom: string;
+    animationDuration: string;
+    animationDelay: string;
+    delayClass: string;
+  }[]>([]);
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    setMounted(true);
+    setDarkMode(document.documentElement.classList.contains("dark"));
+    const observer = new MutationObserver(() => {
       setDarkMode(document.documentElement.classList.contains("dark"));
-      const observer = new MutationObserver(() => {
-        setDarkMode(document.documentElement.classList.contains("dark"));
-      });
-      observer.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ["class"],
-      });
-      return () => observer.disconnect();
-    }
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    // Generar burbujas solo en cliente
+    const arr = Array.from({ length: 10 }, (_, i) => {
+      return {
+        left: `${10 + Math.random() * 80}%`,
+        width: `${12 + Math.random() * 16}px`,
+        height: `${12 + Math.random() * 16}px`,
+        bottom: `-${Math.random() * 40}px`,
+        animationDuration: `${3 + Math.random() * 3}s`,
+        animationDelay: `${Math.random() * 2}s`,
+        delayClass: i % 2 === 0 ? " delay-1000" : "",
+      };
+    });
+    setBubbles(arr);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -161,21 +183,19 @@ export default function Estadisticas() {
         <h1 className="text-2xl font-bold mb-6 text-darkblue">Estadísticas</h1>
         <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
           {/* Animación de burbujas SOLO en cliente para evitar hydration mismatch */}
-          {typeof window !== "undefined" && (
+          {mounted && (
             <div className="absolute inset-0 pointer-events-none select-none z-0">
-              {[...Array(10)].map((_, i) => (
+              {bubbles.map((b, i) => (
                 <span
                   key={i}
-                  className={`absolute rounded-full bg-[var(--color-accent)]/30 animate-bubble${
-                    i % 2 === 0 ? " delay-1000" : ""
-                  }`}
+                  className={`absolute rounded-full bg-[var(--color-accent)]/30 animate-bubble${b.delayClass}`}
                   style={{
-                    left: `${10 + Math.random() * 80}%`,
-                    width: `${12 + Math.random() * 16}px`,
-                    height: `${12 + Math.random() * 16}px`,
-                    bottom: `-${Math.random() * 40}px`,
-                    animationDuration: `${3 + Math.random() * 3}s`,
-                    animationDelay: `${Math.random() * 2}s`,
+                    left: b.left,
+                    width: b.width,
+                    height: b.height,
+                    bottom: b.bottom,
+                    animationDuration: b.animationDuration,
+                    animationDelay: b.animationDelay,
                   }}
                 />
               ))}
@@ -186,7 +206,7 @@ export default function Estadisticas() {
           </h2>
           <div className="mb-4 sm:mb-6">
             <div className="relative h-[200px] sm:h-[320px] flex items-center justify-center">
-              {typeof window !== "undefined" && last7.length > 0 ? (
+              {mounted && last7.length > 0 ? (
                 <div className="z-10 w-full">
                   <Chart
                     options={{
@@ -208,7 +228,7 @@ export default function Estadisticas() {
                     }}
                     series={chartSeries}
                     type="line"
-                    height={typeof window !== "undefined" && window.innerWidth < 640 ? 180 : 300}
+                    height={mounted && typeof window !== "undefined" && window.innerWidth < 640 ? 180 : 300}
                   />
                 </div>
               ) : (
