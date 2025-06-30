@@ -114,19 +114,27 @@ function BenefitCarousel(props: { onFinish: () => void }) {
             transition={{ duration: 0.4 }}
             className="flex flex-col items-center bg-gradient-to-br from-blue-50 via-aqua/30 to-blue-100 rounded-3xl p-8 shadow-2xl w-full max-w-xs min-h-[260px] border border-aqua/20 relative overflow-hidden"
           >
-            {/* Efecto decorativo de ondas */}
-            <span className="absolute -top-8 -left-8 w-24 h-24 bg-aqua/20 rounded-full blur-2xl animate-pulse" />
-            <span className="absolute -bottom-8 -right-8 w-24 h-24 bg-blue-300/20 rounded-full blur-2xl animate-pulse delay-200" />
-            {/* Icono animado extra */}
-            <span className="absolute top-2 right-2 text-blue-300 text-xl animate-float">🌟</span>
-            <div className="mb-2 scale-110 transition-transform duration-300 hover:scale-125 cursor-pointer animate-fadein delay-100">{benefits[current].icon}</div>
-            <div className="font-bold text-blue-700 text-lg text-center mb-1 drop-shadow-sm animate-fadein delay-150 flex items-center gap-2">
-              {benefits[current].title}
-              <span className="text-aqua text-xl animate-wiggle">💦</span>
-            </div>
-            <div className="text-darkblue text-center text-base font-medium mb-2 animate-fadein delay-200">{benefits[current].desc}</div>
-            <div className="text-xs text-aqua font-semibold mt-2 animate-fadein delay-300 flex items-center gap-1">
-              <span className="animate-pulse">👉</span> Desliza para ver más beneficios
+            {/* Elementos decorativos eliminados */}
+            <div className="flex flex-col items-center gap-3 w-full">
+              {/* Título arriba */}
+              <div className="text-center mb-1 animate-fadein delay-150">
+                <span className="block text-xl sm:text-2xl font-extrabold bg-gradient-to-r from-blue-500 via-aqua to-blue-400 bg-clip-text text-transparent drop-shadow-lg tracking-tight mb-1">
+                  {benefits[current].title}
+                </span>
+              </div>
+              {/* Mascota o icono en el centro */}
+              <div className="my-2 scale-50 sm:scale-60 transition-transform duration-300 hover:scale-75 cursor-pointer animate-fadein delay-100 flex justify-center" style={{ minHeight: 48 }}>
+                {benefits[current].icon}
+              </div>
+              <div className="text-center text-base sm:text-lg font-semibold mb-2 animate-fadein delay-200 max-w-[240px] mx-auto text-blue-800 dark:text-blue-100 bg-white/70 dark:bg-blue-900/70 px-2 py-1 rounded shadow-sm">
+                <span className="block px-2 py-1 text-blue-800 dark:text-blue-100 text-base sm:text-lg font-semibold animate-fadein delay-200">
+                  {benefits[current].desc}
+                </span>
+              </div>
+              <div className="text-xs sm:text-sm text-aqua font-semibold mt-2 animate-fadein delay-300 flex items-center gap-1 justify-center">
+                <span className="animate-pulse">👉</span>
+                <span className="tracking-wide">Desliza para ver más beneficios</span>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -158,7 +166,7 @@ import { AnimatePresence } from "framer-motion";
 import WaterMascot from "./WaterMascot";
 import FriendlyMascot from "./FriendlyMascot";
 
-const steps = ["bienvenida", "beneficios", "apodo", "preferencias"];
+const steps = ["bienvenida", "beneficios", "apodo", "amistad", "preferencias"];
 
 const benefits = [
   {
@@ -167,12 +175,69 @@ const benefits = [
     desc: "Lleva un control fácil y visual de tu hidratación cada día."
   },
   {
-    icon: <svg className="w-16 h-16 mx-auto mb-2" fill="none" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" stroke="#3b82f6" strokeWidth="4"/><path d="M24 12v10" stroke="#3b82f6" strokeWidth="4" strokeLinecap="round"/><circle cx="24" cy="32" r="2.5" fill="#3b82f6"/></svg>,
+    icon: (
+      <span className="block w-16 h-16 mx-auto mb-2 animate-bell">
+        <svg viewBox="0 0 48 48" fill="none" className="w-16 h-16">
+          <g>
+            <path d="M24 44c2.2 0 4-1.8 4-4h-8c0 2.2 1.8 4 4 4z" fill="#3b82f6"/>
+            <path d="M38 36v-9c0-7-4.5-12-10-12s-10 5-10 12v9l-2 2v2h24v-2l-2-2z" fill="#60a5fa" stroke="#2563eb" strokeWidth="2"/>
+            <path d="M14 36h20" stroke="#2563eb" strokeWidth="2"/>
+            <path d="M34 36a2 2 0 0 0 2-2" stroke="#2563eb" strokeWidth="2"/>
+            <path d="M14 36a2 2 0 0 1-2-2" stroke="#2563eb" strokeWidth="2"/>
+          </g>
+        </svg>
+        <style jsx>{`
+          .animate-bell {
+            animation: bell-shake 1.2s infinite;
+            transform-origin: 50% 10%;
+          }
+          @keyframes bell-shake {
+            0% { transform: rotate(0deg); }
+            10% { transform: rotate(-12deg); }
+            20% { transform: rotate(10deg); }
+            30% { transform: rotate(-8deg); }
+            40% { transform: rotate(8deg); }
+            50% { transform: rotate(-4deg); }
+            60% { transform: rotate(4deg); }
+            70% { transform: rotate(0deg); }
+            100% { transform: rotate(0deg); }
+          }
+        `}</style>
+      </span>
+    ),
     title: "Recibe recordatorios para hidratarte",
     desc: "No te olvides de tomar agua, ¡nosotros te avisamos!"
   },
   {
-    icon: <svg className="w-16 h-16 mx-auto mb-2" fill="none" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" stroke="#fbbf24" strokeWidth="4"/><path d="M24 34l-7.5 4.5 2-8.5-6.5-5.5 8.5-.5L24 16l3.5 8 8.5.5-6.5 5.5 2 8.5z" fill="#fbbf24"/></svg>,
+    icon: (
+      <span className="block w-16 h-16 mx-auto mb-2 animate-trophy">
+        <svg viewBox="0 0 48 48" fill="none" className="w-16 h-16">
+          <g>
+            <rect x="18" y="38" width="12" height="4" rx="2" fill="#fbbf24" stroke="#f59e42" strokeWidth="1.5"/>
+            <rect x="20" y="34" width="8" height="4" rx="2" fill="#fde68a" stroke="#fbbf24" strokeWidth="1.5"/>
+            <ellipse cx="24" cy="24" rx="10" ry="10" fill="#fde68a" stroke="#fbbf24" strokeWidth="3"/>
+            <path d="M14 18c-2 0-4 2-4 6s2 6 4 6" stroke="#60a5fa" strokeWidth="2.5" fill="none"/>
+            <path d="M34 18c2 0 4 2 4 6s-2 6-4 6" stroke="#60a5fa" strokeWidth="2.5" fill="none"/>
+            <path d="M18 18v-4a6 6 0 0 1 12 0v4" stroke="#fbbf24" strokeWidth="2" fill="none"/>
+            <circle cx="24" cy="24" r="4" fill="#fbbf24"/>
+            <path d="M24 28v6" stroke="#f59e42" strokeWidth="2"/>
+          </g>
+        </svg>
+        <style jsx>{`
+          .animate-trophy {
+            animation: trophy-bounce 1.3s infinite;
+          }
+          @keyframes trophy-bounce {
+            0% { transform: translateY(0); }
+            20% { transform: translateY(-10px); }
+            40% { transform: translateY(0); }
+            60% { transform: translateY(-5px); }
+            80% { transform: translateY(0); }
+            100% { transform: translateY(0); }
+          }
+        `}</style>
+      </span>
+    ),
     title: "Logra metas y mejora tu bienestar",
     desc: "Gana medallas y siente el progreso en tu salud."
   }
@@ -209,12 +274,13 @@ export default function OnboardingFlow({ user, onFinish }: { user: any, onFinish
 
   const handleFinish = async () => {
     setLoading(true);
-    // Guardar apodo y preferencias en Supabase
+    // Guardar apodo y preferencias en Supabase y localStorage
     if (user) {
       await supabase.auth.updateUser({ data: { full_name: nickname } });
       await supabase.from("user_goals").upsert({ user_id: user.id, daily_goal: goal });
     }
     localStorage.setItem("hydration_onboarded", "1");
+    localStorage.setItem("hydration_nickname", nickname);
     setLoading(false);
     onFinish();
   };
@@ -294,14 +360,13 @@ export default function OnboardingFlow({ user, onFinish }: { user: any, onFinish
               className="flex flex-col items-center gap-6 w-full"
             >
               <div className="mb-2">
-                <WaterMascot percent={0} />
+                <FriendlyMascot />
               </div>
               <h2 className="text-2xl font-extrabold text-blue-500 text-center drop-shadow-sm mb-1">
                 ¡Quiero conocerte mejor!
               </h2>
               <p className="text-base text-aqua text-center mb-1 font-semibold">
-                ¿Cómo te gustaría que te llame durante nuestra aventura? <br/>
-                <span className="text-blue-400 text-xs font-normal">(Tu apodo o nombre)</span>
+                ¿Cómo te gustaría que te llame durante nuestra aventura?
               </p>
               <div className="w-full flex flex-col items-center gap-2">
                 <input
@@ -316,12 +381,47 @@ export default function OnboardingFlow({ user, onFinish }: { user: any, onFinish
               </div>
               <div className="flex gap-2 w-full mt-2">
                 <button onClick={handleBack} className="flex-1 bg-gradient-to-r from-blue-100 to-blue-200 text-blue-500 px-4 py-2 rounded-lg font-semibold hover:bg-blue-100 border border-blue-200 shadow-sm transition-all">Atrás</button>
-                <button onClick={handleNext} disabled={!nickname} className="flex-1 bg-gradient-to-r from-blue-400 to-blue-600 text-white px-4 py-2 rounded-lg font-bold shadow-lg hover:from-blue-500 hover:to-blue-700 disabled:opacity-50 transition-all">¡Listo!</button>
+                <button
+                  onClick={handleNext}
+                  disabled={!nickname}
+                  className="flex-1 bg-gradient-to-r from-blue-400 to-blue-600 text-white px-4 py-2 rounded-lg font-bold shadow-lg hover:from-blue-500 hover:to-blue-700 disabled:opacity-50 transition-all"
+                >
+                  ¡Listo!
+                </button>
               </div>
             </motion.div>
           )}
-
           {step === 3 && (
+            <motion.div
+              key="amistad"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -40 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-col items-center gap-8 w-full"
+            >
+              <div className="mb-2">
+                <FriendlyMascot />
+              </div>
+              <h2 className="text-3xl font-extrabold text-blue-500 text-center drop-shadow-sm mb-1">
+                ¡Genial, {nickname || (typeof window !== 'undefined' && localStorage.getItem('hydration_nickname')) || ''}!
+              </h2>
+              <p className="text-lg text-blue-700 text-center font-semibold max-w-md">
+                Ahora somos un equipo 💧✨<br/>
+                ¡Estoy aquí para acompañarte y animarte cada día en tu camino de hidratación!<br/>
+                Recuerda: cada vaso cuenta y juntos lograremos tus metas. <br/>
+                <span className="text-aqua font-bold">¡Vamos a por ello!</span>
+              </p>
+              <button
+                onClick={() => setStep(4)}
+                className="bg-gradient-to-r from-blue-400 to-blue-600 text-white px-8 py-3 rounded-2xl font-bold shadow-lg hover:from-blue-500 hover:to-blue-700 transition-all text-lg mt-2"
+              >
+                ¡Continuar!
+              </button>
+            </motion.div>
+          )}
+
+          {step === 4 && (
             <motion.div
               key="preferencias"
               initial={{ opacity: 0, y: 40 }}
@@ -330,7 +430,7 @@ export default function OnboardingFlow({ user, onFinish }: { user: any, onFinish
               transition={{ duration: 0.5 }}
               className="flex flex-col items-center gap-6 w-full"
             >
-              <h2 className="text-xl font-bold text-blue-600">Personaliza tu hidratación</h2>
+              <h2 className="text-xl font-bold text-blue-600">Personaliza tu hidratación, <span className='text-aqua'>{nickname || (typeof window !== 'undefined' && localStorage.getItem('hydration_nickname')) || ''}</span></h2>
               <div className="w-full flex flex-col gap-3">
                 <label className="text-darkblue font-semibold">Peso (kg):
                   <input
