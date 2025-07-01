@@ -8,59 +8,115 @@
 }
 @import "tailwindcss";
 
+/* Paleta 1: Celeste/Azul cielo y Paleta 2: Celeste + Verde */
 :root {
-  --background: #6599fa;
-  --foreground: #171717;
-  /* Paleta azul clásica */
-  --color-aqua: #50C7EC;
-  --color-lightblue: #A0E7FF;
-  --color-turquoise: #00D4D8;
-  --color-white: #c7d1e2;
-  --color-darkblue: #0077B6;
-}
-
-:root {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-primary: #006691; /* Azul profundo */
+  --color-secondary: #2499C7; /* Azul medio */
+  --color-accent: #40CFFF; /* Azul claro brillante */
+  --color-bg-light-1: #94E7FF; /* Fondo claro 1 */
+  --color-bg-light-2: #CCFFFF; /* Fondo claro 2 */
+  --color-celeste-1: #7CDAF9;
+  --color-celeste-2: #B6FFFF;
+  --color-green-1: #0DD76F;
+  --color-green-2: #2AC685;
+  --color-background: var(--color-bg-light-1);
+  --color-foreground: #171717;
+  --color-success: var(--color-green-1);
+  --color-success-alt: var(--color-green-2);
+  --color-warning: #f59e42;
+  --color-text: #006691;
+  --color-muted: #2499C7;
+  --color-white: #ffffff;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-/*
-  Paleta personalizada para hidratación (puedes usar estos colores en Tailwind config o como CSS variables)
-  Azul claro: #3b82f6
-  Azul medio: #2563eb
-  Azul oscuro: #1e40af
-  Cian: #06b6d4
-  Verde: #22c55e
-  Naranja: #f59e42
-  Blanco: #ffffff
-  Gris claro: #f3f4f6
-  Gris oscuro: #6b7280
-*/
-:root {
-  --color-primary: #3b82f6;
-  --color-primary-dark: #2563eb;
-  --color-primary-darker: #1e40af;
-  --color-accent: #06b6d4;
-  --color-success: #22c55e;
-  --color-warning: #f59e42;
-  --color-bg: #a1c0fd;
-  --color-text: #1e293b;
-  --color-muted: #6b7280;
-  --color-white: #c7d1e2;
-}
 .dark {
-  --color-primary: #60a5fa;
-  --color-primary-dark: #06b6d4;
-  --color-primary-darker: #0e7490;
-  --color-accent: #22d3ee;
-  --color-success: #4ade80;
+  --color-primary: #2499C7;
+  --color-secondary: #006691;
+  --color-accent: #40CFFF;
+  --color-bg-light-1: #223344;
+  --color-bg-light-2: #1a2633;
+  --color-celeste-1: #7CDAF9;
+  --color-celeste-2: #B6FFFF;
+  --color-green-1: #0DD76F;
+  --color-green-2: #2AC685;
+  --color-background: #223344;
+  --color-foreground: #e6f7ff;
+  --color-success: #0DD76F;
+  --color-success-alt: #2AC685;
   --color-warning: #fbbf24;
-  --color-bg: #0f172a;
-  --color-text: #f1f5f9;
-  --color-muted: #94a3b8;
-  --color-white: #1e293b;
+  --color-text: #B6FFFF;
+  --color-muted: #40CFFF;
+  --color-white: #e6f7ff;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+.dark {
+  --color-primary: #2499C7;
+  --color-secondary: #006691;
+  --color-accent: #40CFFF;
+  --color-bg-light-1: #223344;
+  --color-bg-light-2: #1a2633;
+  --color-celeste-1: #7CDAF9;
+  --color-celeste-2: #B6FFFF;
+  --color-green-1: #0DD76F;
+  --color-green-2: #2AC685;
+  --color-background: #223344;
+  --color-foreground: #e6f7ff;
+  --color-success: #0DD76F;
+  --color-success-alt: #2AC685;
+  --color-warning: #fbbf24;
+  --color-text: #B6FFFF;
+  --color-muted: #40CFFF;
+  --color-white: #e6f7ff;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+/* Paleta 1: Celeste/Azul cielo */
+:root {
+  --color-primary: #006691; /* Azul profundo */
+  --color-secondary: #2499C7; /* Azul medio */
+  --color-accent: #40CFFF; /* Azul claro brillante */
+  --color-bg-light-1: #94E7FF; /* Fondo claro 1 */
+  --color-bg-light-2: #CCFFFF; /* Fondo claro 2 */
+
+  /* Paleta 2: Celeste + Verde */
+  --color-celeste-1: #7CDAF9;
+  --color-celeste-2: #B6FFFF;
+  --color-green-1: #0DD76F;
+  --color-green-2: #2AC685;
+
+  /* Otros para compatibilidad */
+  --color-background: var(--color-bg-light-1);
+  --color-foreground: #171717;
+  --color-success: var(--color-green-1);
+  --color-success-alt: var(--color-green-2);
+  --color-warning: #f59e42;
+  --color-text: #006691;
+  --color-muted: #2499C7;
+  --color-white: #ffffff;
+}
+
+.dark {
+  --color-primary: #2499C7;
+  --color-secondary: #006691;
+  --color-accent: #40CFFF;
+  --color-bg-light-1: #223344;
+  --color-bg-light-2: #1a2633;
+  --color-celeste-1: #7CDAF9;
+  --color-celeste-2: #B6FFFF;
+  --color-green-1: #0DD76F;
+  --color-green-2: #2AC685;
+  --color-background: #223344;
+  --color-foreground: #e6f7ff;
+  --color-success: #0DD76F;
+  --color-success-alt: #2AC685;
+  --color-warning: #fbbf24;
+  --color-text: #B6FFFF;
+  --color-muted: #40CFFF;
+  --color-white: #e6f7ff;
 }
 body, html {
   background: var(--color-bg);

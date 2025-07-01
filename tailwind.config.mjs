@@ -10,19 +10,22 @@ export default {
     extend: {
       colors: {
         primary: 'var(--color-primary)',
-        'primary-dark': 'var(--color-primary-dark)',
+        secondary: 'var(--color-secondary)',
         accent: 'var(--color-accent)',
+        'bg-light-1': 'var(--color-bg-light-1)',
+        'bg-light-2': 'var(--color-bg-light-2)',
+        celeste1: 'var(--color-celeste-1)',
+        celeste2: 'var(--color-celeste-2)',
+        green1: 'var(--color-green-1)',
+        green2: 'var(--color-green-2)',
         success: 'var(--color-success)',
+        'success-alt': 'var(--color-success-alt)',
         warning: 'var(--color-warning)',
-        muted: 'var(--color-muted)',
-        bg: 'var(--color-bg)',
         text: 'var(--color-text)',
-
-        aqua: '#50C7EC',        // Azul Agua
-        lightblue: '#A0E7FF',   // Azul Claro
-        turquoise: '#00D4D8',   // Turquesa
-        white: '#c7d1e2',       // Blanco
-        darkblue: '#0077B6',    // Azul Oscuro
+        muted: 'var(--color-muted)',
+        white: 'var(--color-white)',
+        background: 'var(--color-background)',
+        foreground: 'var(--color-foreground)',
       },
     },
   },

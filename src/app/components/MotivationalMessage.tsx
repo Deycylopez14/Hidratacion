@@ -14,5 +14,5 @@ const messages = [
 
 export default function MotivationalMessage({ percent }: MotivationalMessageProps) {
   const message = messages.reduce((acc, curr) => (percent >= curr.limit ? curr.text : acc), messages[0].text);
-  return <div className="text-center text-lg font-semibold text-aqua bg-lightblue rounded p-2 mb-4">{message}</div>;
+  return <div className="text-center text-lg font-semibold text-accent bg-[var(--color-background)] rounded p-2 mb-4">{message}</div>;
 }

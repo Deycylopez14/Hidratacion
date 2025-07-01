@@ -51,13 +51,13 @@ export default function AppHeader() {
 
   return (
     <>
-      <header className="bg-darkblue text-white p-4 shadow flex items-center justify-between">
+      <header className="bg-primary text-white p-4 shadow flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-2xl text-primary dark:text-accent">💧</span>
-          <span className="font-bold text-xl text-primary-dark dark:text-accent drop-shadow">HydroTracker</span>
+          <span className="font-bold text-xl text-primary dark:text-accent drop-shadow">HydroTracker</span>
         </div>
         <div className="flex items-center gap-4">
-          <span className="text-sm text-primary-dark dark:text-accent font-semibold truncate max-w-[120px]" title={userName}>¡Hola, {userName}!</span>
+          <span className="text-sm text-primary dark:text-accent font-semibold truncate max-w-[120px]" title={userName}>¡Hola, {userName}!</span>
           <button
             aria-label="Cambiar modo oscuro"
             className="rounded-full p-2 bg-primary/10 dark:bg-accent/20 hover:bg-primary/20 dark:hover:bg-accent/30 transition-colors"
@@ -71,7 +71,7 @@ export default function AppHeader() {
           </button>
           <button
             aria-label="Cerrar sesión"
-            className="ml-2 rounded-full p-2 bg-orange-100 dark:bg-orange-900 hover:bg-orange-200 dark:hover:bg-orange-800 transition-colors shadow"
+            className="ml-2 rounded-full p-2 bg-warning/10 dark:bg-warning/30 hover:bg-warning/20 dark:hover:bg-warning/40 transition-colors shadow"
             onClick={handleLogout}
             title="Cerrar sesión"
           >
@@ -81,7 +81,7 @@ export default function AppHeader() {
           </button>
         </div>
       </header>
-      <nav className="flex gap-8 px-6 py-2 border-b bg-white dark:bg-slate-900 transition-colors">
+      <nav className="flex gap-8 px-6 py-2 border-b bg-[var(--color-white)] dark:bg-[var(--color-bg-light-1)] transition-colors">
         <a href="/dashboard" className={`text-muted dark:text-accent flex items-center gap-1 cursor-pointer hover:text-primary dark:hover:text-accent${pathname === '/dashboard' ? ' text-primary-dark dark:text-accent font-semibold border-b-2 border-primary-dark dark:border-accent pb-1' : ''}`}>Dashboard</a>
         <a href="/estadisticas" className={`text-muted dark:text-accent flex items-center gap-1 cursor-pointer hover:text-primary dark:hover:text-accent${pathname === '/estadisticas' ? ' text-primary-dark dark:text-accent font-semibold border-b-2 border-primary-dark dark:border-accent pb-1' : ''}`}>Estadísticas</a>
         <a href="/historial" className={`text-muted dark:text-accent flex items-center gap-1 cursor-pointer hover:text-primary dark:hover:text-accent${pathname === '/historial' ? ' text-primary-dark dark:text-accent font-semibold border-b-2 border-primary-dark dark:border-accent pb-1' : ''}`}>Historial</a>

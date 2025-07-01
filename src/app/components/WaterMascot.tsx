@@ -80,7 +80,7 @@ export default function WaterMascot({ name = "Dey", percent = 0 }: { name?: stri
   else if (percent < 20 && percent > 0) smilePath = "M36 70 Q40 67 44 70"; // carita de ánimo
 
   return (
-    <div className={`bg-lightblue rounded-lg p-4 flex flex-col items-center shadow select-none transition-transform duration-500 ${jump ? 'animate-bounce' : ''}`} style={{ minHeight: 140 }}>
+    <div className={`bg-[var(--color-background)] rounded-lg p-4 flex flex-col items-center shadow select-none transition-transform duration-500 ${jump ? 'animate-bounce' : ''}`} style={{ minHeight: 140 }}>
       {/* Nueva gota de agua kawaii */}
       <svg width="90" height="120" viewBox="0 0 90 120" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g>
@@ -114,10 +114,10 @@ export default function WaterMascot({ name = "Dey", percent = 0 }: { name?: stri
           </g>
         </g>
       </svg>
-      <div className="text-primary-dark font-bold text-lg mt-2 animate-bounce">
+      <div className="text-primary font-bold text-lg mt-2 animate-bounce">
         ¡Hola, {name}! 💧
       </div>
-      <div className="text-xs text-primary font-semibold text-center transition-all duration-500 min-h-[1.5em]">
+      <div className="text-xs text-accent font-semibold text-center transition-all duration-500 min-h-[1.5em]">
         {phrase}
       </div>
     </div>

@@ -177,11 +177,11 @@ export default function Estadisticas() {
   ];
 
   return (
-    <div className="min-h-screen bg-lightblue text-darkblue">
+    <div className="min-h-screen bg-[var(--color-background)] text-[var(--color-text)]">
       <AppHeader />
       <main className="max-w-3xl mx-auto p-4 mt-6">
-        <h1 className="text-2xl font-bold mb-6 text-darkblue">Estadísticas</h1>
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
+        <h1 className="text-2xl font-bold mb-6 text-primary">Estadísticas</h1>
+        <div className="bg-[var(--color-white)] rounded-xl shadow-lg p-6 mb-6">
           {/* Animación de burbujas SOLO en cliente para evitar hydration mismatch */}
           {mounted && (
             <div className="absolute inset-0 pointer-events-none select-none z-0">
@@ -201,7 +201,7 @@ export default function Estadisticas() {
               ))}
             </div>
           )}
-          <h2 className="font-bold text-lg sm:text-2xl mb-2 sm:mb-4 text-center text-[var(--color-primary)] dark:text-[var(--color-accent)] drop-shadow">
+          <h2 className="font-bold text-lg sm:text-2xl mb-2 sm:mb-4 text-center text-primary dark:text-accent drop-shadow">
             Consumo Semanal
           </h2>
           <div className="mb-4 sm:mb-6">
@@ -232,28 +232,28 @@ export default function Estadisticas() {
                   />
                 </div>
               ) : (
-                <div className="z-10 text-center text-[var(--color-text-muted)] dark:text-[var(--color-accent)] py-8 sm:py-12 w-full font-semibold">
+                <div className="z-10 text-center text-muted dark:text-accent py-8 sm:py-12 w-full font-semibold">
                   Sin datos suficientes para mostrar el gráfico.
                 </div>
               )}
             </div>
           </div>
           <section className="container-responsive w-full grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-4 mb-8 mt-4">
-            <div className="bg-white dark:bg-[#1e293b] rounded shadow p-4 text-center transition-colors">
-              <div className="text-blue-600 dark:text-blue-300 text-xl font-bold">{stats.length}</div>
-              <div className="text-xs text-gray-500 dark:text-gray-300">Días registrados</div>
+            <div className="bg-[var(--color-white)] dark:bg-[var(--color-bg-light-1)] rounded shadow p-4 text-center transition-colors">
+              <div className="text-primary dark:text-accent text-xl font-bold">{stats.length}</div>
+              <div className="text-xs text-muted dark:text-accent">Días registrados</div>
             </div>
-            <div className="bg-white dark:bg-[#1e293b] rounded shadow p-4 text-center transition-colors">
-              <div className="text-green-600 dark:text-green-300 text-xl font-bold">{avg}ml</div>
-              <div className="text-xs text-gray-500 dark:text-gray-300">Promedio 7 días</div>
+            <div className="bg-[var(--color-white)] dark:bg-[var(--color-bg-light-1)] rounded shadow p-4 text-center transition-colors">
+              <div className="text-success dark:text-success-alt text-xl font-bold">{avg}ml</div>
+              <div className="text-xs text-muted dark:text-accent">Promedio 7 días</div>
             </div>
-            <div className="bg-white dark:bg-[#1e293b] rounded shadow p-4 text-center transition-colors">
-              <div className="text-purple-600 dark:text-purple-300 text-xl font-bold">{best}ml</div>
-              <div className="text-xs text-gray-500 dark:text-gray-300">Mejor día</div>
+            <div className="bg-[var(--color-white)] dark:bg-[var(--color-bg-light-1)] rounded shadow p-4 text-center transition-colors">
+              <div className="text-accent dark:text-accent text-xl font-bold">{best}ml</div>
+              <div className="text-xs text-muted dark:text-accent">Mejor día</div>
             </div>
-            <div className="bg-white dark:bg-[#1e293b] rounded shadow p-4 text-center transition-colors">
-              <div className="text-gray-700 dark:text-gray-100 text-xl font-bold">{userGoal ?? 2000}ml</div>
-              <div className="text-xs text-gray-500 dark:text-gray-300">Meta diaria</div>
+            <div className="bg-[var(--color-white)] dark:bg-[var(--color-bg-light-1)] rounded shadow p-4 text-center transition-colors">
+              <div className="text-secondary dark:text-white text-xl font-bold">{userGoal ?? 2000}ml</div>
+              <div className="text-xs text-muted dark:text-accent">Meta diaria</div>
             </div>
           </section>
         </div>

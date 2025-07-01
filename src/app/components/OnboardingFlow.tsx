@@ -91,9 +91,9 @@ function BenefitCarousel(props: { onFinish: () => void }) {
           />
         ))}
       </div>
-      <h2 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-aqua to-blue-400 text-center drop-shadow-lg mb-2 z-10 animate-fadein flex items-center justify-center gap-2">
+      <h2 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-secondary text-center drop-shadow-lg mb-2 z-10 animate-fadein flex items-center justify-center gap-2">
         <span className="inline-block animate-bounce text-3xl">💧</span>
-        ¿Por qué usar <span className="bg-gradient-to-r from-aqua to-blue-400 bg-clip-text text-transparent font-black animate-gradient-move">Hydration</span>?
+        ¿Por qué usar <span className="bg-gradient-to-r from-accent to-secondary bg-clip-text text-transparent font-black animate-gradient-move">Hydration</span>?
         <span className="inline-block animate-spin-slow text-2xl">✨</span>
       </h2>
       <div className="relative w-full flex flex-col items-center z-10">
@@ -112,13 +112,13 @@ function BenefitCarousel(props: { onFinish: () => void }) {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -60 }}
             transition={{ duration: 0.4 }}
-            className="flex flex-col items-center bg-gradient-to-br from-blue-50 via-aqua/30 to-blue-100 rounded-3xl p-8 shadow-2xl w-full max-w-xs min-h-[260px] border border-aqua/20 relative overflow-hidden"
+            className="flex flex-col items-center bg-gradient-to-br from-bg-light-2 via-accent/20 to-bg-light-1 rounded-3xl p-8 shadow-2xl w-full max-w-xs min-h-[260px] border border-accent/30 relative overflow-hidden"
           >
             {/* Elementos decorativos eliminados */}
             <div className="flex flex-col items-center gap-3 w-full">
               {/* Título arriba */}
               <div className="text-center mb-1 animate-fadein delay-150">
-                <span className="block text-xl sm:text-2xl font-extrabold bg-gradient-to-r from-blue-500 via-aqua to-blue-400 bg-clip-text text-transparent drop-shadow-lg tracking-tight mb-1">
+                <span className="block text-xl sm:text-2xl font-extrabold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent drop-shadow-lg tracking-tight mb-1">
                   {benefits[current].title}
                 </span>
               </div>
@@ -126,12 +126,12 @@ function BenefitCarousel(props: { onFinish: () => void }) {
               <div className="my-2 scale-50 sm:scale-60 transition-transform duration-300 hover:scale-75 cursor-pointer animate-fadein delay-100 flex justify-center" style={{ minHeight: 48 }}>
                 {benefits[current].icon}
               </div>
-              <div className="text-center text-base sm:text-lg font-semibold mb-2 animate-fadein delay-200 max-w-[240px] mx-auto text-blue-800 dark:text-blue-100 bg-white/70 dark:bg-blue-900/70 px-2 py-1 rounded shadow-sm">
-                <span className="block px-2 py-1 text-blue-800 dark:text-blue-100 text-base sm:text-lg font-semibold animate-fadein delay-200">
+              <div className="text-center text-base sm:text-lg font-semibold mb-2 animate-fadein delay-200 max-w-[240px] mx-auto text-primary dark:text-white bg-white/70 dark:bg-bg-light-1/80 px-2 py-1 rounded shadow-sm">
+                <span className="block px-2 py-1 text-primary dark:text-white text-base sm:text-lg font-semibold animate-fadein delay-200">
                   {benefits[current].desc}
                 </span>
               </div>
-              <div className="text-xs sm:text-sm text-aqua font-semibold mt-2 animate-fadein delay-300 flex items-center gap-1 justify-center">
+              <div className="text-xs sm:text-sm text-accent font-semibold mt-2 animate-fadein delay-300 flex items-center gap-1 justify-center">
                 <span className="animate-pulse">👉</span>
                 <span className="tracking-wide">Desliza para ver más beneficios</span>
               </div>
@@ -140,7 +140,7 @@ function BenefitCarousel(props: { onFinish: () => void }) {
         </div>
         <div className="flex justify-center gap-2 mt-4">
           {benefits.map((_, i) => (
-            <span key={i} className={`w-3 h-3 rounded-full ${i === current ? "bg-blue-500 scale-125 shadow-lg" : "bg-blue-200"} transition-all`}></span>
+            <span key={i} className={`w-3 h-3 rounded-full ${i === current ? "bg-primary scale-125 shadow-lg" : "bg-bg-light-2"} transition-all`}></span>
           ))}
         </div>
       </div>

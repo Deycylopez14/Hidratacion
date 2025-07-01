@@ -16,15 +16,15 @@ export default function Page() {
     };
     checkSession();
   }, [router]);
-  
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-4 bg-lightblue text-darkblue">
-      <h1 className="text-2xl font-bold mb-6 text-darkblue">Registro</h1>
-      <div className="w-full max-w-sm bg-white p-6 rounded-xl shadow-lg">
+    <main className="flex min-h-screen flex-col items-center justify-center p-4 bg-[var(--color-background)] text-primary">
+      <h1 className="text-2xl font-bold mb-6 text-primary">Registro</h1>
+      <div className="w-full max-w-sm bg-[var(--color-white)] p-6 rounded-xl shadow-lg">
         <RegisterForm />
         <div className="mt-4 text-center">
           <span>¿Ya tienes cuenta? </span>
-          <Link href="/login" className="text-aqua hover:underline font-semibold">Inicia sesión</Link>
+          <Link href="/login" className="text-accent hover:underline font-semibold">Inicia sesión</Link>
         </div>
       </div>
     </main>

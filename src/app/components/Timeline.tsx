@@ -9,9 +9,9 @@ export default function Timeline({ timeline }: TimelineProps) {
     <div className="flex items-center gap-4 overflow-x-auto py-2 mb-4">
       {timeline.map((item, idx) => (
         <div key={idx} className="flex flex-col items-center">
-          <span className="text-aqua text-2xl">💧</span>
-          <span className="text-xs text-darkblue">{item.time}</span>
-          <span className="text-xs text-darkblue">{item.amount}ml</span>
+          <span className="text-accent text-2xl">💧</span>
+          <span className="text-xs text-primary">{item.time}</span>
+          <span className="text-xs text-primary">{item.amount}ml</span>
         </div>
       ))}
     </div>

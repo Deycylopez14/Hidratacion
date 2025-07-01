@@ -131,18 +131,18 @@ export default function Configuracion() {
   const suggestedGoal = weight ? Math.round(weight * 35) : defaultGoal;
 
   return (
-    <div className="min-h-screen bg-lightblue text-darkblue">
+    <div className="min-h-screen bg-[var(--color-background)] text-[var(--color-text)]">
       <AppHeader />
       <main className="max-w-2xl mx-auto p-4 mt-6">
-        <h1 className="text-2xl font-bold mb-6 text-darkblue">Configuración</h1>
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
+        <h1 className="text-2xl font-bold mb-6 text-primary">Configuración</h1>
+        <div className="bg-[var(--color-white)] rounded-xl shadow-lg p-6 mb-6">
           {/* Usuario */}
-          <section className="bg-[var(--color-white)] dark:bg-[#1e293b] rounded shadow p-4 mb-4 transition-colors">
-            <h2 className="font-bold text-lg sm:text-xl mb-2 text-[var(--color-primary-dark)] dark:text-[var(--color-accent)] drop-shadow">
+          <section className="bg-[var(--color-white)] dark:bg-[var(--color-bg-light-1)] rounded shadow p-4 mb-4 transition-colors">
+            <h2 className="font-bold text-lg sm:text-xl mb-2 text-primary dark:text-accent drop-shadow">
               Usuario
             </h2>
             <div className="flex items-center gap-2 flex-wrap">
-              <label className="block font-semibold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)]">
+              <label className="block font-semibold text-primary dark:text-accent">
                 Nombre de usuario:
               </label>
               {editName ? (
@@ -151,20 +151,20 @@ export default function Configuracion() {
                     type="text"
                     value={nameInput}
                     onChange={(e) => setNameInput(e.target.value)}
-                    className="border rounded px-3 py-2 w-48 text-[var(--color-primary-dark)] dark:text-[var(--color-accent)] font-bold bg-[var(--color-bg)] dark:bg-[#0f172a]"
+                    className="border rounded px-3 py-2 w-48 text-primary dark:text-accent font-bold bg-[var(--color-background)] dark:bg-[var(--color-bg-light-2)]"
                     maxLength={32}
                     autoFocus
                   />
                   <button
                     onClick={handleSaveName}
-                    className="ml-2 bg-[var(--color-success)] text-white px-3 py-1 rounded"
+                    className="ml-2 bg-success text-white px-3 py-1 rounded"
                     disabled={savingName || !nameInput.trim()}
                   >
                     {savingName ? "Guardando..." : "Guardar"}
                   </button>
                   <button
                     onClick={() => setEditName(false)}
-                    className="ml-1 bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-200 px-2 py-1 rounded"
+                    className="ml-1 bg-muted dark:bg-muted text-primary dark:text-white px-2 py-1 rounded"
                     disabled={savingName}
                   >
                     Cancelar
@@ -172,12 +172,12 @@ export default function Configuracion() {
                 </>
               ) : (
                 <>
-                  <span className="font-bold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)] bg-primary/10 dark:bg-accent/10 rounded px-2 py-1">
+                  <span className="font-bold text-primary dark:text-accent bg-primary/10 dark:bg-accent/10 rounded px-2 py-1">
                     {userName}
                   </span>
                   <button
                     onClick={() => setEditName(true)}
-                    className="ml-2 bg-[var(--color-primary)] dark:bg-[var(--color-accent)] text-white px-3 py-1 rounded"
+                    className="ml-2 bg-primary dark:bg-accent text-white px-3 py-1 rounded"
                   >
                     Editar
                   </button>
@@ -186,8 +186,8 @@ export default function Configuracion() {
             </div>
           </section>
           {/* Preferencias de hidratación */}
-          <section className="bg-[var(--color-white)] dark:bg-[#1e293b] rounded shadow p-4 mb-4 transition-colors">
-            <h2 className="font-bold text-lg sm:text-xl mb-2 text-[var(--color-primary-dark)] dark:text-[var(--color-accent)] drop-shadow">
+          <section className="bg-[var(--color-white)] dark:bg-[var(--color-bg-light-1)] rounded shadow p-4 mb-4 transition-colors">
+            <h2 className="font-bold text-lg sm:text-xl mb-2 text-primary dark:text-accent drop-shadow">
               Preferencias de hidratación
             </h2>
             <form
@@ -198,7 +198,7 @@ export default function Configuracion() {
               }}
             >
               <div className="flex flex-col min-w-[120px]">
-                <label className="block mb-1 font-semibold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)]">
+                <label className="block mb-1 font-semibold text-primary dark:text-accent">
                   Peso (kg)
                 </label>
                 <input
@@ -207,11 +207,11 @@ export default function Configuracion() {
                   max={200}
                   value={weight || ""}
                   onChange={(e) => setWeight(Number(e.target.value))}
-                  className="border rounded px-3 py-2 w-28 text-center text-[var(--color-primary-dark)] dark:text-[var(--color-accent)] font-bold bg-[var(--color-bg)] dark:bg-[#0f172a]"
+                  className="border rounded px-3 py-2 w-28 text-center text-primary dark:text-accent font-bold bg-[var(--color-background)] dark:bg-[var(--color-bg-light-2)]"
                 />
               </div>
               <div className="flex flex-col min-w-[120px]">
-                <label className="block mb-1 font-semibold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)]">
+                <label className="block mb-1 font-semibold text-primary dark:text-accent">
                   Edad
                 </label>
                 <input
@@ -220,17 +220,17 @@ export default function Configuracion() {
                   max={100}
                   value={age ?? ""}
                   onChange={e => setAge(Number(e.target.value))}
-                  className="border rounded px-3 py-2 w-28 text-center text-[var(--color-primary-dark)] dark:text-[var(--color-accent)] font-bold bg-[var(--color-bg)] dark:bg-[#0f172a]"
+                  className="border rounded px-3 py-2 w-28 text-center text-primary dark:text-accent font-bold bg-[var(--color-background)] dark:bg-[var(--color-bg-light-2)]"
                 />
               </div>
               <div className="flex flex-col min-w-[120px]">
-                <label className="block mb-1 font-semibold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)]">
+                <label className="block mb-1 font-semibold text-primary dark:text-accent">
                   Género
                 </label>
                 <select
                   value={gender}
                   onChange={e => setGender(e.target.value)}
-                  className="border rounded px-3 py-2 w-32 text-[var(--color-primary-dark)] dark:text-[var(--color-accent)] font-semibold bg-[var(--color-bg)] dark:bg-[#0f172a]"
+                  className="border rounded px-3 py-2 w-32 text-primary dark:text-accent font-semibold bg-[var(--color-background)] dark:bg-[var(--color-bg-light-2)]"
                 >
                   <option value="">Selecciona</option>
                   <option value="masculino">Masculino</option>

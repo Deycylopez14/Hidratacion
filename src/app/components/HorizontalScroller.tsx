@@ -63,7 +63,7 @@ export default function HorizontalScroller({ min = 500, max = 5000, step = 100, 
 
   return (
     <div className="w-full flex flex-col items-center justify-center">
-      <span className="mb-1 text-aqua font-semibold text-sm select-none">{unit}</span>
+      <span className="mb-1 text-accent font-semibold text-sm select-none">{unit}</span>
       <div
         ref={scrollRef}
         className="flex gap-3 overflow-x-auto py-2 px-1 w-full max-w-xl cursor-grab active:cursor-grabbing scrollbar-hide"
@@ -80,7 +80,7 @@ export default function HorizontalScroller({ min = 500, max = 5000, step = 100, 
           <button
             key={opt}
             className={`min-w-[70px] h-16 rounded-xl font-bold text-lg border-2 transition-all duration-200 shadow-sm
-              ${value === opt ? 'bg-blue-500 text-white border-blue-600 scale-110' : 'bg-white text-darkblue border-aqua hover:bg-blue-100'}`}
+              ${value === opt ? 'bg-primary text-white border-accent scale-110' : 'bg-[var(--color-white)] text-primary border-accent hover:bg-accent/10'}`}
             onClick={() => onChange(opt)}
             type="button"
           >

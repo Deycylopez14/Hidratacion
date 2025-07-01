@@ -229,7 +229,7 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen w-full bg-white text-darkblue transition-colors relative overflow-hidden">
+    <div className="min-h-screen w-full bg-bg-light-1 text-primary transition-colors relative overflow-hidden">
       {showOnboarding && user && (
         <OnboardingFlow user={user} onFinish={() => setShowOnboarding(false)} />
       )}
@@ -237,48 +237,47 @@ export default function Dashboard() {
       {/* Mascota animada tipo gota de agua */}
       <div className="flex flex-col items-center justify-center mt-2 mb-2 gap-1">
         <WaterMascot name={user?.user_metadata?.full_name || user?.email?.split('@')[0] || "Amigo"} percent={percent} />
-        <h2 className="font-bold text-lg sm:text-2xl text-darkblue drop-shadow mt-1 mb-0">¡Bienvenido a tu Dashboard!</h2>
-        <p className="text-xs sm:text-base text-aqua font-semibold mb-2">Revisa tu progreso y registra tu consumo de agua.</p>
+        <h2 className="font-bold text-lg sm:text-2xl text-primary drop-shadow mt-1 mb-0">¡Bienvenido a tu Dashboard!</h2>
+        <p className="text-xs sm:text-base text-accent font-semibold mb-2">Revisa tu progreso y registra tu consumo de agua.</p>
       </div>
       <div className="container-responsive w-full bg-white rounded shadow p-4 sm:p-6 mt-4 sm:mt-8 relative z-10 overflow-hidden">
         {/* Progreso */}
         <section className="max-w-2xl mx-auto mt-4 sm:mt-6 bg- rounded shadow p-4 sm:p-6 mb-4">
-          <h2 className="font-bold text-lg sm:text-xl mb-2 text-darkblue drop-shadow">Progreso de Hoy</h2>
-          <div className="text-sm sm:text-base text-aqua mb-2 font-semibold">Meta diaria</div>
+          <h2 className="font-bold text-lg sm:text-xl mb-2 text-primary drop-shadow">Progreso de Hoy</h2>
+          <div className="text-sm sm:text-base text-accent mb-2 font-semibold">Meta diaria</div>
           <div className="flex items-center gap-2 mb-2">
-            <div className="flex-1 bg-lightblue rounded-full h-4 border border-aqua shadow-inner overflow-hidden">
+            <div className="flex-1 bg-bg-light-2 rounded-full h-4 border border-accent shadow-inner overflow-hidden">
               <div
-                className="h-4 rounded-full shadow-lg transition-all duration-700"
+                className="h-4 rounded-full shadow-lg transition-all duration-700 bg-gradient-to-r from-accent to-green-1"
                 style={{
                   width: `${percent}%`,
-                  background: percent > 0 ? "linear-gradient(90deg, #50C7EC 60%, #00D4D8 100%)" : "#e0f7fa"
                 }}
               ></div>
             </div>
-            <span className="text-xs sm:text-sm font-bold text-darkblue">{DAILY_GOAL} {unit}</span>
+            <span className="text-xs sm:text-sm font-bold text-primary">{DAILY_GOAL} {unit}</span>
           </div>
           <div className="flex justify-between text-center mb-2">
             <div>
-              <div className="text-darkblue text-xl font-bold drop-shadow">{total} {unit}</div>
-              <div className="text-xs text-aqua font-semibold">Consumido</div>
+              <div className="text-primary text-xl font-bold drop-shadow">{total} {unit}</div>
+              <div className="text-xs text-accent font-semibold">Consumido</div>
             </div>
             <div>
-              <div className="text-turquoise text-xl font-bold drop-shadow">{percent}%</div>
-              <div className="text-xs text-turquoise font-semibold">Completado</div>
+              <div className="text-green-1 text-xl font-bold drop-shadow">{percent}%</div>
+              <div className="text-xs text-green-1 font-semibold">Completado</div>
             </div>
             <div>
-              <div className="text-aqua text-xl font-bold drop-shadow">{restante} {unit}</div>
-              <div className="text-xs text-aqua font-semibold">Restante</div>
+              <div className="text-accent text-xl font-bold drop-shadow">{restante} {unit}</div>
+              <div className="text-xs text-accent font-semibold">Restante</div>
             </div>
           </div>
           <div className="flex justify-center my-4">
             <ProgressCircleWave percent={percent} />
-            <div className="text-xs text-aqua mt-2">Unidad: <b>{unit}</b></div>
+            <div className="text-xs text-accent mt-2">Unidad: <b>{unit}</b></div>
           </div>
         </section>
         {/* Registrar Consumo */}
         <section className="container-responsive w-full bg-white rounded shadow p-4 sm:p-6 mb-4">
-          <h2 className="font-bold text-lg sm:text-xl mb-4 text-darkblue drop-shadow">Registrar Consumo</h2>
+          <h2 className="font-bold text-lg sm:text-xl mb-4 text-primary drop-shadow">Registrar Consumo</h2>
           {/* ...existing code... */}
           <div className="mb-4">
             <HorizontalScroller
@@ -293,8 +292,8 @@ export default function Dashboard() {
           <div className="mt-4 flex justify-center">
             <button
               onClick={handleAdd}
-              className="w-full max-w-xs flex items-center justify-center gap-2 font-semibold tracking-wide py-3 rounded-xl shadow-lg border-0 transition-all duration-200 text-base disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500
-                bg-blue-500 text-white hover:bg-blue-600"
+              className="w-full max-w-xs flex items-center justify-center gap-2 font-semibold tracking-wide py-3 rounded-xl shadow-lg border-0 transition-all duration-200 text-base disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-accent
+                bg-primary text-white hover:bg-accent"
               style={{ letterSpacing: '0.03em', fontFamily: 'inherit', fontSize: '1.1rem' }}
               disabled={loading}
               type="button"
@@ -308,33 +307,33 @@ export default function Dashboard() {
         </section>
         {/* Estadísticas rápidas */}
         <section className="container-responsive w-full grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-4 mb-8 mt-4">
-          <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl shadow-lg p-3 text-center flex flex-col items-center gap-1 border border-blue-200 hover:scale-[1.03] transition-all duration-200">
-            <span className="bg-white text-aqua rounded-full p-1 shadow-md mb-1">
+          <div className="bg-gradient-to-br from-bg-light-2 to-bg-light-1 rounded-xl shadow-lg p-3 text-center flex flex-col items-center gap-1 border border-accent hover:scale-[1.03] transition-all duration-200">
+            <span className="bg-white text-accent rounded-full p-1 shadow-md mb-1">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3v12m0 0l3-3m-3 3l-3-3" /></svg>
             </span>
-            <div className="text-aqua text-lg font-extrabold drop-shadow">{timeline.length}</div>
-            <div className="text-xs text-darkblue font-semibold tracking-wide uppercase">Registros hoy</div>
+            <div className="text-accent text-lg font-extrabold drop-shadow">{timeline.length}</div>
+            <div className="text-xs text-primary font-semibold tracking-wide uppercase">Registros hoy</div>
           </div>
-          <div className="bg-gradient-to-br from-cyan-100 to-cyan-200 rounded-xl shadow-lg p-3 text-center flex flex-col items-center gap-1 border border-cyan-200 hover:scale-[1.03] transition-all duration-200">
-            <span className="bg-white text-turquoise rounded-full p-1 shadow-md mb-1">
+          <div className="bg-gradient-to-br from-celeste-1 to-celeste-2 rounded-xl shadow-lg p-3 text-center flex flex-col items-center gap-1 border border-accent hover:scale-[1.03] transition-all duration-200">
+            <span className="bg-white text-green-1 rounded-full p-1 shadow-md mb-1">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2h5" /></svg>
             </span>
-            <div className="text-turquoise text-lg font-extrabold drop-shadow">{avg}ml</div>
-            <div className="text-xs text-darkblue font-semibold tracking-wide uppercase">Promedio 7 días</div>
+            <div className="text-green-1 text-lg font-extrabold drop-shadow">{avg}ml</div>
+            <div className="text-xs text-primary font-semibold tracking-wide uppercase">Promedio 7 días</div>
           </div>
-          <div className="bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl shadow-lg p-3 text-center flex flex-col items-center gap-1 border border-purple-200 hover:scale-[1.03] transition-all duration-200">
-            <span className="bg-white text-purple-500 rounded-full p-1 shadow-md mb-1">
+          <div className="bg-gradient-to-br from-bg-light-2 to-bg-light-1 rounded-xl shadow-lg p-3 text-center flex flex-col items-center gap-1 border border-accent hover:scale-[1.03] transition-all duration-200">
+            <span className="bg-white text-accent rounded-full p-1 shadow-md mb-1">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zm0 0V4m0 10v4" /></svg>
             </span>
-            <div className="text-purple-600 text-lg font-extrabold drop-shadow">{best}ml</div>
-            <div className="text-xs text-darkblue font-semibold tracking-wide uppercase">Mejor día</div>
+            <div className="text-accent text-lg font-extrabold drop-shadow">{best}ml</div>
+            <div className="text-xs text-primary font-semibold tracking-wide uppercase">Mejor día</div>
           </div>
-          <div className="bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-xl shadow-lg p-3 text-center flex flex-col items-center gap-1 border border-yellow-200 hover:scale-[1.03] transition-all duration-200">
-            <span className="bg-white text-yellow-500 rounded-full p-1 shadow-md mb-1">
+          <div className="bg-gradient-to-br from-green-1 to-green-2 rounded-xl shadow-lg p-3 text-center flex flex-col items-center gap-1 border border-success hover:scale-[1.03] transition-all duration-200">
+            <span className="bg-white text-success rounded-full p-1 shadow-md mb-1">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V4a2 2 0 10-4 0v1.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
             </span>
-            <div className="text-yellow-600 text-lg font-extrabold drop-shadow">{DAILY_GOAL} {unit}</div>
-            <div className="text-xs text-darkblue font-semibold tracking-wide uppercase">Meta diaria</div>
+            <div className="text-success text-lg font-extrabold drop-shadow">{DAILY_GOAL} {unit}</div>
+            <div className="text-xs text-primary font-semibold tracking-wide uppercase">Meta diaria</div>
           </div>
         </section>
         {/* Timeline del día */}
@@ -347,26 +346,26 @@ export default function Dashboard() {
         </section>
         {/* Configuración de recordatorios */}
         <section className="max-w-2xl mx-auto bg-white rounded shadow p-4 sm:p-6 mb-4">
-          <h2 className="font-bold text-lg sm:text-xl mb-4 text-darkblue drop-shadow flex items-center gap-2">
-            <svg className="w-6 h-6 text-aqua" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V4a2 2 0 10-4 0v1.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+          <h2 className="font-bold text-lg sm:text-xl mb-4 text-primary drop-shadow flex items-center gap-2">
+            <svg className="w-6 h-6 text-accent" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V4a2 2 0 10-4 0v1.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
             Recordatorios inteligentes
           </h2>
           <div className="flex flex-col sm:flex-row items-center gap-4 mb-2 w-full">
-            <div className="flex-1 flex flex-col items-center bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-3 shadow border border-blue-100">
-              <label className="flex items-center gap-2 text-darkblue font-semibold cursor-pointer">
+            <div className="flex-1 flex flex-col items-center bg-gradient-to-br from-bg-light-2 to-bg-light-1 rounded-xl p-3 shadow border border-accent">
+              <label className="flex items-center gap-2 text-primary font-semibold cursor-pointer">
                 <input
                   type="checkbox"
                   checked={reminderEnabled}
                   onChange={e => setReminderEnabled(e.target.checked)}
-                  className="accent-aqua w-5 h-5 rounded focus:ring-2 focus:ring-aqua"
+                  className="accent-accent w-5 h-5 rounded focus:ring-2 focus:ring-accent"
                 />
                 <span className="text-base">Activar recordatorios</span>
               </label>
-              <span className="text-xs text-aqua mt-1">Notificaciones push</span>
+              <span className="text-xs text-accent mt-1">Notificaciones push</span>
             </div>
-            <div className="flex-1 flex flex-col items-center bg-gradient-to-br from-cyan-50 to-cyan-100 rounded-xl p-3 shadow border border-cyan-100">
-              <label className="flex items-center gap-2 text-darkblue font-semibold cursor-pointer mb-2">
-                <svg className="w-5 h-5 text-turquoise" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3" /></svg>
+            <div className="flex-1 flex flex-col items-center bg-gradient-to-br from-celeste-1 to-celeste-2 rounded-xl p-3 shadow border border-accent">
+              <label className="flex items-center gap-2 text-primary font-semibold cursor-pointer mb-2">
+                <svg className="w-5 h-5 text-green-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3" /></svg>
                 <span className="text-base">Frecuencia</span>
               </label>
               <VerticalScroller
@@ -376,37 +375,37 @@ export default function Dashboard() {
                 value={reminderFreq}
                 onChange={setReminderFreq}
               />
-              <span className="text-xs text-turquoise mt-1">Cada {reminderFreq} minutos</span>
+              <span className="text-xs text-green-1 mt-1">Cada {reminderFreq} minutos</span>
             </div>
-            <div className="flex-1 flex flex-col items-center bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-3 shadow border border-yellow-100">
-              <label className="flex items-center gap-2 text-darkblue font-semibold cursor-pointer">
-                <svg className="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V4a2 2 0 10-4 0v1.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+            <div className="flex-1 flex flex-col items-center bg-gradient-to-br from-green-1 to-green-2 rounded-xl p-3 shadow border border-success">
+              <label className="flex items-center gap-2 text-success font-semibold cursor-pointer">
+                <svg className="w-5 h-5 text-success" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V4a2 2 0 10-4 0v1.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
                 <span className="text-base">Sonido</span>
                 <input
                   type="checkbox"
                   checked={reminderSound}
                   onChange={e => setReminderSound(e.target.checked)}
-                  className="accent-yellow-400 w-5 h-5 rounded focus:ring-2 focus:ring-yellow-300"
+                  className="accent-success w-5 h-5 rounded focus:ring-2 focus:ring-success"
                 />
               </label>
-              <span className="text-xs text-yellow-500 mt-1">Vibración/Sonido</span>
+              <span className="text-xs text-success mt-1">Vibración/Sonido</span>
             </div>
           </div>
-          <div className="text-xs text-aqua font-semibold text-center mt-2">Recibirás una notificación cada {reminderFreq} minutos si activas los recordatorios. Puedes activar sonido si lo deseas.</div>
+          <div className="text-xs text-accent font-semibold text-center mt-2">Recibirás una notificación cada {reminderFreq} minutos si activas los recordatorios. Puedes activar sonido si lo deseas.</div>
         </section>
         {/* Solo para desarrollo: fecha simulada */}
         {process.env.NODE_ENV !== "production" && (
           <div className="mb-2 flex gap-2 items-center">
-            <label className="text-xs text-darkblue font-semibold">Simular fecha:</label>
+            <label className="text-xs text-primary font-semibold">Simular fecha:</label>
             <input
               type="date"
               value={simDate}
               onChange={e => setSimDate(e.target.value)}
-              className="border border-aqua focus:border-darkblue rounded px-2 py-1 text-xs bg-white text-darkblue"
+              className="border border-accent focus:border-primary rounded px-2 py-1 text-xs bg-white text-primary"
               max={new Date().toISOString().slice(0, 10)}
             />
             {simDate && (
-              <button className="text-xs text-turquoise underline" onClick={() => setSimDate("")}>Quitar</button>
+              <button className="text-xs text-accent underline" onClick={() => setSimDate("")}>Quitar</button>
             )}
           </div>
         )}
