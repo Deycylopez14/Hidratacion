@@ -212,12 +212,12 @@ export default function Historial() {
                 className="w-full max-h-[340px] overflow-x-auto overflow-y-auto rounded-2xl shadow-xl bg-gradient-to-br from-bg-light-2 via-white to-accent/10 scrollbar-hide"
                 style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
-                <table className="min-w-full text-center border-separate border-spacing-y-2 text-sm">
-                  <thead className="sticky top-0 z-10">
+                <table className="min-w-full text-center border-separate border-spacing-2 text-base font-[Comic_Sans_MS,cursive,sans-serif]">
+                  <thead>
                     <tr>
-                      <th className="px-6 py-3 text-base text-accent font-extrabold bg-gradient-to-r from-bg-light-2 via-white to-accent/20 rounded-tl-2xl shadow-md tracking-wide">Fecha y Hora</th>
-                      <th className="px-6 py-3 text-base text-primary font-extrabold bg-gradient-to-r from-bg-light-2 via-white to-accent/20 shadow-md tracking-wide">ml</th>
-                      <th className="px-6 py-3 text-base text-warning font-extrabold bg-gradient-to-r from-bg-light-2 via-white to-accent/20 rounded-tr-2xl shadow-md tracking-wide">Acciones</th>
+                      <th className="px-4 py-3 rounded-tl-2xl bg-[#006691] text-white font-bold text-lg border-2 border-[var(--color-accent)]">Fecha y Hora</th>
+                      <th className="px-4 py-3 bg-[#006691] text-white font-bold text-lg border-2 border-[var(--color-accent)]">Cantidad (ml)</th>
+                      <th className="px-4 py-3 rounded-tr-2xl bg-[#006691] text-white font-bold text-lg border-2 border-[var(--color-accent)]">Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -226,27 +226,27 @@ export default function Historial() {
                       const fechaStr = fecha.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit' });
                       const horaStr = fecha.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                       return (
-                        <tr key={i} className="group even:bg-bg-light-2/60 odd:bg-[var(--color-white)] border-b border-accent/30 hover:scale-[1.01] hover:shadow-2xl transition-all duration-200 rounded-2xl">
-                          <td className="border-x px-6 py-3 text-primary font-semibold whitespace-nowrap rounded-l-2xl text-sm flex items-center gap-2">
+                        <tr key={i} className="rounded-2xl">
+                          <td className="px-4 py-3 bg-[var(--color-bg-light-1)] border-2 border-[var(--color-accent)] rounded-l-2xl text-primary font-semibold whitespace-nowrap flex items-center gap-2">
                             <span className="inline-flex items-center gap-1">
                               <svg className="w-5 h-5 text-accent inline" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                              <span className="font-bold text-accent">{fechaStr}</span>
+                              <span className="font-bold">{fechaStr}</span>
                               <span className="text-xs text-muted">{horaStr}</span>
                             </span>
                           </td>
-                          <td className="border-x px-6 py-3">
-                            <span className="inline-block bg-gradient-to-r from-bg-light-2 via-[var(--color-white)] to-accent/30 text-primary font-extrabold rounded-full px-4 py-2 text-base shadow-md border border-accent/30">
+                          <td className="px-4 py-3 bg-[var(--color-bg-light-2)] border-2 border-[var(--color-accent)] text-primary font-bold text-base rounded-none">
+                            <span className="inline-block bg-[var(--color-white)] text-primary font-extrabold rounded-full px-4 py-2 shadow border border-[var(--color-accent)]">
                               {r.amount}
                             </span>
                           </td>
-                          <td className="border-x px-6 py-3 rounded-r-2xl">
+                          <td className="px-4 py-3 bg-[var(--color-accent)] border-2 border-[var(--color-accent)] rounded-r-2xl">
                             <button
                               onClick={() => deleteRecord(r.created_at)}
-                              className="bg-gradient-to-r from-warning via-warning to-accent hover:from-warning hover:to-accent text-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2 text-base transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-warning/40"
+                              className="bg-warning hover:bg-warning/80 text-primary-dark px-4 py-2 rounded-full shadow-lg flex items-center gap-2 text-base transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-warning/40"
                               disabled={loading}
                               title="Eliminar registro"
                             >
-                              <svg className="w-5 h-5 text-warning group-hover:text-accent transition-colors duration-150" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                              <svg className="w-5 h-5 text-primary-dark group-hover:text-accent transition-colors duration-150" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                               <span className="hidden sm:inline font-bold">Eliminar</span>
                             </button>
                           </td>
@@ -256,11 +256,11 @@ export default function Historial() {
                   </tbody>
                 </table>
               </div>
-              <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mt-6 mb-2">
+              <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mt-6 mb-2 z-20 relative bg-white/80 rounded-2xl shadow-lg p-4 border border-accent/20">
                 <select
                   id="export-format"
-                  className="border border-accent rounded px-2 py-1 text-primary font-semibold bg-[var(--color-white)] focus:outline-none focus:ring-2 focus:ring-accent"
-                  style={{ minWidth: 110 }}
+                  className="border-2 border-accent rounded-lg px-3 py-2 text-primary font-bold bg-white shadow focus:outline-none focus:ring-2 focus:ring-accent/40 transition-all"
+                  style={{ minWidth: 120 }}
                   value={exportFormat}
                   onChange={e => setExportFormat(e.target.value as 'csv' | 'json' | 'xlsx' | 'pdf')}
                 >
@@ -271,16 +271,16 @@ export default function Historial() {
                 </select>
                 <button
                   onClick={() => handleExport()}
-                  className="bg-success hover:bg-success-alt text-white px-4 py-2 rounded flex items-center gap-2 shadow-md transition-all duration-150"
+                  className="bg-success hover:bg-success-alt text-primary-dark px-5 py-2 rounded-lg flex items-center gap-2 shadow-md font-bold text-base transition-all duration-150 border-2 border-success/40"
                 >
-                  <span>↓</span> Exportar
+                  <span className="text-xl">⬇️</span> <span className="font-bold">Exportar</span>
                 </button>
                 <button
                   onClick={deleteAllHistory}
-                  className="bg-warning hover:bg-warning text-white px-4 py-2 rounded flex items-center gap-2 shadow-md transition-all duration-150"
+                  className="bg-warning hover:bg-warning/80 text-primary-dark px-5 py-2 rounded-lg flex items-center gap-2 shadow-md font-bold text-base transition-all duration-150 border-2 border-warning/40"
                   disabled={loading}
                 >
-                  🗑 Eliminar todo
+                  <span className="text-xl">🗑️</span> <span className="font-bold">Eliminar todo</span>
                 </button>
               </div>
             </div>

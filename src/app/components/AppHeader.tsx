@@ -153,12 +153,32 @@ export default function AppHeader() {
           </button>
         </div>
       </header>
-      <nav className="flex gap-8 px-6 py-2 border-b bg-[var(--color-white)] dark:bg-[var(--color-bg-light-1)] transition-colors">
-        <a href="/dashboard" className={`text-muted dark:text-accent flex items-center gap-1 cursor-pointer hover:text-primary dark:hover:text-accent${pathname === '/dashboard' ? ' text-primary-dark dark:text-accent font-semibold border-b-2 border-primary-dark dark:border-accent pb-1' : ''}`}>Dashboard</a>
-        <a href="/estadisticas" className={`text-muted dark:text-accent flex items-center gap-1 cursor-pointer hover:text-primary dark:hover:text-accent${pathname === '/estadisticas' ? ' text-primary-dark dark:text-accent font-semibold border-b-2 border-primary-dark dark:border-accent pb-1' : ''}`}>Estadísticas</a>
-        <a href="/historial" className={`text-muted dark:text-accent flex items-center gap-1 cursor-pointer hover:text-primary dark:hover:text-accent${pathname === '/historial' ? ' text-primary-dark dark:text-accent font-semibold border-b-2 border-primary-dark dark:border-accent pb-1' : ''}`}>Historial</a>
-        <a href="/logros" className={`text-muted dark:text-accent flex items-center gap-1 cursor-pointer hover:text-primary dark:hover:text-accent${pathname === '/logros' ? ' text-primary-dark dark:text-accent font-semibold border-b-2 border-primary-dark dark:border-accent pb-1' : ''}`}>Logros</a>
-        <a href="/configuracion" className={`text-muted dark:text-accent flex items-center gap-1 cursor-pointer hover:text-primary dark:hover:text-accent${pathname === '/configuracion' ? ' text-primary-dark dark:text-accent font-semibold border-b-2 border-primary-dark dark:border-accent pb-1' : ''}`}>Configuración</a>
+      <nav className="flex gap-6 md:gap-8 px-4 md:px-6 py-2 border-b bg-[var(--color-white)] dark:bg-[var(--color-bg-light-1)] transition-colors">
+        <a href="/dashboard" className={`group text-[#0056b3] dark:text-accent flex items-center gap-2 cursor-pointer hover:text-primary dark:hover:text-accent transition-all ${pathname === '/dashboard' ? ' text-primary-dark dark:text-accent font-semibold border-b-2 border-primary-dark dark:border-accent pb-1 scale-105' : ''}`}
+          >
+          <span className="text-lg md:text-xl group-hover:scale-110 transition-transform">🏠</span>
+          <span className="hidden sm:inline">Dashboard</span>
+        </a>
+        <a href="/estadisticas" className={`group text-[#0056b3] dark:text-accent flex items-center gap-2 cursor-pointer hover:text-primary dark:hover:text-accent transition-all ${pathname === '/estadisticas' ? ' text-primary-dark dark:text-accent font-semibold border-b-2 border-primary-dark dark:border-accent pb-1 scale-105' : ''}`}
+          >
+          <span className="text-lg md:text-xl group-hover:scale-110 transition-transform">📊</span>
+          <span className="hidden sm:inline">Estadísticas</span>
+        </a>
+        <a href="/historial" className={`group text-[#0056b3] dark:text-accent flex items-center gap-2 cursor-pointer hover:text-primary dark:hover:text-accent transition-all ${pathname === '/historial' ? ' text-primary-dark dark:text-accent font-semibold border-b-2 border-primary-dark dark:border-accent pb-1 scale-105' : ''}`}
+          >
+          <span className="text-lg md:text-xl group-hover:scale-110 transition-transform">🕒</span>
+          <span className="hidden sm:inline">Historial</span>
+        </a>
+        <a href="/logros" className={`group text-[#0056b3] dark:text-accent flex items-center gap-2 cursor-pointer hover:text-primary dark:hover:text-accent transition-all ${pathname === '/logros' ? ' text-primary-dark dark:text-accent font-semibold border-b-2 border-primary-dark dark:border-accent pb-1 scale-105' : ''}`}
+          >
+          <span className="text-lg md:text-xl group-hover:scale-110 transition-transform">🏆</span>
+          <span className="hidden sm:inline">Logros</span>
+        </a>
+        <a href="/configuracion" className={`group text-[#0056b3] dark:text-accent flex items-center gap-2 cursor-pointer hover:text-primary dark:hover:text-accent transition-all ${pathname === '/configuracion' ? ' text-primary-dark dark:text-accent font-semibold border-b-2 border-primary-dark dark:border-accent pb-1 scale-105' : ''}`}
+          >
+          <span className="text-lg md:text-xl group-hover:scale-110 transition-transform">⚙️</span>
+          <span className="hidden sm:inline">Configuración</span>
+        </a>
       </nav>
       {/* Swipe hint para usuarios */}
       <div className="text-center text-xs text-muted mt-1 select-none pointer-events-none">
