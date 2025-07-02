@@ -114,10 +114,10 @@ export default function WaterMascot({ name = "Dey", percent = 0 }: { name?: stri
           </g>
         </g>
       </svg>
-      <div className="text-primary font-bold text-lg mt-2 animate-bounce">
+      <div className="font-bold text-lg mt-2 animate-bounce" style={{ color: '#003366' }}>
         ¡Hola, {name}! 💧
       </div>
-      <div className="text-xs text-accent font-semibold text-center transition-all duration-500 min-h-[1.5em]">
+      <div className="text-xs font-semibold text-center transition-all duration-500 min-h-[1.5em]" style={{ color: '#003366' }}>
         {phrase}
       </div>
     </div>

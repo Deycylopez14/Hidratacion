@@ -118,7 +118,7 @@ function BenefitCarousel(props: { onFinish: () => void }) {
             <div className="flex flex-col items-center gap-3 w-full">
               {/* Título arriba */}
               <div className="text-center mb-1 animate-fadein delay-150">
-                <span className="block text-xl sm:text-2xl font-extrabold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent drop-shadow-lg tracking-tight mb-1">
+                <span className="block text-xl sm:text-2xl font-extrabold drop-shadow-lg tracking-tight mb-1 text-blue-700" style={{color: '#0074D9'}}>
                   {benefits[current].title}
                 </span>
               </div>
@@ -452,8 +452,10 @@ export default function OnboardingFlow({ user, onFinish }: { user: any, onFinish
               <p className="text-lg text-blue-700 text-center font-semibold max-w-md">
                 Ahora somos un equipo 💧✨<br/>
                 ¡Estoy aquí para acompañarte y animarte cada día en tu camino de hidratación!<br/>
-                Recuerda: cada vaso cuenta y juntos lograremos tus metas. <br/>
-                <span className="text-aqua font-bold">¡Vamos a por ello!</span>
+                <br/>
+                <span className="italic text-sm text-blue-500">Recuerda: cada vaso cuenta y juntos lograremos tus metas.</span> <br/>
+                <br/>
+                <span className="text-aqua font-bold">¡Vamos por ello!</span>
               </p>
               <button
                 onClick={() => setStep(4)}
@@ -557,7 +559,10 @@ export default function OnboardingFlow({ user, onFinish }: { user: any, onFinish
               <h2 className="text-2xl font-extrabold text-blue-600 text-center">¡Esta es tu meta diaria sugerida!</h2>
               <div className="flex flex-col items-center gap-2 w-full max-w-xs">
                 <div className="w-32 h-32 rounded-full bg-gradient-to-tr from-blue-200 via-aqua to-blue-400 flex items-center justify-center shadow-xl mb-2 border-4 border-blue-300 animate-fadein">
-                  <span className="text-4xl font-black text-blue-700">{suggestedGoal} ml</span>
+                  <span className="flex flex-col items-center justify-center text-blue-700">
+                    <span className="text-3xl font-extrabold leading-tight">{suggestedGoal}</span>
+                    <span className="text-base font-semibold leading-none">ml</span>
+                  </span>
                 </div>
                 <label className="text-darkblue font-semibold w-full flex flex-col items-center">¿Quieres ajustarla?
                   <div className="flex items-center gap-3 w-full mt-2">

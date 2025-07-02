@@ -129,11 +129,17 @@ export default function Dashboard() {
       .gte("created_at", today + "T00:00:00")
       .lte("created_at", today + "T23:59:59");
     if (data) {
+      // Formato de hora consistente (HH:mm)
       setTimeline(
-        data.map((d: HydrationData) => ({
-          time: new Date(d.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-          amount: d.amount,
-        }))
+        data.map((d: HydrationData) => {
+          const date = new Date(d.created_at);
+          const hours = String(date.getUTCHours()).padStart(2, '0');
+          const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+          return {
+            time: `${hours}:${minutes}`,
+            amount: d.amount,
+          };
+        })
       );
       setTotal(data.reduce((acc: number, d: HydrationData) => acc + d.amount, 0));
     }

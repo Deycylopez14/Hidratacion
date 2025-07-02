@@ -179,7 +179,7 @@ export default function Historial() {
             </div>
           </div>
           <div className="flex justify-between items-center mb-4">
-            <h2 className="font-bold text-lg">Historial de Registros</h2>
+            {/* <h2 className="font-bold text-lg">Historial de Registros</h2> */}
           </div>
           <section className="container-responsive w-full grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-4 mb-8 mt-4">
             <div className="bg-[var(--color-white)] dark:bg-[var(--color-bg-light-1)] rounded shadow p-4 text-center transition-colors">
@@ -216,7 +216,7 @@ export default function Historial() {
                   <thead className="sticky top-0 z-10">
                     <tr>
                       <th className="px-6 py-3 text-base text-accent font-extrabold bg-gradient-to-r from-bg-light-2 via-white to-accent/20 rounded-tl-2xl shadow-md tracking-wide">Fecha y Hora</th>
-                      <th className="px-6 py-3 text-base text-primary font-extrabold bg-gradient-to-r from-bg-light-2 via-white to-accent/20 shadow-md tracking-wide">Cantidad</th>
+                      <th className="px-6 py-3 text-base text-primary font-extrabold bg-gradient-to-r from-bg-light-2 via-white to-accent/20 shadow-md tracking-wide">ml</th>
                       <th className="px-6 py-3 text-base text-warning font-extrabold bg-gradient-to-r from-bg-light-2 via-white to-accent/20 rounded-tr-2xl shadow-md tracking-wide">Acciones</th>
                     </tr>
                   </thead>
