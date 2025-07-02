@@ -1,11 +1,78 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { supabase } from "@/services/supabaseClient";
 import { useRouter } from "next/navigation";
 
+// Rutas principales para swipe
+const SWIPE_ROUTES = [
+  "/dashboard",
+  "/estadisticas",
+  "/historial",
+  "/logros",
+  "/configuracion",
+];
+
 export default function AppHeader() {
   const pathname = usePathname();
   const router = useRouter();
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+  // Swipe handlers
+  useEffect(() => {
+    function handleTouchStart(e: TouchEvent) {
+      touchStartX.current = e.touches[0].clientX;
+    }
+    function handleTouchMove(e: TouchEvent) {
+      touchEndX.current = e.touches[0].clientX;
+    }
+    function handleTouchEnd() {
+      if (touchStartX.current === null || touchEndX.current === null) return;
+      const diff = touchStartX.current - touchEndX.current;
+      if (Math.abs(diff) > 60) {
+        handleSwipe(diff > 0 ? "left" : "right");
+      }
+      touchStartX.current = null;
+      touchEndX.current = null;
+    }
+
+    function handleMouseDown(e: MouseEvent) {
+      touchStartX.current = e.clientX;
+    }
+    function handleMouseUp(e: MouseEvent) {
+      touchEndX.current = e.clientX;
+      if (touchStartX.current === null) return;
+      const diff = touchStartX.current - touchEndX.current;
+      if (Math.abs(diff) > 80) {
+        handleSwipe(diff > 0 ? "left" : "right");
+      }
+      touchStartX.current = null;
+      touchEndX.current = null;
+    }
+
+    function handleSwipe(direction: "left" | "right") {
+      const idx = SWIPE_ROUTES.indexOf(pathname);
+      if (idx === -1) return;
+      let nextIdx = direction === "left" ? idx + 1 : idx - 1;
+      if (nextIdx < 0 || nextIdx >= SWIPE_ROUTES.length) return;
+      router.push(SWIPE_ROUTES[nextIdx]);
+    }
+
+    // Touch events para móvil
+    window.addEventListener("touchstart", handleTouchStart, { passive: false });
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
+    window.addEventListener("touchend", handleTouchEnd, { passive: false });
+    // Mouse events para escritorio
+    window.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
+      window.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [pathname, router]);
   const [darkMode, setDarkMode] = useState(false);
   const [userName, setUserName] = useState<string>("");
 
@@ -93,6 +160,10 @@ export default function AppHeader() {
         <a href="/logros" className={`text-muted dark:text-accent flex items-center gap-1 cursor-pointer hover:text-primary dark:hover:text-accent${pathname === '/logros' ? ' text-primary-dark dark:text-accent font-semibold border-b-2 border-primary-dark dark:border-accent pb-1' : ''}`}>Logros</a>
         <a href="/configuracion" className={`text-muted dark:text-accent flex items-center gap-1 cursor-pointer hover:text-primary dark:hover:text-accent${pathname === '/configuracion' ? ' text-primary-dark dark:text-accent font-semibold border-b-2 border-primary-dark dark:border-accent pb-1' : ''}`}>Configuración</a>
       </nav>
+      {/* Swipe hint para usuarios */}
+      <div className="text-center text-xs text-muted mt-1 select-none pointer-events-none">
+        <span>Desliza a izquierda o derecha para navegar</span>
+      </div>
     </>
   );
 }
