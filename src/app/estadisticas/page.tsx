@@ -182,25 +182,7 @@ export default function Estadisticas() {
       <main className="max-w-3xl mx-auto p-4 mt-6">
         <h1 className="text-2xl font-bold mb-6 text-primary">Estadísticas</h1>
         <div className="bg-[var(--color-white)] rounded-xl shadow-lg p-6 mb-6">
-          {/* Animación de burbujas SOLO en cliente para evitar hydration mismatch */}
-          {mounted && (
-            <div className="absolute inset-0 pointer-events-none select-none z-0">
-              {bubbles.map((b, i) => (
-                <span
-                  key={i}
-                  className={`absolute rounded-full bg-[var(--color-accent)]/30 animate-bubble${b.delayClass}`}
-                  style={{
-                    left: b.left,
-                    width: b.width,
-                    height: b.height,
-                    bottom: b.bottom,
-                    animationDuration: b.animationDuration,
-                    animationDelay: b.animationDelay,
-                  }}
-                />
-              ))}
-            </div>
-          )}
+          {/* Animación de burbujas eliminada */}
           <h2 className="font-bold text-lg sm:text-2xl mb-2 sm:mb-4 text-center text-primary dark:text-accent drop-shadow">
             Consumo Semanal
           </h2>

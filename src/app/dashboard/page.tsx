@@ -80,7 +80,7 @@ export default function Dashboard() {
   const router = useRouter();
 
   // Opciones rápidas adaptadas a la unidad
-  const quickOptions = unit === "oz" ? [8, 12, 16, 20] : [150, 250, 500, 750];
+  const quickOptions = unit === "oz" ? [16, 20, 24, 32] : [500, 600, 700, 800];
 
   // Cambiar let por const donde corresponda
   useEffect(() => {
@@ -303,7 +303,7 @@ export default function Dashboard() {
           {/* ...existing code... */}
           <div className="mb-4">
             <HorizontalScroller
-              min={unit === "oz" ? 4 : 100}
+              min={unit === "oz" ? 4 : 500}
               max={unit === "oz" ? 64 : 2000}
               step={unit === "oz" ? 2 : 100}
               value={input}
