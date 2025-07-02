@@ -72,7 +72,7 @@ export default function LogrosPage() {
 	const [tab, setTab] = useState("todos");
 
 	return (
-		<div className="min-h-screen bg-bg-light-1 text-primary">
+		<div className="min-h-screen text-primary" style={{ background: '#cdffff' }}>
 			<AppHeader />
 			<main className="max-w-2xl mx-auto p-4 mt-6">
 				<h1 className="text-2xl font-bold mb-6 text-primary">Logros</h1>

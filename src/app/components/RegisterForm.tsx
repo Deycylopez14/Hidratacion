@@ -36,7 +36,7 @@ export default function RegisterForm() {
         type="email"
         placeholder="Correo electrónico"
         {...register("email", { required: "Correo requerido" })}
-        className="border-2 border-aqua focus:border-darkblue rounded-lg px-4 py-3 bg-white text-darkblue w-full shadow-sm focus:shadow-md transition"
+        className="border-2 rounded-lg px-4 py-3 bg-[var(--color-white)] text-[var(--color-primary)] w-full shadow-sm focus:shadow-md transition" style={{ borderColor: '#94E7FF' }}
       />
       {errors.email && <p className="text-red-500">{errors.email.message}</p>}
 
@@ -61,7 +61,7 @@ export default function RegisterForm() {
       </button>
       <button
         type="button"
-        className="mt-2 w-full border border-blue-500 text-blue-500 rounded p-2 hover:bg-blue-50 transition-colors"
+        className="mt-2 w-full border rounded p-2 hover:bg-[#F8FCFF] transition-colors" style={{ borderColor: '#94E7FF', color: '#2499C7' }}
         onClick={() => router.push('/login')}
       >
         ¿Ya tienes cuenta? Iniciar sesión

@@ -65,8 +65,8 @@ export default function VerticalScroller({ min, max, step = 1, value, onChange }
       <div className="flex flex-row items-center w-full justify-center">
         <div
           ref={scrollRef}
-          className="flex flex-row gap-1 overflow-x-auto py-1 px-0.5 h-10 w-full max-w-[120px] items-center scrollbar-hide cursor-grab active:cursor-grabbing bg-[var(--color-white)] rounded-lg shadow border border-accent/30"
-          style={{ WebkitOverflowScrolling: 'touch' }}
+          className="flex flex-row gap-1 overflow-x-auto py-1 px-0.5 h-10 w-full max-w-[120px] items-center scrollbar-hide cursor-grab active:cursor-grabbing bg-[var(--color-white)] rounded-lg shadow border"
+          style={{ borderColor: '#94E7FF', WebkitOverflowScrolling: 'touch' }}
           onMouseDown={onMouseDown}
           onMouseLeave={onMouseLeave}
           onMouseUp={onMouseUp}
@@ -79,7 +79,7 @@ export default function VerticalScroller({ min, max, step = 1, value, onChange }
             <button
               key={opt}
               className={`min-w-[32px] h-7 rounded-lg font-bold text-sm border-2 transition-all duration-200 shadow-sm flex items-center justify-center
-                ${value === opt ? 'bg-accent text-white border-primary scale-105 z-10' : 'bg-[var(--color-white)] text-primary border-accent hover:bg-accent/10'}`}
+                ${value === opt ? 'bg-accent text-white border-primary scale-105 z-10' : 'bg-[var(--color-white)] text-primary'}`}
               onClick={() => onChange(opt)}
               type="button"
               style={{ pointerEvents: isDragging.current ? 'none' : 'auto' }}

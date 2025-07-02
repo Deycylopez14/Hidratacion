@@ -112,7 +112,7 @@ function BenefitCarousel(props: { onFinish: () => void }) {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -60 }}
             transition={{ duration: 0.4 }}
-            className="flex flex-col items-center bg-gradient-to-br from-bg-light-2 via-accent/20 to-bg-light-1 rounded-3xl p-8 shadow-2xl w-full max-w-xs min-h-[260px] border border-accent/30 relative overflow-hidden"
+            className="flex flex-col items-center bg-[var(--color-white)] rounded-3xl p-8 shadow-2xl w-full max-w-xs min-h-[260px] border relative overflow-hidden" style={{ borderColor: '#94E7FF' }}
           >
             {/* Elementos decorativos eliminados */}
             <div className="flex flex-col items-center gap-3 w-full">

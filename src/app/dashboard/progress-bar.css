@@ -1,0 +1,12 @@
+.animate-progress-bar {
+  animation: fillBar 1.2s cubic-bezier(0.4,0,0.2,1);
+}
+
+@keyframes fillBar {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: var(--final-width, 100%);
+  }
+}

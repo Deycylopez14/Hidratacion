@@ -3,6 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/services/supabaseClient";
 import ProgressCircleWave from "../components/ProgressCircleWave";
+import "./progress-bar.css";
 import Timeline from "../components/Timeline";
 import MotivationalMessage from "../components/MotivationalMessage";
 import AppHeader from "../components/AppHeader";
@@ -93,17 +94,29 @@ export default function Dashboard() {
     });
   }, [router]);
   const fetchGoal = useCallback(async () => {
-    const { data } = await supabase
-      .from("user_goals")
-      .select("daily_goal, unit")
-      .eq("user_id", user?.id)
-      .single();
-    if (data) {
-      setUserGoal(data.daily_goal);
-      setUnit(data.unit || "ml");
-    } else {
-      setUserGoal(null);
-      setUnit("ml");
+    let found = false;
+    if (user) {
+      const { data } = await supabase
+        .from("user_goals")
+        .select("daily_goal, unit")
+        .eq("user_id", user?.id)
+        .single();
+      if (data) {
+        setUserGoal(data.daily_goal);
+        setUnit(data.unit || "ml");
+        found = true;
+      }
+    }
+    // Si no se encontró en Supabase, buscar en localStorage
+    if (!found && typeof window !== "undefined") {
+      const localGoal = localStorage.getItem("hydration_goal");
+      if (localGoal) {
+        setUserGoal(Number(localGoal));
+      } else {
+        setUserGoal(null);
+      }
+      const localUnit = localStorage.getItem("hydration_unit");
+      setUnit(localUnit || "ml");
     }
   }, [user]);
 
@@ -229,7 +242,7 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen w-full bg-bg-light-1 text-primary transition-colors relative overflow-hidden">
+    <div className="min-h-screen w-full text-primary transition-colors relative overflow-hidden" style={{ background: '#cdffff' }}>
       {showOnboarding && user && (
         <OnboardingFlow user={user} onFinish={() => setShowOnboarding(false)} />
       )}
@@ -240,17 +253,20 @@ export default function Dashboard() {
         <h2 className="font-bold text-lg sm:text-2xl text-primary drop-shadow mt-1 mb-0">¡Bienvenido a tu Dashboard!</h2>
         <p className="text-xs sm:text-base text-accent font-semibold mb-2">Revisa tu progreso y registra tu consumo de agua.</p>
       </div>
-      <div className="container-responsive w-full bg-white rounded shadow p-4 sm:p-6 mt-4 sm:mt-8 relative z-10 overflow-hidden">
+      <div className="container-responsive w-full rounded shadow p-4 sm:p-6 mt-4 sm:mt-8 relative z-10 overflow-hidden" style={{ background: '#F8FCFF' }}>
         {/* Progreso */}
-        <section className="max-w-2xl mx-auto mt-4 sm:mt-6 bg- rounded shadow p-4 sm:p-6 mb-4">
+        <section className="max-w-2xl mx-auto mt-4 sm:mt-6 rounded shadow p-4 sm:p-6 mb-4" style={{ background: '#EFFBFF' }}>
           <h2 className="font-bold text-lg sm:text-xl mb-2 text-primary drop-shadow">Progreso de Hoy</h2>
           <div className="text-sm sm:text-base text-accent mb-2 font-semibold">Meta diaria</div>
           <div className="flex items-center gap-2 mb-2">
-            <div className="flex-1 bg-bg-light-2 rounded-full h-4 border border-accent shadow-inner overflow-hidden">
+            <div className="flex-1 rounded-full h-4 border border-accent shadow-inner overflow-hidden bg-[#E6F4F9]">
               <div
-                className="h-4 rounded-full shadow-lg transition-all duration-700 bg-gradient-to-r from-accent to-green-1"
+                className="h-4 rounded-full shadow-lg transition-all duration-700 animate-progress-bar"
                 style={{
                   width: `${percent}%`,
+                  background: '#50C7EC', // igual que la ola
+                  transition: 'width 0.7s cubic-bezier(0.4,0,0.2,1)',
+                  opacity: 0.85,
                 }}
               ></div>
             </div>
@@ -276,7 +292,7 @@ export default function Dashboard() {
           </div>
         </section>
         {/* Registrar Consumo */}
-        <section className="container-responsive w-full bg-white rounded shadow p-4 sm:p-6 mb-4">
+        <section className="container-responsive w-full rounded shadow p-4 sm:p-6 mb-4" style={{ background: '#EFFBFF' }}>
           <h2 className="font-bold text-lg sm:text-xl mb-4 text-primary drop-shadow">Registrar Consumo</h2>
           {/* ...existing code... */}
           <div className="mb-4">
@@ -307,28 +323,28 @@ export default function Dashboard() {
         </section>
         {/* Estadísticas rápidas */}
         <section className="container-responsive w-full grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-4 mb-8 mt-4">
-          <div className="bg-gradient-to-br from-bg-light-2 to-bg-light-1 rounded-xl shadow-lg p-3 text-center flex flex-col items-center gap-1 border border-accent hover:scale-[1.03] transition-all duration-200">
+          <div className="rounded-xl shadow-lg p-3 text-center flex flex-col items-center gap-1 border border-accent hover:scale-[1.03] transition-all duration-200" style={{ background: '#E6F4F9' }}>
             <span className="bg-white text-accent rounded-full p-1 shadow-md mb-1">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3v12m0 0l3-3m-3 3l-3-3" /></svg>
             </span>
             <div className="text-accent text-lg font-extrabold drop-shadow">{timeline.length}</div>
             <div className="text-xs text-primary font-semibold tracking-wide uppercase">Registros hoy</div>
           </div>
-          <div className="bg-gradient-to-br from-celeste-1 to-celeste-2 rounded-xl shadow-lg p-3 text-center flex flex-col items-center gap-1 border border-accent hover:scale-[1.03] transition-all duration-200">
+          <div className="rounded-xl shadow-lg p-3 text-center flex flex-col items-center gap-1 border border-accent hover:scale-[1.03] transition-all duration-200" style={{ background: '#E6F4F9' }}>
             <span className="bg-white text-green-1 rounded-full p-1 shadow-md mb-1">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2h5" /></svg>
             </span>
             <div className="text-green-1 text-lg font-extrabold drop-shadow">{avg}ml</div>
             <div className="text-xs text-primary font-semibold tracking-wide uppercase">Promedio 7 días</div>
           </div>
-          <div className="bg-gradient-to-br from-bg-light-2 to-bg-light-1 rounded-xl shadow-lg p-3 text-center flex flex-col items-center gap-1 border border-accent hover:scale-[1.03] transition-all duration-200">
+          <div className="rounded-xl shadow-lg p-3 text-center flex flex-col items-center gap-1 border border-accent hover:scale-[1.03] transition-all duration-200" style={{ background: '#E6F4F9' }}>
             <span className="bg-white text-accent rounded-full p-1 shadow-md mb-1">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zm0 0V4m0 10v4" /></svg>
             </span>
             <div className="text-accent text-lg font-extrabold drop-shadow">{best}ml</div>
             <div className="text-xs text-primary font-semibold tracking-wide uppercase">Mejor día</div>
           </div>
-          <div className="bg-gradient-to-br from-green-1 to-green-2 rounded-xl shadow-lg p-3 text-center flex flex-col items-center gap-1 border border-success hover:scale-[1.03] transition-all duration-200">
+          <div className="rounded-xl shadow-lg p-3 text-center flex flex-col items-center gap-1 border border-success hover:scale-[1.03] transition-all duration-200" style={{ background: '#E6F4F9' }}>
             <span className="bg-white text-success rounded-full p-1 shadow-md mb-1">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V4a2 2 0 10-4 0v1.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
             </span>
@@ -345,7 +361,7 @@ export default function Dashboard() {
           <MotivationalMessage percent={percent} />
         </section>
         {/* Configuración de recordatorios */}
-        <section className="max-w-2xl mx-auto bg-white rounded shadow p-4 sm:p-6 mb-4">
+        <section className="max-w-2xl mx-auto rounded shadow p-4 sm:p-6 mb-4" style={{ background: '#EFFBFF' }}>
           <h2 className="font-bold text-lg sm:text-xl mb-4 text-primary drop-shadow flex items-center gap-2">
             <svg className="w-6 h-6 text-accent" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V4a2 2 0 10-4 0v1.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
             Recordatorios inteligentes

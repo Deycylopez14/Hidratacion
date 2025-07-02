@@ -131,13 +131,13 @@ export default function Configuracion() {
   const suggestedGoal = weight ? Math.round(weight * 35) : defaultGoal;
 
   return (
-    <div className="min-h-screen bg-[var(--color-background)] text-[var(--color-text)]">
+    <div className="min-h-screen w-full text-primary transition-colors relative overflow-hidden" style={{ background: '#cdffff' }}>
       <AppHeader />
       <main className="max-w-2xl mx-auto p-4 mt-6">
         <h1 className="text-2xl font-bold mb-6 text-primary">Configuración</h1>
-        <div className="bg-[var(--color-white)] rounded-xl shadow-lg p-6 mb-6">
+        <div className="container-responsive w-full rounded shadow p-4 sm:p-6 mt-4 sm:mt-8 relative z-10 overflow-hidden" style={{ background: '#F8FCFF' }}>
           {/* Usuario */}
-          <section className="bg-[var(--color-white)] dark:bg-[var(--color-bg-light-1)] rounded shadow p-4 mb-4 transition-colors">
+          <section className="rounded shadow p-4 mb-4 transition-colors" style={{ background: 'var(--color-card-section)' }}>
             <h2 className="font-bold text-lg sm:text-xl mb-2 text-primary dark:text-accent drop-shadow">
               Usuario
             </h2>
@@ -157,14 +157,14 @@ export default function Configuracion() {
                   />
                   <button
                     onClick={handleSaveName}
-                    className="ml-2 bg-success text-white px-3 py-1 rounded"
+                    className="ml-2 bg-success text-white px-3 py-1 rounded shadow"
                     disabled={savingName || !nameInput.trim()}
                   >
                     {savingName ? "Guardando..." : "Guardar"}
                   </button>
                   <button
                     onClick={() => setEditName(false)}
-                    className="ml-1 bg-muted dark:bg-muted text-primary dark:text-white px-2 py-1 rounded"
+                    className="ml-1 bg-muted text-primary px-2 py-1 rounded shadow"
                     disabled={savingName}
                   >
                     Cancelar
@@ -172,12 +172,12 @@ export default function Configuracion() {
                 </>
               ) : (
                 <>
-                  <span className="font-bold text-primary dark:text-accent bg-primary/10 dark:bg-accent/10 rounded px-2 py-1">
+                  <span className="font-bold text-primary" style={{ background: 'var(--color-card-divider)', borderRadius: '0.375rem', padding: '0.25rem 0.5rem' }}>
                     {userName}
                   </span>
                   <button
                     onClick={() => setEditName(true)}
-                    className="ml-2 bg-primary dark:bg-accent text-white px-3 py-1 rounded"
+                    className="ml-2 bg-primary text-white px-3 py-1 rounded shadow"
                   >
                     Editar
                   </button>
@@ -186,7 +186,7 @@ export default function Configuracion() {
             </div>
           </section>
           {/* Preferencias de hidratación */}
-          <section className="bg-[var(--color-white)] dark:bg-[var(--color-bg-light-1)] rounded shadow p-4 mb-4 transition-colors">
+          <section className="rounded shadow p-4 mb-4 transition-colors" style={{ background: 'var(--color-card-section)' }}>
             <h2 className="font-bold text-lg sm:text-xl mb-2 text-primary dark:text-accent drop-shadow">
               Preferencias de hidratación
             </h2>
@@ -201,27 +201,33 @@ export default function Configuracion() {
                 <label className="block mb-1 font-semibold text-primary dark:text-accent">
                   Peso (kg)
                 </label>
-                <input
-                  type="number"
-                  min={30}
-                  max={200}
-                  value={weight || ""}
-                  onChange={(e) => setWeight(Number(e.target.value))}
-                  className="border rounded px-3 py-2 w-28 text-center text-primary dark:text-accent font-bold bg-[var(--color-background)] dark:bg-[var(--color-bg-light-2)]"
-                />
+                <div className="flex flex-col items-center">
+                  <input
+                    type="range"
+                    min={30}
+                    max={200}
+                    value={weight || 30}
+                    onChange={e => setWeight(Number(e.target.value))}
+                    className="w-28 accent-[var(--color-primary)]"
+                  />
+                  <span className="mt-1 text-[var(--color-primary)] font-bold">{weight || 30} kg</span>
+                </div>
               </div>
               <div className="flex flex-col min-w-[120px]">
                 <label className="block mb-1 font-semibold text-primary dark:text-accent">
                   Edad
                 </label>
-                <input
-                  type="number"
-                  min={10}
-                  max={100}
-                  value={age ?? ""}
-                  onChange={e => setAge(Number(e.target.value))}
-                  className="border rounded px-3 py-2 w-28 text-center text-primary dark:text-accent font-bold bg-[var(--color-background)] dark:bg-[var(--color-bg-light-2)]"
-                />
+                <div className="flex flex-col items-center">
+                  <input
+                    type="range"
+                    min={10}
+                    max={100}
+                    value={age || 10}
+                    onChange={e => setAge(Number(e.target.value))}
+                    className="w-28 accent-[var(--color-primary)]"
+                  />
+                  <span className="mt-1 text-[var(--color-primary)] font-bold">{age || 10} años</span>
+                </div>
               </div>
               <div className="flex flex-col min-w-[120px]">
                 <label className="block mb-1 font-semibold text-primary dark:text-accent">
@@ -230,7 +236,7 @@ export default function Configuracion() {
                 <select
                   value={gender}
                   onChange={e => setGender(e.target.value)}
-                  className="border rounded px-3 py-2 w-32 text-primary dark:text-accent font-semibold bg-[var(--color-background)] dark:bg-[var(--color-bg-light-2)]"
+                  className="border-[var(--color-primary)] border-2 rounded px-3 py-2 w-32 text-[var(--color-primary)] font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
                 >
                   <option value="">Selecciona</option>
                   <option value="masculino">Masculino</option>
@@ -239,13 +245,13 @@ export default function Configuracion() {
                 </select>
               </div>
               <div className="flex flex-col min-w-[140px]">
-                <label className="block mb-1 font-semibold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)]">
+                <label className="block mb-1 font-semibold text-primary dark:text-accent">
                   Nivel de actividad
                 </label>
                 <select
                   value={activity}
                   onChange={(e) => setActivity(e.target.value)}
-                  className="border rounded px-3 py-2 w-32 text-[var(--color-primary-dark)] dark:text-[var(--color-accent)] font-semibold bg-[var(--color-bg)] dark:bg-[#0f172a]"
+                  className="border-[var(--color-primary)] border-2 rounded px-3 py-2 w-32 text-[var(--color-primary)] font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
                 >
                   <option value="">Selecciona</option>
                   <option value="bajo">Bajo</option>
@@ -254,13 +260,13 @@ export default function Configuracion() {
                 </select>
               </div>
               <div className="flex flex-col min-w-[120px]">
-                <label className="block mb-1 font-semibold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)]">
+                <label className="block mb-1 font-semibold text-primary dark:text-accent">
                   Clima
                 </label>
                 <select
                   value={climate}
                   onChange={(e) => setClimate(e.target.value)}
-                  className="border rounded px-3 py-2 w-32 text-[var(--color-primary-dark)] dark:text-[var(--color-accent)] font-semibold bg-[var(--color-bg)] dark:bg-[#0f172a]"
+                  className="border-[var(--color-primary)] border-2 rounded px-3 py-2 w-32 text-[var(--color-primary)] font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
                 >
                   <option value="">Selecciona</option>
                   <option value="templado">Templado</option>
@@ -269,57 +275,61 @@ export default function Configuracion() {
                 </select>
               </div>
               <div className="flex flex-col min-w-[120px]">
-                <label className="block mb-1 font-semibold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)]">
+                <label className="block mb-1 font-semibold text-primary dark:text-accent">
                   Hora de dormir
                 </label>
                 <input
                   type="time"
                   value={sleepTime}
                   onChange={e => setSleepTime(e.target.value)}
-                  className="border rounded px-3 py-2 w-28 text-center text-[var(--color-primary-dark)] dark:text-[var(--color-accent)] font-bold bg-[var(--color-bg)] dark:bg-[#0f172a]"
+                  className="border-[var(--color-primary)] border-2 rounded px-3 py-2 w-28 text-center text-[var(--color-primary)] font-bold bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
                 />
               </div>
               <div className="flex flex-col min-w-[120px]">
-                <label className="block mb-1 font-semibold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)]">
+                <label className="block mb-1 font-semibold text-primary dark:text-accent">
                   Hora de despertar
                 </label>
                 <input
                   type="time"
                   value={wakeTime}
                   onChange={e => setWakeTime(e.target.value)}
-                  className="border rounded px-3 py-2 w-28 text-center text-[var(--color-primary-dark)] dark:text-[var(--color-accent)] font-bold bg-[var(--color-bg)] dark:bg-[#0f172a]"
+                  className="border-[var(--color-primary)] border-2 rounded px-3 py-2 w-28 text-center text-[var(--color-primary)] font-bold bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
                 />
               </div>
               <div className="flex flex-col min-w-[120px]">
-                <label className="block mb-1 font-semibold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)]">
+                <label className="block mb-1 font-semibold text-primary dark:text-accent">
                   Unidad de medida
                 </label>
                 <div className="flex gap-2">
-                  <button type="button" onClick={() => setUnit('ml')} className={`flex-1 px-2 py-1 rounded border-2 ${unit==='ml' ? 'border-blue-500 bg-blue-100' : 'border-blue-200 bg-white'} font-bold`}>ml</button>
-                  <button type="button" onClick={() => setUnit('oz')} className={`flex-1 px-2 py-1 rounded border-2 ${unit==='oz' ? 'border-blue-500 bg-blue-100' : 'border-blue-200 bg-white'} font-bold`}>oz</button>
+                  <button type="button" onClick={() => setUnit('ml')} className={`flex-1 px-2 py-1 rounded border-2 font-bold transition-colors ${unit==='ml' ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)]' : 'bg-white text-[var(--color-primary)] border-[var(--color-primary)]'}`}>ml</button>
+                  <button type="button" onClick={() => setUnit('oz')} className={`flex-1 px-2 py-1 rounded border-2 font-bold transition-colors ${unit==='oz' ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)]' : 'bg-white text-[var(--color-primary)] border-[var(--color-primary)]'}`}>oz</button>
                 </div>
               </div>
               <div className="flex flex-col min-w-[120px]">
-                <label className="block mb-1 font-semibold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)]">
+                <label className="block mb-1 font-semibold text-primary dark:text-accent">
                   Tipo de recordatorio
                 </label>
                 <div className="flex gap-2">
-                  <button type="button" onClick={() => setReminderType('notificacion')} className={`flex-1 px-2 py-1 rounded border-2 ${reminderType==='notificacion' ? 'border-blue-500 bg-blue-100' : 'border-blue-200 bg-white'} font-bold`}>Notificación</button>
-                  <button type="button" onClick={() => setReminderType('sonido')} className={`flex-1 px-2 py-1 rounded border-2 ${reminderType==='sonido' ? 'border-blue-500 bg-blue-100' : 'border-blue-200 bg-white'} font-bold`}>Sonido</button>
+                  <button type="button" onClick={() => setReminderType('notificacion')} className={`flex-1 px-2 py-1 rounded border-2 font-bold transition-colors ${reminderType==='notificacion' ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)]' : 'bg-white text-[var(--color-primary)] border-[var(--color-primary)]'}`}>Notificación</button>
+                  <button type="button" onClick={() => setReminderType('sonido')} className={`flex-1 px-2 py-1 rounded border-2 font-bold transition-colors ${reminderType==='sonido' ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)]' : 'bg-white text-[var(--color-primary)] border-[var(--color-primary)]'}`}>Sonido</button>
                 </div>
               </div>
               <div className="flex flex-col min-w-[140px]">
                 <label className="block mb-1 font-semibold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)]">
                   Meta diaria (ml)
                 </label>
-                <input
-                  type="number"
-                  min={500}
-                  max={5000}
-                  value={goal}
-                  onChange={(e) => setGoal(Number(e.target.value))}
-                  className="border rounded px-3 py-2 w-28 text-center text-[var(--color-primary-dark)] dark:text-[var(--color-accent)] font-bold bg-[var(--color-bg)] dark:bg-[#0f172a]"
-                />
+                <div className="flex flex-col items-center">
+                  <input
+                    type="range"
+                    min={500}
+                    max={5000}
+                    step={50}
+                    value={goal}
+                    onChange={e => setGoal(Number(e.target.value))}
+                    className="w-28 accent-[var(--color-primary)]"
+                  />
+                  <span className="mt-1 text-[var(--color-primary)] font-bold">{goal} ml</span>
+                </div>
                 <div className="text-xs text-[var(--color-primary)] dark:text-[var(--color-accent)] mt-1 font-semibold">
                   Sugerencia: <b>{suggestedGoal} ml</b>
                 </div>
@@ -327,7 +337,7 @@ export default function Configuracion() {
               <div className="flex flex-col justify-end min-w-[120px] md:mt-6">
                 <button
                   type="submit"
-                  className="bg-[var(--color-primary)] dark:bg-[var(--color-accent)] text-white px-4 py-2 rounded w-full md:w-auto"
+                  className="bg-[var(--color-primary)] text-white font-semibold px-4 py-2 rounded w-full md:w-auto border border-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] transition-colors"
                   disabled={loading}
                 >
                   {loading ? "Guardando..." : "Guardar"}
@@ -336,50 +346,50 @@ export default function Configuracion() {
             </form>
           </section>
           {/* Integraciones */}
-          <section className="bg-[var(--color-white)] dark:bg-[#1e293b] rounded shadow p-4 mb-4 transition-colors">
-            <h2 className="font-bold text-lg sm:text-xl mb-2 text-[var(--color-primary-dark)] dark:text-[var(--color-accent)] drop-shadow">
+          <section className="rounded shadow p-4 mb-4 transition-colors" style={{ background: 'var(--color-card-section)' }}>
+            <h2 className="font-bold text-lg sm:text-xl mb-2 text-primary drop-shadow">
               Integración con Dispositivos
             </h2>
             <div className="mb-4 flex flex-col gap-4">
               <div className="flex items-center gap-3">
                 <span className="text-2xl">⌚</span>
                 <div>
-                  <div className="font-semibold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)]">
+                  <div className="font-semibold text-primary">
                     Apple Watch
                   </div>
-                  <div className="text-xs text-[var(--color-primary)] dark:text-[var(--color-accent)] font-semibold">
+                  <div className="text-xs text-muted font-semibold">
                     Próximamente podrás registrar tu consumo desde tu reloj.
                   </div>
                 </div>
-                <button className="ml-auto bg-primary/10 dark:bg-accent/10 text-[var(--color-primary-dark)] dark:text-[var(--color-accent)] px-3 py-1 rounded cursor-not-allowed font-semibold">
+                <button className="ml-auto bg-white text-primary border border-primary px-3 py-1 rounded cursor-not-allowed font-semibold">
                   Próximamente
                 </button>
               </div>
               <div className="flex items-center gap-3">
                 <span className="text-2xl">🍏</span>
                 <div>
-                  <div className="font-semibold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)]">
+                  <div className="font-semibold text-primary">
                     Apple Health
                   </div>
-                  <div className="text-xs text-[var(--color-primary)] dark:text-[var(--color-accent)] font-semibold">
+                  <div className="text-xs text-muted font-semibold">
                     Sincroniza tu hidratación con Apple Health en la app móvil.
                   </div>
                 </div>
-                <button className="ml-auto bg-primary/10 dark:bg-accent/10 text-[var(--color-primary-dark)] dark:text-[var(--color-accent)] px-3 py-1 rounded cursor-not-allowed font-semibold">
+                <button className="ml-auto bg-white text-primary border border-primary px-3 py-1 rounded cursor-not-allowed font-semibold">
                   Próximamente
                 </button>
               </div>
               <div className="flex items-center gap-3">
                 <span className="text-2xl">🤖</span>
                 <div>
-                  <div className="font-semibold text-[var(--color-primary-dark)] dark:text-[var(--color-accent)]">
+                  <div className="font-semibold text-primary">
                     Google Fit
                   </div>
-                  <div className="text-xs text-[var(--color-primary)] dark:text-[var(--color-accent)] font-semibold">
+                  <div className="text-xs text-muted font-semibold">
                     Sincroniza tu hidratación con Google Fit en la app móvil.
                   </div>
                 </div>
-                <button className="ml-auto bg-primary/10 dark:bg-accent/10 text-[var(--color-primary-dark)] dark:text-[var(--color-accent)] px-3 py-1 rounded cursor-not-allowed font-semibold">
+                <button className="ml-auto bg-white text-primary border border-primary px-3 py-1 rounded cursor-not-allowed font-semibold">
                   Próximamente
                 </button>
               </div>

@@ -80,7 +80,7 @@ export default function HorizontalScroller({ min = 500, max = 5000, step = 100, 
           <button
             key={opt}
             className={`min-w-[70px] h-16 rounded-xl font-bold text-lg border-2 transition-all duration-200 shadow-sm
-              ${value === opt ? 'bg-primary text-white border-accent scale-110' : 'bg-[var(--color-white)] text-primary border-accent hover:bg-accent/10'}`}
+              ${value === opt ? 'bg-primary text-white border-accent scale-110' : 'bg-[var(--color-white)] text-primary'}`}
             onClick={() => onChange(opt)}
             type="button"
           >

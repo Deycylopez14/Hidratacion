@@ -177,7 +177,7 @@ export default function Estadisticas() {
   ];
 
   return (
-    <div className="min-h-screen bg-[var(--color-background)] text-[var(--color-text)]">
+    <div className="min-h-screen text-[var(--color-text)]" style={{ background: '#cdffff' }}>
       <AppHeader />
       <main className="max-w-3xl mx-auto p-4 mt-6">
         <h1 className="text-2xl font-bold mb-6 text-primary">Estadísticas</h1>

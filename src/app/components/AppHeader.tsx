@@ -51,13 +51,13 @@ export default function AppHeader() {
 
   return (
     <>
-      <header className="bg-primary text-white p-4 shadow flex items-center justify-between">
+      <header className="p-4 shadow flex items-center justify-between" style={{ background: '#006691', color: '#fff' }}>
         <div className="flex items-center gap-2">
-          <span className="text-2xl text-primary dark:text-accent">💧</span>
-          <span className="font-bold text-xl text-primary dark:text-accent drop-shadow">HydroTracker</span>
+          <span className="text-2xl" style={{ color: '#fff' }}>💧</span>
+          <span className="font-bold text-xl drop-shadow" style={{ color: '#fff' }}>HydroTracker</span>
         </div>
         <div className="flex items-center gap-4">
-          <span className="text-sm text-primary dark:text-accent font-semibold truncate max-w-[120px]" title={userName}>¡Hola, {userName}!</span>
+          <span className="text-sm font-semibold truncate max-w-[120px]" style={{ color: '#fff' }} title={userName}>¡Hola, {userName}!</span>
           <button
             aria-label="Cambiar modo oscuro"
             className="rounded-full p-2 bg-primary/10 dark:bg-accent/20 hover:bg-primary/20 dark:hover:bg-accent/30 transition-colors"

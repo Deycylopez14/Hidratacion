@@ -13,8 +13,8 @@
   --color-primary: #006691; /* Azul profundo */
   --color-secondary: #2499C7; /* Azul medio */
   --color-accent: #40CFFF; /* Azul claro brillante */
-  --color-bg-light-1: #94E7FF; /* Fondo claro 1 */
-  --color-bg-light-2: #CCFFFF; /* Fondo claro 2 */
+  --color-bg-light-1: #CDFFFF; /* Fondo general sugerido */
+  --color-bg-light-2: #B6FFFF; /* Fondo alternativo sugerido */
   --color-celeste-1: #7CDAF9;
   --color-celeste-2: #B6FFFF;
   --color-green-1: #0DD76F;
@@ -24,11 +24,16 @@
   --color-success: var(--color-green-1);
   --color-success-alt: var(--color-green-2);
   --color-warning: #f59e42;
-  --color-text: #006691;
+  --color-text: #003366;
   --color-muted: #2499C7;
   --color-white: #ffffff;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Colores descriptivos para configuración */
+  --color-card-main: #F8FCFF; /* Blanco humo muy claro: Fondo principal de tarjetas */
+  --color-card-section: #EFFBFF; /* Blanco azulado tenue: Secciones de contenido o formularios */
+  --color-card-divider: #E6F4F9; /* Gris azulado claro: Tarjetas con secciones divididas */
 }
 
 .dark {
@@ -46,7 +51,7 @@
   --color-success: #0DD76F;
   --color-success-alt: #2AC685;
   --color-warning: #fbbf24;
-  --color-text: #B6FFFF;
+  --color-text: #003366;
   --color-muted: #40CFFF;
   --color-white: #e6f7ff;
   --font-sans: var(--font-geist-sans);

@@ -27,7 +27,7 @@ export default function NumberScroller({ min = 100, max = 5000, step = 50, value
         value={value}
         onChange={e => onChange(Number(e.target.value))}
         onWheel={handleScroll}
-        className="border-2 border-accent focus:border-primary rounded-xl px-4 py-3 w-36 text-center text-2xl font-bold text-primary bg-[var(--color-white)] shadow transition-all duration-200 outline-none"
+        className="border-2 rounded-xl px-4 py-3 w-36 text-center text-2xl font-bold text-primary bg-[var(--color-white)] shadow transition-all duration-200 outline-none" style={{ borderColor: '#94E7FF' }}
         style={{ fontVariantNumeric: 'tabular-nums' }}
       />
       <span className="text-xs text-accent mt-1">Desliza o usa la rueda del mouse</span>
