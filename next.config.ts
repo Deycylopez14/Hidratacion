@@ -11,5 +11,5 @@ export default withPWA({
   skipWaiting: true,
   disable: process.env.NODE_ENV === "development",
   sw: "sw.js",
-  offlineFallback: "/offline.html",
+  navigateFallback: "/offline.html",
 })(nextConfig);

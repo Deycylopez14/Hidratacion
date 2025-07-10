@@ -10,10 +10,13 @@ interface HorizontalScrollerProps {
 }
 
 export default function HorizontalScroller({ min = 500, max = 5000, step = 100, value, onChange, unit = "ml" }: HorizontalScrollerProps) {
-  const options: number[] = [];
-  for (let i = min; i <= max; i += step) {
-    options.push(i);
-  }
+  const options = React.useMemo(() => {
+    const arr: number[] = [];
+    for (let i = min; i <= max; i += step) {
+      arr.push(i);
+    }
+    return arr;
+  }, [min, max, step]);
 
   const scrollRef = React.useRef<HTMLDivElement>(null);
   // Drag state
@@ -59,7 +62,7 @@ export default function HorizontalScroller({ min = 500, max = 5000, step = 100, 
         el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
       }
     }
-  }, [value]);
+  }, [value, options]);
 
   return (
     <div className="w-full flex flex-col items-center justify-center">

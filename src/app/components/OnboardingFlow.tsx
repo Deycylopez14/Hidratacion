@@ -159,11 +159,11 @@ function BenefitCarousel(props: { onFinish: () => void }) {
     </motion.div>
   );
 }
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { supabase } from "@/services/supabaseClient";
 
 import { AnimatePresence } from "framer-motion";
-import WaterMascot from "./WaterMascot";
+// import WaterMascot from "./WaterMascot";
 import FriendlyMascot from "./FriendlyMascot";
 
 const steps = [
@@ -263,13 +263,15 @@ const activityLevels = [
   { value: "medio", label: "Medio (ejercicio regular)" },
   { value: "alto", label: "Alto (muy activo)" },
 ];
-const climates = [
-  { value: "frio", label: "Frío" },
-  { value: "templado", label: "Templado" },
-  { value: "caluroso", label: "Caluroso" },
-];
+// const climates = [
+//   { value: "frio", label: "Frío" },
+//   { value: "templado", label: "Templado" },
+//   { value: "caluroso", label: "Caluroso" },
+// ];
 
-export default function OnboardingFlow({ user, onFinish }: { user: any, onFinish: () => void }) {
+import type { User } from "@supabase/supabase-js";
+
+export default function OnboardingFlow({ user, onFinish }: { user: User, onFinish: () => void }) {
   const [step, setStep] = useState(0);
   const [nickname, setNickname] = useState("");
   const [gender, setGender] = useState<string>("");
@@ -277,13 +279,13 @@ export default function OnboardingFlow({ user, onFinish }: { user: any, onFinish
   const [age, setAge] = useState<number>(25);
   const [goal, setGoal] = useState(defaultPrefs.daily_goal);
   const [activity, setActivity] = useState("medio");
-  const [climate, setClimate] = useState("templado");
+  const [climate] = useState("templado");
   const [sleepTime, setSleepTime] = useState("23:00");
   const [wakeTime, setWakeTime] = useState("07:00");
   const [unit, setUnit] = useState("ml");
   const [reminderType, setReminderType] = useState("notificacion");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  // const router = useRouter();
 
   const handleNext = () => setStep(s => s + 1);
   const handleBack = () => setStep(s => s - 1);

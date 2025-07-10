@@ -27,15 +27,7 @@ export default function Estadisticas() {
   // Detectar modo oscuro y montaje en cliente
   const [darkMode, setDarkMode] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [bubbles, setBubbles] = useState<{
-    left: string;
-    width: string;
-    height: string;
-    bottom: string;
-    animationDuration: string;
-    animationDelay: string;
-    delayClass: string;
-  }[]>([]);
+  // Estado de burbujas eliminado porque no se usa en la UI
   useEffect(() => {
     setMounted(true);
     setDarkMode(document.documentElement.classList.contains("dark"));
@@ -46,19 +38,7 @@ export default function Estadisticas() {
       attributes: true,
       attributeFilter: ["class"],
     });
-    // Generar burbujas solo en cliente
-    const arr = Array.from({ length: 10 }, (_, i) => {
-      return {
-        left: `${10 + Math.random() * 80}%`,
-        width: `${12 + Math.random() * 16}px`,
-        height: `${12 + Math.random() * 16}px`,
-        bottom: `-${Math.random() * 40}px`,
-        animationDuration: `${3 + Math.random() * 3}s`,
-        animationDelay: `${Math.random() * 2}s`,
-        delayClass: i % 2 === 0 ? " delay-1000" : "",
-      };
-    });
-    setBubbles(arr);
+    // Lógica de burbujas eliminada
     return () => observer.disconnect();
   }, []);
 
@@ -232,17 +212,23 @@ export default function Estadisticas() {
             </div>
             {/* Tarjeta: Promedio 7 días */}
             <div className="rounded shadow p-4 text-center transition-colors" style={{ background: '#006691' }}>
-              <div className="text-white text-xl font-bold">{avg}ml</div>
+              <div className="text-white text-xl font-bold">
+                {avg.toLocaleString()} <span className="text-base font-bold">ml</span>
+              </div>
               <div className="text-white text-xs font-semibold">Promedio 7 días</div>
             </div>
             {/* Tarjeta: Mejor día */}
             <div className="rounded shadow p-4 text-center transition-colors" style={{ background: '#006691' }}>
-              <div className="text-white text-xl font-bold">{best}ml</div>
+              <div className="text-white text-xl font-bold">
+                {best.toLocaleString()} <span className="text-base font-bold">ml</span>
+              </div>
               <div className="text-white text-xs font-semibold">Mejor día</div>
             </div>
             {/* Tarjeta: Meta diaria */}
             <div className="rounded shadow p-4 text-center transition-colors" style={{ background: '#006691' }}>
-              <div className="text-white text-xl font-bold">{userGoal ?? 2000}ml</div>
+              <div className="text-white text-xl font-bold">
+                {(userGoal ?? 2000).toLocaleString()} <span className="text-base font-bold">ml</span>
+              </div>
               <div className="text-white text-xs font-semibold">Meta diaria</div>
             </div>
           </section>

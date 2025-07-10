@@ -195,11 +195,15 @@ export default function Historial() {
               <div className="text-xs text-white/80 font-semibold">Registros totales</div>
             </div>
             <div className="bg-[#006691] text-white rounded-xl shadow-lg p-4 text-center transition-colors font-bold">
-              <div className="text-white text-xl font-bold">{records.reduce((a, r) => a + r.amount, 0).toLocaleString()} ml</div>
+              <div className="text-white text-xl font-bold">
+                {records.reduce((a, r) => a + r.amount, 0).toLocaleString()} <span className="text-base font-bold">ml</span>
+              </div>
               <div className="text-xs text-white/80 font-semibold">Total consumido</div>
             </div>
             <div className="bg-[#006691] text-white rounded-xl shadow-lg p-4 text-center transition-colors font-bold">
-              <div className="text-white text-xl font-bold">{records.length ? Math.max(...records.map(r => r.amount)).toLocaleString() : 0} ml</div>
+              <div className="text-white text-xl font-bold">
+                {records.length ? Math.max(...records.map(r => r.amount)).toLocaleString() : 0} <span className="text-base font-bold">ml</span>
+              </div>
               <div className="text-xs text-white/80 font-semibold">Mayor registro</div>
             </div>
             <div className="bg-[#006691] text-white rounded-xl shadow-lg p-4 text-center transition-colors font-bold">
@@ -249,13 +253,13 @@ export default function Historial() {
                       const fechaHora = `${fechaStr} | ${horaStr}`;
                       return (
                         <tr key={i} className="rounded-2xl">
-                          <td className="px-4 py-3 bg-[#006691] border-2 border-[var(--color-accent)] rounded-l-2xl text-white font-bold text-center align-middle">
+                          <td className="px-4 py-3 bg-white border-2 border-[var(--color-accent)] rounded-l-2xl text-[#006691] font-bold text-center align-middle">
                             {fechaHora}
                           </td>
-                          <td className="px-4 py-3 bg-[#006691] border-2 border-[var(--color-accent)] text-white font-bold text-base rounded-none text-center align-middle">
-                            {r.amount.toLocaleString()} ml
+                          <td className="px-4 py-3 bg-white border-2 border-[var(--color-accent)] text-[#006691] font-bold text-base rounded-none text-center align-middle">
+                            {r.amount.toLocaleString()}
                           </td>
-                          <td className="px-4 py-3 bg-[#006691] border-2 border-[var(--color-accent)] rounded-r-2xl text-center align-middle cursor-pointer select-none text-white font-bold transition-colors hover:bg-[#005377]"
+                          <td className="px-4 py-3 bg-white border-2 border-[var(--color-accent)] rounded-r-2xl text-center align-middle cursor-pointer select-none text-[#006691] font-bold transition-colors hover:bg-blue-100"
                               onClick={() => !loading && deleteRecord(r.created_at)}
                               title="Eliminar registro">
                             Eliminar

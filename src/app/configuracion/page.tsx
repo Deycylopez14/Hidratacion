@@ -138,10 +138,10 @@ export default function Configuracion() {
         <div className="container-responsive w-full rounded shadow p-4 sm:p-6 mt-4 sm:mt-8 relative z-10 overflow-hidden" style={{ background: '#F8FCFF' }}>
           {/* Usuario */}
           <section className="rounded shadow p-4 mb-4 transition-colors" style={{ background: 'var(--color-card-section)' }}>
-            <h2 className="font-bold text-lg sm:text-xl mb-2 text-primary dark:text-accent drop-shadow">
+            <h2 className="font-bold text-lg sm:text-xl mb-2 text-primary dark:text-accent drop-shadow text-center w-full">
               Usuario
             </h2>
-            <div className="flex items-center gap-2 flex-wrap">
+            <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-2 flex-wrap">
               <label className="block font-semibold text-primary dark:text-accent">
                 Nombre de usuario:
               </label>

@@ -52,7 +52,7 @@ export default function AppHeader() {
     function handleSwipe(direction: "left" | "right") {
       const idx = SWIPE_ROUTES.indexOf(pathname);
       if (idx === -1) return;
-      let nextIdx = direction === "left" ? idx + 1 : idx - 1;
+      const nextIdx = direction === "left" ? idx + 1 : idx - 1;
       if (nextIdx < 0 || nextIdx >= SWIPE_ROUTES.length) return;
       router.push(SWIPE_ROUTES[nextIdx]);
     }
@@ -124,7 +124,7 @@ export default function AppHeader() {
             <span className="text-2xl md:text-2xl" style={{ color: '#fff' }}>💧</span>
             <span className="font-bold text-lg md:text-xl drop-shadow" style={{ color: '#fff' }}>HydroTracker</span>
           </div>
-          <nav className="flex flex-1 justify-center gap-3 md:gap-6 px-1 md:px-4 overflow-x-auto scrollbar-hide">
+          <nav className="flex flex-1 justify-center gap-6 md:gap-10 px-2 md:px-8 overflow-x-auto scrollbar-hide">
             <a href="/dashboard" className={`group flex flex-col items-center gap-0.5 cursor-pointer hover:scale-110 transition-transform${pathname === '/dashboard' ? ' scale-105' : ''}`}
               title="Dashboard"
             >

@@ -9,10 +9,13 @@ interface VerticalScrollerProps {
 }
 
 export default function VerticalScroller({ min, max, step = 1, value, onChange }: VerticalScrollerProps) {
-  const options: number[] = [];
-  for (let i = min; i <= max; i += step) {
-    options.push(i);
-  }
+  const options = React.useMemo(() => {
+    const arr: number[] = [];
+    for (let i = min; i <= max; i += step) {
+      arr.push(i);
+    }
+    return arr;
+  }, [min, max, step]);
 
   const scrollRef = React.useRef<HTMLDivElement>(null);
   // Drag state
@@ -58,7 +61,7 @@ export default function VerticalScroller({ min, max, step = 1, value, onChange }
         el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
       }
     }
-  }, [value]);
+  }, [value, options]);
 
   return (
     <div className="flex flex-col items-center justify-center w-full select-none">

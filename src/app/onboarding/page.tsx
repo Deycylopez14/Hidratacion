@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/services/supabaseClient";
 import OnboardingFlow from "../components/OnboardingFlow";
 import { useRouter } from "next/navigation";
+import type { User } from "@supabase/supabase-js";
 
 export default function OnboardingPage() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
   useEffect(() => {

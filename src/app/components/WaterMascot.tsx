@@ -17,7 +17,7 @@ const PHRASES = [
 export default function WaterMascot({ name = "Dey", percent = 0 }: { name?: string, percent?: number }) {
   const [wave, setWave] = useState(false);
   const [blink, setBlink] = useState(false);
-  const [jump, setJump] = useState(false);
+  // const [jump, setJump] = useState(false);
   const [phrase, setPhrase] = useState(PHRASES[0]);
 
   // Animación de saludo (mano)
@@ -35,20 +35,7 @@ export default function WaterMascot({ name = "Dey", percent = 0 }: { name?: stri
     return () => clearInterval(blinkInterval);
   }, []);
 
-  // Animación de salto ocasional o por progreso alto
-  useEffect(() => {
-    if (percent >= 100) {
-      setJump(true);
-      const timeout = setTimeout(() => setJump(false), 1200);
-      return () => clearTimeout(timeout);
-    } else if (percent >= 70) {
-      setJump(true);
-      const timeout = setTimeout(() => setJump(false), 700);
-      return () => clearTimeout(timeout);
-    } else {
-      setJump(false);
-    }
-  }, [percent]);
+  // Animación de salto eliminada (jump)
 
   // Cambiar frase motivacional según progreso
   useEffect(() => {
@@ -80,7 +67,7 @@ export default function WaterMascot({ name = "Dey", percent = 0 }: { name?: stri
   else if (percent < 20 && percent > 0) smilePath = "M36 70 Q40 67 44 70"; // carita de ánimo
 
   return (
-    <div className={`rounded-lg p-4 flex flex-col items-center shadow select-none transition-transform duration-500 ${jump ? 'animate-bounce' : ''}`}
+    <div className="rounded-lg p-4 flex flex-col items-center shadow select-none transition-transform duration-500"
       style={{ minHeight: 140, background: '#effbff' }}>
       {/* Nueva gota de agua kawaii */}
       <svg width="90" height="120" viewBox="0 0 90 120" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -115,7 +102,7 @@ export default function WaterMascot({ name = "Dey", percent = 0 }: { name?: stri
           </g>
         </g>
       </svg>
-      <div className="font-bold text-lg mt-2 animate-bounce" style={{ color: '#003366' }}>
+      <div className="font-bold text-lg mt-2" style={{ color: '#003366' }}>
         ¡Hola, {name}! 💧
       </div>
       <div className="text-xs font-semibold text-center transition-all duration-500 min-h-[1.5em]" style={{ color: '#003366' }}>
