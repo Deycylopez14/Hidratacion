@@ -73,10 +73,18 @@ export default function Historial() {
   }, [user, fetchRecords]);
 
   const handleExport = () => {
+    // Formateo consistente para exportar: dd-MM-yy HH:mm
+    const pad = (n: number) => n.toString().padStart(2, '0');
+    const formatFechaHora = (dateStr: string) => {
+      const fecha = new Date(dateStr);
+      const fechaStr = `${pad(fecha.getDate())}-${pad(fecha.getMonth() + 1)}-${fecha.getFullYear().toString().slice(-2)}`;
+      const horaStr = `${pad(fecha.getHours())}:${pad(fecha.getMinutes())}`;
+      return `${fechaStr} | ${horaStr}`;
+    };
     if (exportFormat === 'csv') {
       const csv = [
-        'Fecha y Hora,Cantidad (ml)',
-        ...records.map(r => `${new Date(r.created_at).toLocaleString()},${r.amount}`)
+        'Fecha y Hora,ml',
+        ...records.map(r => `${formatFechaHora(r.created_at)},${r.amount}`)
       ].join('\n');
       const blob = new Blob([csv], { type: 'text/csv' });
       const url = window.URL.createObjectURL(blob);
@@ -96,8 +104,8 @@ export default function Historial() {
       window.URL.revokeObjectURL(url);
     } else if (exportFormat === 'xlsx') {
       const ws = XLSX.utils.json_to_sheet(records.map(r => ({
-        'Fecha y Hora': new Date(r.created_at).toLocaleString(),
-        'Cantidad (ml)': r.amount
+        'Fecha y Hora': formatFechaHora(r.created_at),
+        'ml': r.amount
       })));
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'Historial');
@@ -113,11 +121,11 @@ export default function Historial() {
       const doc = new jsPDF();
       doc.text('Historial de Hidratación', 14, 16);
       const tableData = records.map(r => [
-        new Date(r.created_at).toLocaleString(),
+        formatFechaHora(r.created_at),
         r.amount
       ]);
       autoTable(doc, {
-        head: [['Fecha y Hora', 'Cantidad (ml)']],
+        head: [['Fecha y Hora', 'ml']],
         body: tableData,
         startY: 22,
         theme: 'striped',
@@ -212,27 +220,31 @@ export default function Historial() {
                 className="w-full max-h-[340px] overflow-x-auto overflow-y-auto rounded-2xl shadow-xl bg-gradient-to-br from-bg-light-2 via-white to-accent/10 scrollbar-hide"
                 style={{ WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
-                <table className="min-w-full text-center border-separate border-spacing-2 text-base font-[Comic_Sans_MS,cursive,sans-serif]">
+                <table className="min-w-full text-center border-separate border-spacing-2 text-base font-[Comic_Sans_MS,cursive,sans-serif]" style={{ tableLayout: 'fixed' }}>
+                  <colgroup>
+                    <col style={{ width: '33.33%' }} />
+                    <col style={{ width: '33.33%' }} />
+                    <col style={{ width: '33.33%' }} />
+                  </colgroup>
                   <thead>
                     <tr>
                       <th className="px-4 py-3 rounded-tl-2xl bg-[#006691] text-white font-bold text-lg border-2 border-[var(--color-accent)]">Fecha y Hora</th>
-                      <th className="px-4 py-3 bg-[#006691] text-white font-bold text-lg border-2 border-[var(--color-accent)]">Cantidad (ml)</th>
+                      <th className="px-4 py-3 bg-[#006691] text-white font-bold text-lg border-2 border-[var(--color-accent)]">ml</th>
                       <th className="px-4 py-3 rounded-tr-2xl bg-[#006691] text-white font-bold text-lg border-2 border-[var(--color-accent)]">Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
                     {records.map((r, i) => {
                       const fecha = new Date(r.created_at);
-                      const fechaStr = fecha.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit' });
-                      const horaStr = fecha.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                      // Formato: dd-MM-yy | HH:mm
+                      const pad = (n: number) => n.toString().padStart(2, '0');
+                      const fechaStr = `${pad(fecha.getDate())}-${pad(fecha.getMonth() + 1)}-${fecha.getFullYear().toString().slice(-2)}`;
+                      const horaStr = `${pad(fecha.getHours())}:${pad(fecha.getMinutes())}`;
+                      const fechaHora = `${fechaStr} | ${horaStr}`;
                       return (
                         <tr key={i} className="rounded-2xl">
-                          <td className="px-4 py-3 bg-[var(--color-bg-light-1)] border-2 border-[var(--color-accent)] rounded-l-2xl text-primary font-semibold whitespace-nowrap flex items-center gap-2">
-                            <span className="inline-flex items-center gap-1">
-                              <svg className="w-5 h-5 text-accent inline" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                              <span className="font-bold">{fechaStr}</span>
-                              <span className="text-xs text-muted">{horaStr}</span>
-                            </span>
+                          <td className="px-4 py-3 bg-[var(--color-bg-light-1)] border-2 border-[var(--color-accent)] rounded-l-2xl text-primary font-semibold text-center align-middle">
+                            <span className="font-bold">{fechaHora}</span>
                           </td>
                           <td className="px-4 py-3 bg-[var(--color-bg-light-2)] border-2 border-[var(--color-accent)] text-primary font-bold text-base rounded-none">
                             <span className="inline-block bg-[var(--color-white)] text-primary font-extrabold rounded-full px-4 py-2 shadow border border-[var(--color-accent)]">
@@ -256,32 +268,37 @@ export default function Historial() {
                   </tbody>
                 </table>
               </div>
-              <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mt-6 mb-2 z-20 relative bg-white/80 rounded-2xl shadow-lg p-4 border border-accent/20">
-                <select
-                  id="export-format"
-                  className="border-2 border-accent rounded-lg px-3 py-2 text-primary font-bold bg-white shadow focus:outline-none focus:ring-2 focus:ring-accent/40 transition-all"
-                  style={{ minWidth: 120 }}
-                  value={exportFormat}
-                  onChange={e => setExportFormat(e.target.value as 'csv' | 'json' | 'xlsx' | 'pdf')}
-                >
-                  <option value="csv">CSV</option>
-                  <option value="json">JSON</option>
-                  <option value="xlsx">Excel</option>
-                  <option value="pdf">PDF</option>
-                </select>
-                <button
-                  onClick={() => handleExport()}
-                  className="bg-success hover:bg-success-alt text-primary-dark px-5 py-2 rounded-lg flex items-center gap-2 shadow-md font-bold text-base transition-all duration-150 border-2 border-success/40"
-                >
-                  <span className="text-xl">⬇️</span> <span className="font-bold">Exportar</span>
-                </button>
-                <button
-                  onClick={deleteAllHistory}
-                  className="bg-warning hover:bg-warning/80 text-primary-dark px-5 py-2 rounded-lg flex items-center gap-2 shadow-md font-bold text-base transition-all duration-150 border-2 border-warning/40"
-                  disabled={loading}
-                >
-                  <span className="text-xl">🗑️</span> <span className="font-bold">Eliminar todo</span>
-                </button>
+              <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mt-4 mb-0 z-20 relative bg-transparent shadow-none border-0 p-0 w-full">
+                <div className="flex-1 w-full">
+                  <select
+                    id="export-format"
+                    className="border-2 border-accent rounded-lg px-3 py-2 text-primary font-bold bg-white shadow focus:outline-none focus:ring-2 focus:ring-accent/40 transition-all w-full min-w-[120px] text-center"
+                    value={exportFormat}
+                    onChange={e => setExportFormat(e.target.value as 'csv' | 'json' | 'xlsx' | 'pdf')}
+                  >
+                    <option value="csv">CSV</option>
+                    <option value="json">JSON</option>
+                    <option value="xlsx">Excel</option>
+                    <option value="pdf">PDF</option>
+                  </select>
+                </div>
+                <div className="flex-1 w-full">
+                  <button
+                    onClick={() => handleExport()}
+                    className="bg-success hover:bg-success-alt text-primary-dark rounded-lg flex items-center gap-2 shadow-md font-bold text-base transition-all duration-150 border-2 border-success/40 w-full py-2 px-0 justify-center"
+                  >
+                    <span className="text-xl">⬇️</span> <span className="font-bold">Exportar</span>
+                  </button>
+                </div>
+                <div className="flex-1 w-full">
+                  <button
+                    onClick={deleteAllHistory}
+                    className="bg-warning hover:bg-warning/80 text-primary-dark rounded-lg flex items-center gap-2 shadow-md font-bold text-base transition-all duration-150 border-2 border-warning/40 w-full py-2 px-0 justify-center"
+                    disabled={loading}
+                  >
+                    <span className="text-xl">🗑️</span> <span className="font-bold">Eliminar todo</span>
+                  </button>
+                </div>
               </div>
             </div>
           )}

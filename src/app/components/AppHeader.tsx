@@ -118,72 +118,91 @@ export default function AppHeader() {
 
   return (
     <>
-      <header className="p-4 shadow flex items-center justify-between" style={{ background: '#006691', color: '#fff' }}>
-        <div className="flex items-center gap-2">
-          <span className="text-2xl" style={{ color: '#fff' }}>💧</span>
-          <span className="font-bold text-xl drop-shadow" style={{ color: '#fff' }}>HydroTracker</span>
-        </div>
-        <div className="flex items-center gap-4">
-          <span className="text-sm font-semibold truncate max-w-[120px]" style={{ color: '#fff' }} title={userName}>¡Hola, {userName}!</span>
-          <button
-            aria-label="Cambiar modo oscuro"
-            className="rounded-full p-2 bg-primary/10 dark:bg-accent/20 hover:bg-primary/20 dark:hover:bg-accent/30 transition-colors"
-            onClick={() => setDarkMode((v) => !v)}
-          >
-            {darkMode ? (
-              <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
-                <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z" fill="#fff" />
+      <header className="p-2 md:p-4 shadow flex flex-col md:flex-row items-center md:justify-between gap-2 md:gap-0 w-full" style={{ background: '#006691', color: '#fff' }}>
+        <div className="flex flex-col md:flex-row items-center w-full justify-between gap-2 md:gap-0">
+          <div className="flex items-center gap-2 justify-center md:justify-start w-full md:w-auto">
+            <span className="text-2xl md:text-2xl" style={{ color: '#fff' }}>💧</span>
+            <span className="font-bold text-lg md:text-xl drop-shadow" style={{ color: '#fff' }}>HydroTracker</span>
+          </div>
+          <nav className="flex flex-1 justify-center gap-3 md:gap-6 px-1 md:px-4 overflow-x-auto scrollbar-hide">
+            <a href="/dashboard" className={`group flex flex-col items-center gap-0.5 cursor-pointer hover:scale-110 transition-transform${pathname === '/dashboard' ? ' scale-105' : ''}`}
+              title="Dashboard"
+            >
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                <path d="M3 10.5L12 4l9 6.5V20a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4h-4v4a1 1 0 01-1 1H4a1 1 0 01-1-1V10.5z" stroke="#fff" strokeWidth="2" strokeLinejoin="round" fill="#1976d2"/>
               </svg>
-            ) : (
-              <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="5" fill="#fff" />
-                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+              <span className="text-[9px] md:text-xs font-medium text-white/80">Inicio</span>
+            </a>
+            <a href="/estadisticas" className={`group flex flex-col items-center gap-0.5 cursor-pointer hover:scale-110 transition-transform${pathname === '/estadisticas' ? ' scale-105' : ''}`}
+              title="Estadísticas"
+            >
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="10" width="3" height="8" rx="1" fill="#1976d2" stroke="#fff" strokeWidth="2"/>
+                <rect x="9" y="6" width="3" height="12" rx="1" fill="#1976d2" stroke="#fff" strokeWidth="2"/>
+                <rect x="15" y="13" width="3" height="5" rx="1" fill="#1976d2" stroke="#fff" strokeWidth="2"/>
               </svg>
-            )}
-          </button>
-          <button
-            aria-label="Cerrar sesión"
-            className="ml-2 rounded-full p-2 bg-warning/10 dark:bg-warning/30 hover:bg-warning/20 dark:hover:bg-warning/40 transition-colors shadow"
-            onClick={handleLogout}
-            title="Cerrar sesión"
-          >
-            <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
-              <path d="M16 17l5-5m0 0l-5-5m5 5H9m4 5v1a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2h4a2 2 0 012 2v1" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
+              <span className="text-[9px] md:text-xs font-medium text-white/80">Estadísticas</span>
+            </a>
+            <a href="/historial" className={`group flex flex-col items-center gap-0.5 cursor-pointer hover:scale-110 transition-transform${pathname === '/historial' ? ' scale-105' : ''}`}
+              title="Historial"
+            >
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="9" fill="#1976d2" stroke="#fff" strokeWidth="2"/>
+                <path d="M12 7v5l3 3" stroke="#fff" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+              <span className="text-[9px] md:text-xs font-medium text-white/80">Historial</span>
+            </a>
+            <a href="/logros" className={`group flex flex-col items-center gap-0.5 cursor-pointer hover:scale-110 transition-transform${pathname === '/logros' ? ' scale-105' : ''}`}
+              title="Logros"
+            >
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="8" r="4" fill="#1976d2" stroke="#fff" strokeWidth="2"/>
+                <path d="M6 22v-2a4 4 0 014-4h4a4 4 0 014 4v2" stroke="#fff" strokeWidth="2"/>
+              </svg>
+              <span className="text-[9px] md:text-xs font-medium text-white/80">Logros</span>
+            </a>
+            <a href="/configuracion" className={`group flex flex-col items-center gap-0.5 cursor-pointer hover:scale-110 transition-transform${pathname === '/configuracion' ? ' scale-105' : ''}`}
+              title="Configuración"
+            >
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="3" fill="#1976d2" stroke="#fff" strokeWidth="2"/>
+                <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06A1.65 1.65 0 0015 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 008.6 15a1.65 1.65 0 00-1.82-.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0015.4 9a1.65 1.65 0 001.82.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 15z" stroke="#fff" strokeWidth="2"/>
+              </svg>
+              <span className="text-[9px] md:text-xs font-medium text-white/80">Config</span>
+            </a>
+          </nav>
+          <div className="flex items-center gap-2 md:gap-4 mt-2 md:mt-0 justify-center md:justify-end w-full md:w-auto">
+            <span className="text-sm font-semibold truncate max-w-[120px]" style={{ color: '#fff' }} title={userName}>¡Hola, {userName}!</span>
+            <button
+              aria-label="Cambiar modo oscuro"
+              className="rounded-full p-2 bg-primary/10 dark:bg-accent/20 hover:bg-primary/20 dark:hover:bg-accent/30 transition-colors"
+              onClick={() => setDarkMode((v) => !v)}
+            >
+              {darkMode ? (
+                <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
+                  <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z" fill="#fff" />
+                </svg>
+              ) : (
+                <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="5" fill="#fff" />
+                  <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+              )}
+            </button>
+            <button
+              aria-label="Cerrar sesión"
+              className="ml-2 rounded-full p-2 bg-warning/10 dark:bg-warning/30 hover:bg-warning/20 dark:hover:bg-warning/40 transition-colors shadow"
+              onClick={handleLogout}
+              title="Cerrar sesión"
+            >
+              <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
+                <path d="M16 17l5-5m0 0l-5-5m5 5H9m4 5v1a2 2 0 01-2 2H7a2 2 0 01-2-2V6a2 2 0 012-2h4a2 2 0 012 2v1" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          </div>
         </div>
       </header>
-      <nav className="flex gap-6 md:gap-8 px-4 md:px-6 py-2 border-b bg-[var(--color-white)] dark:bg-[var(--color-bg-light-1)] transition-colors">
-        <a href="/dashboard" className={`group text-[#0056b3] dark:text-accent flex items-center gap-2 cursor-pointer hover:text-primary dark:hover:text-accent transition-all ${pathname === '/dashboard' ? ' text-primary-dark dark:text-accent font-semibold border-b-2 border-primary-dark dark:border-accent pb-1 scale-105' : ''}`}
-          >
-          <span className="text-lg md:text-xl group-hover:scale-110 transition-transform">🏠</span>
-          <span className="hidden sm:inline">Dashboard</span>
-        </a>
-        <a href="/estadisticas" className={`group text-[#0056b3] dark:text-accent flex items-center gap-2 cursor-pointer hover:text-primary dark:hover:text-accent transition-all ${pathname === '/estadisticas' ? ' text-primary-dark dark:text-accent font-semibold border-b-2 border-primary-dark dark:border-accent pb-1 scale-105' : ''}`}
-          >
-          <span className="text-lg md:text-xl group-hover:scale-110 transition-transform">📊</span>
-          <span className="hidden sm:inline">Estadísticas</span>
-        </a>
-        <a href="/historial" className={`group text-[#0056b3] dark:text-accent flex items-center gap-2 cursor-pointer hover:text-primary dark:hover:text-accent transition-all ${pathname === '/historial' ? ' text-primary-dark dark:text-accent font-semibold border-b-2 border-primary-dark dark:border-accent pb-1 scale-105' : ''}`}
-          >
-          <span className="text-lg md:text-xl group-hover:scale-110 transition-transform">🕒</span>
-          <span className="hidden sm:inline">Historial</span>
-        </a>
-        <a href="/logros" className={`group text-[#0056b3] dark:text-accent flex items-center gap-2 cursor-pointer hover:text-primary dark:hover:text-accent transition-all ${pathname === '/logros' ? ' text-primary-dark dark:text-accent font-semibold border-b-2 border-primary-dark dark:border-accent pb-1 scale-105' : ''}`}
-          >
-          <span className="text-lg md:text-xl group-hover:scale-110 transition-transform">🏆</span>
-          <span className="hidden sm:inline">Logros</span>
-        </a>
-        <a href="/configuracion" className={`group text-[#0056b3] dark:text-accent flex items-center gap-2 cursor-pointer hover:text-primary dark:hover:text-accent transition-all ${pathname === '/configuracion' ? ' text-primary-dark dark:text-accent font-semibold border-b-2 border-primary-dark dark:border-accent pb-1 scale-105' : ''}`}
-          >
-          <span className="text-lg md:text-xl group-hover:scale-110 transition-transform">⚙️</span>
-          <span className="hidden sm:inline">Configuración</span>
-        </a>
-      </nav>
-      {/* Swipe hint para usuarios */}
-      <div className="text-center text-xs text-muted mt-1 select-none pointer-events-none">
-        <span>Desliza a izquierda o derecha para navegar</span>
-      </div>
+      {/* ...el resto del código permanece igual... */}
     </>
   );
 }

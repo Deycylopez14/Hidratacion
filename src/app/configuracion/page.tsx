@@ -301,8 +301,8 @@ export default function Configuracion() {
                   Unidad de medida
                 </label>
                 <div className="flex gap-2">
-                  <button type="button" onClick={() => setUnit('ml')} className={`flex-1 px-2 py-1 rounded border-2 font-bold transition-colors ${unit==='ml' ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)]' : 'bg-white text-[var(--color-primary)] border-[var(--color-primary)]'}`}>ml</button>
-                  <button type="button" onClick={() => setUnit('oz')} className={`flex-1 px-2 py-1 rounded border-2 font-bold transition-colors ${unit==='oz' ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)]' : 'bg-white text-[var(--color-primary)] border-[var(--color-primary)]'}`}>oz</button>
+                  <button type="button" onClick={() => setUnit('ml')} className={`w-full px-2 py-2 rounded border-2 font-bold transition-colors text-base ${unit==='ml' ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)]' : 'bg-white text-[var(--color-primary)] border-[var(--color-primary)]'}`}>ml</button>
+                  <button type="button" onClick={() => setUnit('oz')} className={`w-full px-2 py-2 rounded border-2 font-bold transition-colors text-base ${unit==='oz' ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)]' : 'bg-white text-[var(--color-primary)] border-[var(--color-primary)]'}`}>oz</button>
                 </div>
               </div>
               <div className="flex flex-col min-w-[120px]">
@@ -310,8 +310,8 @@ export default function Configuracion() {
                   Tipo de recordatorio
                 </label>
                 <div className="flex gap-2">
-                  <button type="button" onClick={() => setReminderType('notificacion')} className={`flex-1 px-2 py-1 rounded border-2 font-bold transition-colors ${reminderType==='notificacion' ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)]' : 'bg-white text-[var(--color-primary)] border-[var(--color-primary)]'}`}>Notificación</button>
-                  <button type="button" onClick={() => setReminderType('sonido')} className={`flex-1 px-2 py-1 rounded border-2 font-bold transition-colors ${reminderType==='sonido' ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)]' : 'bg-white text-[var(--color-primary)] border-[var(--color-primary)]'}`}>Sonido</button>
+                  <button type="button" onClick={() => setReminderType('notificacion')} className={`w-full px-2 py-2 rounded border-2 font-bold transition-colors text-base ${reminderType==='notificacion' ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)]' : 'bg-white text-[var(--color-primary)] border-[var(--color-primary)]'}`}>Notificación</button>
+                  <button type="button" onClick={() => setReminderType('sonido')} className={`w-full px-2 py-2 rounded border-2 font-bold transition-colors text-base ${reminderType==='sonido' ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)]' : 'bg-white text-[var(--color-primary)] border-[var(--color-primary)]'}`}>Sonido</button>
                 </div>
               </div>
               <div className="flex flex-col min-w-[140px]">
@@ -334,10 +334,10 @@ export default function Configuracion() {
                   Sugerencia: <b>{suggestedGoal} ml</b>
                 </div>
               </div>
-              <div className="flex flex-col justify-end min-w-[120px] md:mt-6">
+              <div className="flex flex-col justify-end min-w-[120px] md:mt-6 w-full">
                 <button
                   type="submit"
-                  className="bg-[var(--color-primary)] text-white font-semibold px-4 py-2 rounded w-full md:w-auto border border-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] transition-colors"
+                  className="bg-[var(--color-primary)] text-white font-semibold px-4 py-2 rounded w-full border border-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] transition-colors text-base"
                   disabled={loading}
                 >
                   {loading ? "Guardando..." : "Guardar"}
