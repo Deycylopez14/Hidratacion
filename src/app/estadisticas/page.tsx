@@ -138,7 +138,11 @@ export default function Estadisticas() {
     return encontrado ? encontrado.total : 0;
   });
   const chartOptions = {
-    chart: { id: "line" },
+    chart: {
+      id: "line",
+      toolbar: { show: false }, // Oculta los controles del gráfico
+      zoom: { enabled: false }, // Opcional: desactiva el zoom
+    },
     xaxis: {
       categories: xCategories,
       title: { text: 'Día de la semana', style: { color: darkMode ? "var(--color-accent)" : "var(--color-primary)" } },
@@ -177,7 +181,7 @@ export default function Estadisticas() {
   ];
 
   return (
-    <div className="min-h-screen text-[var(--color-text)]" style={{ background: '#cdffff' }}>
+    <div className="min-h-screen text-[var(--color-text)]" style={{ background: '#f7fafc' }}>
       <AppHeader />
       <main className="max-w-3xl mx-auto p-4 mt-6">
         <h1 className="text-2xl font-bold mb-6 text-primary">Estadísticas</h1>
@@ -221,21 +225,25 @@ export default function Estadisticas() {
             </div>
           </div>
           <section className="container-responsive w-full grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-4 mb-8 mt-4">
-            <div className="bg-[var(--color-white)] dark:bg-[var(--color-bg-light-1)] rounded shadow p-4 text-center transition-colors">
-              <div className="text-primary dark:text-accent text-xl font-bold">{stats.length}</div>
-              <div className="text-xs text-muted dark:text-accent">Días registrados</div>
+            {/* Tarjeta: Días registrados */}
+            <div className="rounded shadow p-4 text-center transition-colors" style={{ background: '#006691' }}>
+              <div className="text-white text-xl font-bold">{stats.length}</div>
+              <div className="text-white text-xs font-semibold">Días registrados</div>
             </div>
-            <div className="bg-[var(--color-white)] dark:bg-[var(--color-bg-light-1)] rounded shadow p-4 text-center transition-colors">
-              <div className="text-success dark:text-success-alt text-xl font-bold">{avg}ml</div>
-              <div className="text-xs text-muted dark:text-accent">Promedio 7 días</div>
+            {/* Tarjeta: Promedio 7 días */}
+            <div className="rounded shadow p-4 text-center transition-colors" style={{ background: '#006691' }}>
+              <div className="text-white text-xl font-bold">{avg}ml</div>
+              <div className="text-white text-xs font-semibold">Promedio 7 días</div>
             </div>
-            <div className="bg-[var(--color-white)] dark:bg-[var(--color-bg-light-1)] rounded shadow p-4 text-center transition-colors">
-              <div className="text-accent dark:text-accent text-xl font-bold">{best}ml</div>
-              <div className="text-xs text-muted dark:text-accent">Mejor día</div>
+            {/* Tarjeta: Mejor día */}
+            <div className="rounded shadow p-4 text-center transition-colors" style={{ background: '#006691' }}>
+              <div className="text-white text-xl font-bold">{best}ml</div>
+              <div className="text-white text-xs font-semibold">Mejor día</div>
             </div>
-            <div className="bg-[var(--color-white)] dark:bg-[var(--color-bg-light-1)] rounded shadow p-4 text-center transition-colors">
-              <div className="text-secondary dark:text-white text-xl font-bold">{userGoal ?? 2000}ml</div>
-              <div className="text-xs text-muted dark:text-accent">Meta diaria</div>
+            {/* Tarjeta: Meta diaria */}
+            <div className="rounded shadow p-4 text-center transition-colors" style={{ background: '#006691' }}>
+              <div className="text-white text-xl font-bold">{userGoal ?? 2000}ml</div>
+              <div className="text-white text-xs font-semibold">Meta diaria</div>
             </div>
           </section>
         </div>

@@ -156,7 +156,7 @@ export default function Historial() {
   };
 
   return (
-    <div className="min-h-screen text-[var(--color-text)]" style={{ background: '#cdffff' }}>
+    <div className="min-h-screen text-[var(--color-text)]" style={{ background: '#f7fafc' }}>
       <AppHeader />
       <main className="max-w-2xl mx-auto p-4 mt-6">
         <h1 className="text-2xl font-bold mb-6 text-primary">Historial</h1>
@@ -190,21 +190,27 @@ export default function Historial() {
             {/* <h2 className="font-bold text-lg">Historial de Registros</h2> */}
           </div>
           <section className="container-responsive w-full grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-4 mb-8 mt-4">
-            <div className="bg-[var(--color-white)] dark:bg-[var(--color-bg-light-1)] rounded shadow p-4 text-center transition-colors">
-              <div className="text-primary dark:text-accent text-xl font-bold">{records.length}</div>
-              <div className="text-xs text-muted dark:text-accent">Registros totales</div>
+            <div className="bg-[#006691] text-white rounded-xl shadow-lg p-4 text-center transition-colors font-bold">
+              <div className="text-white text-xl font-bold">{records.length}</div>
+              <div className="text-xs text-white/80 font-semibold">Registros totales</div>
             </div>
-            <div className="bg-[var(--color-white)] dark:bg-[var(--color-bg-light-1)] rounded shadow p-4 text-center transition-colors">
-              <div className="text-success dark:text-success-alt text-xl font-bold">{records.reduce((a, r) => a + r.amount, 0)}ml</div>
-              <div className="text-xs text-muted dark:text-accent">Total consumido</div>
+            <div className="bg-[#006691] text-white rounded-xl shadow-lg p-4 text-center transition-colors font-bold">
+              <div className="text-white text-xl font-bold">{records.reduce((a, r) => a + r.amount, 0).toLocaleString()} ml</div>
+              <div className="text-xs text-white/80 font-semibold">Total consumido</div>
             </div>
-            <div className="bg-[var(--color-white)] dark:bg-[var(--color-bg-light-1)] rounded shadow p-4 text-center transition-colors">
-              <div className="text-accent dark:text-accent text-xl font-bold">{records.length ? Math.max(...records.map(r => r.amount)) : 0}ml</div>
-              <div className="text-xs text-muted dark:text-accent">Mayor registro</div>
+            <div className="bg-[#006691] text-white rounded-xl shadow-lg p-4 text-center transition-colors font-bold">
+              <div className="text-white text-xl font-bold">{records.length ? Math.max(...records.map(r => r.amount)).toLocaleString() : 0} ml</div>
+              <div className="text-xs text-white/80 font-semibold">Mayor registro</div>
             </div>
-            <div className="bg-[var(--color-white)] dark:bg-[var(--color-bg-light-1)] rounded shadow p-4 text-center transition-colors">
-              <div className="text-secondary dark:text-white text-xl font-bold">{records.length ? new Date(records[0].created_at).toLocaleDateString() : '--'}</div>
-              <div className="text-xs text-muted dark:text-accent">Último registro</div>
+            <div className="bg-[#006691] text-white rounded-xl shadow-lg p-4 text-center transition-colors font-bold">
+              <div className="text-white text-xl font-bold">
+                {records.length ? (() => {
+                  const fecha = new Date(records[0].created_at);
+                  const pad = (n: number) => n.toString().padStart(2, '0');
+                  return `${pad(fecha.getDate())}-${pad(fecha.getMonth() + 1)}-${fecha.getFullYear().toString().slice(-2)}`;
+                })() : '--'}
+              </div>
+              <div className="text-xs text-white/80 font-semibold">Último registro</div>
             </div>
           </section>
           {loading ? (
@@ -243,24 +249,16 @@ export default function Historial() {
                       const fechaHora = `${fechaStr} | ${horaStr}`;
                       return (
                         <tr key={i} className="rounded-2xl">
-                          <td className="px-4 py-3 bg-[var(--color-bg-light-1)] border-2 border-[var(--color-accent)] rounded-l-2xl text-primary font-semibold text-center align-middle">
-                            <span className="font-bold">{fechaHora}</span>
+                          <td className="px-4 py-3 bg-[#006691] border-2 border-[var(--color-accent)] rounded-l-2xl text-white font-bold text-center align-middle">
+                            {fechaHora}
                           </td>
-                          <td className="px-4 py-3 bg-[var(--color-bg-light-2)] border-2 border-[var(--color-accent)] text-primary font-bold text-base rounded-none">
-                            <span className="inline-block bg-[var(--color-white)] text-primary font-extrabold rounded-full px-4 py-2 shadow border border-[var(--color-accent)]">
-                              {r.amount}
-                            </span>
+                          <td className="px-4 py-3 bg-[#006691] border-2 border-[var(--color-accent)] text-white font-bold text-base rounded-none text-center align-middle">
+                            {r.amount.toLocaleString()} ml
                           </td>
-                          <td className="px-4 py-3 bg-[var(--color-accent)] border-2 border-[var(--color-accent)] rounded-r-2xl">
-                            <button
-                              onClick={() => deleteRecord(r.created_at)}
-                              className="bg-warning hover:bg-warning/80 text-primary-dark px-4 py-2 rounded-full shadow-lg flex items-center gap-2 text-base transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-warning/40"
-                              disabled={loading}
-                              title="Eliminar registro"
-                            >
-                              <svg className="w-5 h-5 text-primary-dark group-hover:text-accent transition-colors duration-150" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                              <span className="hidden sm:inline font-bold">Eliminar</span>
-                            </button>
+                          <td className="px-4 py-3 bg-[#006691] border-2 border-[var(--color-accent)] rounded-r-2xl text-center align-middle cursor-pointer select-none text-white font-bold transition-colors hover:bg-[#005377]"
+                              onClick={() => !loading && deleteRecord(r.created_at)}
+                              title="Eliminar registro">
+                            Eliminar
                           </td>
                         </tr>
                       );
@@ -268,7 +266,7 @@ export default function Historial() {
                   </tbody>
                 </table>
               </div>
-              <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mt-4 mb-0 z-20 relative bg-transparent shadow-none border-0 p-0 w-full">
+              <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mt-10 mb-0 z-20 relative bg-transparent shadow-none border-0 p-0 w-full">
                 <div className="flex-1 w-full">
                   <select
                     id="export-format"
